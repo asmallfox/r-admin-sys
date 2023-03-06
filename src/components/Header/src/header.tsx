@@ -1,12 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Layout, theme } from 'antd'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 
-export function LayoutHeader(props: { collapsed: boolean }) {
-  const [collapsed, setCollapsed] = useState(false)
+interface Props {
+  collapsed: boolean;
+  setCollapsed: (bool: boolean) => void
+}
+
+export function LayoutHeader(props: Props) {
   const {
     token: { colorBgContainer },
   } = theme.useToken()
+  const { collapsed, setCollapsed } = props
+
   return (
     <Layout.Header style={{ padding: 0, background: colorBgContainer }}>
       {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {

@@ -6,11 +6,11 @@ import Login from '@/views/login/login'
 
 import { LOGIN_BASE_KEY, REDIRECT_HOME_BASE_KEY } from '@/constants'
 
-const withLoadingComponent = (comp: JSX.Element, Loading = <div>Loading...</div>) => (<React.Suspense fallback={Loading}>
+export const withLoadingComponent = (comp: JSX.Element, Loading = <div>Loading...</div>) => (<React.Suspense fallback={Loading}>
   {comp}
 </React.Suspense>)
 
-function lazyComponent(componentName: string, LoadingElement = <div>Loading...</div>) {
+export function lazyComponent(componentName: string, LoadingElement = <div>Loading...</div>) {
   const Module = lazy(() => import(`@/views/${componentName}/${componentName}.tsx`))
   return withLoadingComponent(<Module />, LoadingElement)
 }

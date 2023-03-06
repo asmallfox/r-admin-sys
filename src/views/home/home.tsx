@@ -1,22 +1,20 @@
-import React, { useState } from 'react'
-import { Layout, Menu, theme } from 'antd'
+import { useState } from 'react'
+import { Layout, theme } from 'antd'
 import { LayoutSider } from '@/components/Sider'
 import { LayoutHeader } from '@/components/Header'
 
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
-
-const { Header, Sider, Content } = Layout
-
 function Home() {
   const [collapsed, setCollapsed] = useState(false)
-
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken()
 
   return (
     <Layout>
       <LayoutSider collapsed={collapsed}></LayoutSider>
       <Layout className="site-layout">
-        <LayoutHeader></LayoutHeader>
-        {/* <Content
+        <LayoutHeader collapsed={collapsed} setCollapsed={setCollapsed}></LayoutHeader>
+        <Layout.Content
           style={{
             margin: '24px 16px',
             padding: 24,
@@ -25,7 +23,7 @@ function Home() {
           }}
         >
           Content
-        </Content> */}
+        </Layout.Content>
       </Layout>
     </Layout>
   )

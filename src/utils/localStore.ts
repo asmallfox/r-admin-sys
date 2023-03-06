@@ -1,7 +1,13 @@
 import { isNil } from './is'
 
 export const  toStringify = (value: unknown): string => JSON.stringify(value)
-export const toParse = (str: string) => JSON.parse(str)
+export const toParse = (str: string) => {
+  try {
+    return JSON.parse(str)
+  } catch (error) {
+    return null
+  }
+}
 
 class LocalCache {
   setItem(key: string, value: unknown) {
