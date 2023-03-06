@@ -1,18 +1,17 @@
-import { useRoutes } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from '@/store'
-import routes from '@/router/index'
+import { AuthRouter } from '@/components/AuthRouter'
+import GetRouter from './router/getRouter'
 
 function App() {
-  const Router = useRoutes(routes)
-
   return (
     <Provider store={store}>
       <div className="App">
-        {Router}
+        <AuthRouter>
+          <GetRouter></GetRouter>
+        </AuthRouter>
       </div>
     </Provider>
-
   )
 }
 

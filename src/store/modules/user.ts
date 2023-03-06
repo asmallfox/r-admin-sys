@@ -1,56 +1,53 @@
-import type {UserInfo} from '@/api/modules/login'
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import type { UserInfo } from '@/api/modules/login';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { apiLogin } from '@/api/modules/login'
-import localCache from '@/utils/localStore'
-import { TOKEN } from '@/constants/user'
-import { redirect } from 'react-router-dom'
+import { apiLogin } from '@/api/modules/login';
+import localCache from '@/utils/localStore';
+import { TOKEN_KEY } from '@/constants/user';
 
-export const USER_STORE = 'user_store'
+export const USER_STORE = 'user_store';
 
 const initUserState = {
-  token: ''
-}
+  token: localCache.getItem(TOKEN_KEY) ?? '',
+};
+
 
 // 异步action
 export const loginAsync = createAsyncThunk(
   'user/login',
   async (loginInfo: UserInfo) => {
     try {
-      const response = await apiLogin(loginInfo)
+      const response = await apiLogin(loginInfo);
       // The value we return becomes the `fulfilled` action payload
-      return response
+      return response;
     } catch (error) {
-      return Promise.reject(error)
+      return Promise.reject(error);
     }
   }
-)
+);
 
 export const userSlice = createSlice({
   name: 'user',
   initialState: initUserState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(loginAsync.pending, (state) => {
         // state.token = 'token'
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
-        const token = action.payload.token ?? ''
+        const token = action.payload.token ?? '';
         if (token) {
-          localCache.setItem(TOKEN, token)
-          state.token = token
-          console.log('执行路由跳转')
-          redirect('/home')
+          localCache.setItem(TOKEN_KEY, token);
+          state.token = token;
         }
       })
       .addCase(loginAsync.rejected, (state, action) => {
-        Promise.reject(action.error)
-      })
-  }
-})
+        Promise.reject(action.error);
+      });
+  },
+});
 
 // export const { } = userSlice.actions
 
-export default userSlice.reducer
+export default userSlice.reducer;

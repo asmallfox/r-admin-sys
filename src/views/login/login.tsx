@@ -8,12 +8,15 @@ import type { UserInfo } from '@/api/modules/login'
 import { useDispatch } from 'react-redux'
 import { loginAsync } from '@/store/modules/user'
 import localCache from '@/utils/localStore'
-import { USERINFO } from '@/constants'
-
+import { USERINFO_KEY, REDIRECT_HOME_BASE_KEY } from '@/constants'
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
   const { prefixCls } = useDesign('login')
   const dispatch = useDispatch()
+
+  const navigate = useNavigate()
+
   const openNotification = () => {
     notification.open({
       message: 'welcome back',
@@ -32,11 +35,14 @@ function Login() {
     try {
       const res = await dispatch(loginAsync(requestParams))
       if (res && remember) {
-        localCache.setItem(USERINFO, {
+        localCache.setItem(USERINFO_KEY, {
           username,
           password
         })
       }
+      navigate(REDIRECT_HOME_BASE_KEY, {
+        replace: true
+      })
       openNotification()
     } catch (error) {
       console.warn(error)
@@ -47,7 +53,7 @@ function Login() {
     username: [{ required: true, message: 'Input your username!' }],
     password: [{ required: true, message: 'Input your password!' }]
   }
-  const localUserInfo = localCache.getItem(USERINFO)
+  const localUserInfo = localCache.getItem(USERINFO_KEY)
   const initUserInfo = {
     ...localUserInfo,
     remember: true

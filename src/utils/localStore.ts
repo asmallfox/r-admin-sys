@@ -1,6 +1,6 @@
-import { isNil, isString } from './is'
+import { isNil } from './is'
 
-export const  toStringify = (value: unknown): string => isString(value) ? value : JSON.stringify(value)
+export const  toStringify = (value: unknown): string => JSON.stringify(value)
 export const toParse = (str: string) => JSON.parse(str)
 
 class LocalCache {

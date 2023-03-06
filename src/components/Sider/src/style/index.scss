@@ -1,0 +1,27 @@
+$sider-prefix-cls: 'lege-sider';
+
+.#{$sider-prefix-cls} {
+  height: 100vh;
+  overflow: hidden;
+
+  &-logo {
+    height: 32px;
+    margin: 16px;
+    padding: 0 10px;
+    background: rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    img {
+      width: 28px;
+      height: 28px;
+      vertical-align: middle;
+    }
+    span {
+      margin-left: 6px;
+      color: #fff;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+}
