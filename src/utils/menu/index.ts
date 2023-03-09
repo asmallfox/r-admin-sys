@@ -1,10 +1,17 @@
-import type { RouterRaw, SubMenu } from '@/router/routes/types'
+import type { RouterRaws, MenuItem  } from '@/router/routes/types'
 
-export const matchMenu = (menus: RouterRaw[] = []) => {
-  const result: SubMenu[] = []
+type Menu =  {
+  key: string;
+  label: string;
+  icon: JSX.Element;
+  children?: MenuItem[];
+}
+
+export const matchMenu = (menus: RouterRaws[] = []) => {
+  const result: MenuItem[] = []
   menus.forEach((item) => {
     const { path, meta, children = [] } = item
-    const menu: SubMenu = {
+    const menu: Menu  = {
       key: path,
       label: meta?.label ?? '',
       icon: meta?.icon ?? '',
