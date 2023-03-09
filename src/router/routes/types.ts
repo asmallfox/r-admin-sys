@@ -1,25 +1,19 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react'
+import type { MenuProps } from 'antd'
 
-export interface MenuItem {
-  key: string;
-  label: string;
-  icon?: ReactNode;
-  title?: string;
-  danger?: boolean;
-  disabled?: boolean;
+export type MenuItem = MenuProps['items']
+
+export interface Meta extends Omit<MenuItem, 'undefined'> {
+  sortIndex?: number
+  menuHidden?: boolean
 }
 
-export interface SubMenu extends MenuItem {
-  children?: SubMenu[];
-}
-
-export interface Meta extends MenuItem {
-  menuHidden?: boolean;
-}
-
-export interface RouterRaw {
-  path: string;
-  element: ReactNode;
-  children?: RouterRaw[];
-  meta?: Meta
+export interface RouterRaws {
+  path: string
+  element: ReactNode
+  children: RouterRaws[]
+  meta: MenuProps & {
+    sortIndex?: number
+    menuHidden?: boolean
+  }
 }

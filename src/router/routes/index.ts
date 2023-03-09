@@ -1,7 +1,7 @@
-import type { RouterRaw } from './types'
+import type { RouterRaws } from './types'
 import { basicRoutes } from './basic'
 
-const layoutRoutes: RouterRaw[] = []
+const layoutRoutes: RouterRaws[] = []
 
 const modules = import.meta.glob('./modules/**.tsx', { eager: true })
 Object.keys(modules).forEach(key => {
