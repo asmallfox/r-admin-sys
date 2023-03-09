@@ -1,30 +1,14 @@
 import { Menu, theme } from 'antd'
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons'
 import { useDesign } from '@/hooks/web/useDesign'
+import { matchMenu } from '@/utils/menu'
 import './style/index.scss'
 
+import { layoutRoutes } from '@/router/routes'
+import _ from 'lodash'
+
 export function LayoutMenu() {
-  const items = [
-    {
-      key: '1',
-      icon: <UserOutlined />,
-      label: 'nav 1',
-    },
-    {
-      key: '2',
-      icon: <VideoCameraOutlined />,
-      label: 'nav 2',
-    },
-    {
-      key: '3',
-      icon: <UploadOutlined />,
-      label: 'nav 3',
-    },
-  ]
+  const items = matchMenu(_.sortBy(layoutRoutes, ["sortIndex"]))
+
   const { prefixCls } = useDesign('menu')
   return (
     <div className={prefixCls}>

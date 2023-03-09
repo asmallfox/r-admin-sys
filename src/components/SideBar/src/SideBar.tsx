@@ -4,7 +4,7 @@ import { useDesign } from '@/hooks/web/useDesign'
 import { LayoutMenu } from '@/components/Menu'
 import './style/index.scss'
 
-export function Sider(props: { collapsed: boolean }) {
+export function SideBar(props: { collapsed: boolean }) {
   const { prefixCls } = useDesign('sider')
   const { collapsed } = props
   return (
@@ -18,4 +18,4 @@ export function Sider(props: { collapsed: boolean }) {
   )
 }
 
-export default Sider
+export default SideBar

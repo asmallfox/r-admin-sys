@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Layout, theme } from 'antd'
-import { LayoutSider } from '@/components/Sider'
+import { SideBar } from '@/components/SideBar'
 import { LayoutHeader } from '@/components/Header'
 
 function Home() {
@@ -11,7 +11,7 @@ function Home() {
 
   return (
     <Layout>
-      <LayoutSider collapsed={collapsed}></LayoutSider>
+      <SideBar collapsed={collapsed}></SideBar>
       <Layout className="site-layout">
         <LayoutHeader collapsed={collapsed} setCollapsed={setCollapsed}></LayoutHeader>
         <Layout.Content

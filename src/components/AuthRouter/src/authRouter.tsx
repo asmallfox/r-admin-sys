@@ -1,5 +1,5 @@
-import localCache from '@/utils/localStore'
 import { Navigate, useLocation } from 'react-router-dom'
+import localCache from '@/utils/localStore'
 
 function AuthRouter(props: { children: JSX.Element }) {
   const { pathname } = useLocation()
