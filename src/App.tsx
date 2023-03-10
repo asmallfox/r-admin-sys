@@ -1,15 +1,16 @@
 import { Provider } from 'react-redux'
 import { store } from '@/store'
-import { AuthRouter } from '@/components/AuthRouter'
+// import { AuthRouter } from '@/components/AuthRouter'
 import RouterElement from '@/router'
 
 function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        <AuthRouter>
+        {/* <AuthRouter>
           <RouterElement></RouterElement>
-        </AuthRouter>
+        </AuthRouter> */}
+        <RouterElement />
       </div>
     </Provider>
   )

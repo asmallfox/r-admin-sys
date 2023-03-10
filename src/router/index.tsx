@@ -1,7 +1,9 @@
 import { useRoutes } from 'react-router-dom'
 
-import { routes } from './routes'
+import basicRoutes from './routes/basic'
 
-const RouterElement = () => useRoutes(routes)
+console.log(basicRoutes)
+
+const RouterElement = () => useRoutes(basicRoutes)
 
 export default RouterElement

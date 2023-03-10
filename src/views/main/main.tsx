@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { Layout, theme } from 'antd'
 import { SideBar } from '@/components/SideBar'
 import { LayoutHeader } from '@/components/Header'
+import { Outlet } from 'react-router-dom'
 
-function Home() {
+function Main() {
   const [collapsed, setCollapsed] = useState(false)
   const {
     token: { colorBgContainer },
@@ -13,7 +14,10 @@ function Home() {
     <Layout>
       <SideBar collapsed={collapsed}></SideBar>
       <Layout className="site-layout">
-        <LayoutHeader collapsed={collapsed} setCollapsed={setCollapsed}></LayoutHeader>
+        <LayoutHeader
+          collapsed={collapsed}
+          setCollapsed={setCollapsed}
+        ></LayoutHeader>
         <Layout.Content
           style={{
             margin: '24px 16px',
@@ -22,11 +26,11 @@ function Home() {
             background: colorBgContainer,
           }}
         >
-          Content
+          <Outlet />
         </Layout.Content>
       </Layout>
     </Layout>
   )
 }
 
-export default Home
+export default Main

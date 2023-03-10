@@ -2,7 +2,7 @@ import { UserOutlined } from '@ant-design/icons'
 import User from '@/views/user/user'
 
 export const Layout = {
-  path: '/user',
+  path: 'user',
   element: <User />,
   meta: {
     label: '用户管理',

@@ -2,7 +2,7 @@ import { HomeOutlined } from '@ant-design/icons'
 import Main from '@/views/main/main'
 
 export const Layout = {
-  path: '/layout',
+  path: 'layout',
   element: <Main />,
   meta: {
     label: '首页',

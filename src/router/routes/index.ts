@@ -1,5 +1,4 @@
 import type { RouterRaws } from './types'
-import { basicRoutes } from './basic'
 
 const layoutRoutes: RouterRaws[] = []
 
@@ -9,8 +8,6 @@ Object.keys(modules).forEach(key => {
   const mod = Array.isArray(module) ? [...module] : [module]
   layoutRoutes.push(...mod)
 })
-
-export const routes = [...basicRoutes, ...layoutRoutes]
 
 export {
   layoutRoutes
