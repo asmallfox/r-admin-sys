@@ -1,9 +1,9 @@
 import { QuestionCircleOutlined } from '@ant-design/icons'
-import AboutLayout from '@/views/about/about'
+import About from '@/views/layout/about/about'
 
-export const About = {
+export const AboutLayout = {
   path: 'about',
-  element: <AboutLayout />,
+  element: <About />,
   meta: {
     label: '关于',
     icon: <QuestionCircleOutlined />,
@@ -11,4 +11,4 @@ export const About = {
   },
 }
 
-export default About
+export default AboutLayout

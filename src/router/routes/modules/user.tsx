@@ -1,52 +1,47 @@
-import { UserOutlined } from '@ant-design/icons'
-import User from '@/views/user/user'
+import { UserOutlined, AuditOutlined } from '@ant-design/icons'
+import User from '@/views/layout/user/user'
 
-export const Layout = {
+export const UserLayout = {
   path: 'user',
   element: <User />,
   meta: {
     label: '用户管理',
-    icon: <UserOutlined />,
+    icon: <AuditOutlined />,
     sortIndex: 1
   },
   children: [
     {
-      path: 'user1',
+      path: 'administrator',
       element: <User />,
       meta: {
-        label: '用户管理',
-        icon: <UserOutlined />,
+        label: '管理员',
+        icon: <UserOutlined />
       },
       children: [
         {
-          path: 'user11',
+          path: 'super-admin',
           element: <User />,
           meta: {
-            label: '用户管理',
-            icon: <UserOutlined />,
+            label: '系统管理员',
+          },
+        },
+        {
+          path: 'site-admin',
+          element: <User />,
+          meta: {
+            label: '站点管理员',
           },
         },
       ],
     },
     {
-      path: 'user2',
+      path: 'consumer',
       element: <User />,
       meta: {
-        label: '用户管理',
-        icon: <UserOutlined />,
-      },
-      children: [
-        {
-          path: 'user21',
-          element: <User />,
-          meta: {
-            label: '用户管理',
-            icon: <UserOutlined />,
-          },
-        },
-      ],
+        label: '普通用户',
+      }
     }
   ],
 }
 
-export default Layout
+export default UserLayout

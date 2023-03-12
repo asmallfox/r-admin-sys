@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom'
 
-import Main from '@/views/main/main'
+import AppLayout from '@/views/layout/layout'
 import Login from '@/views/login/login'
 import NotFount from '@/views/notFount/notFount'
 
@@ -10,8 +10,13 @@ import { layoutRoutes } from './index'
 
 export const ROOT_ROUTE = {
   path: '/',
-  // element: <Navigate to={REDIRECT_BASE_PATH} />,
-  element: <Main/>,
+  element: <Navigate to={REDIRECT_BASE_PATH} />,
+  children: layoutRoutes
+}
+
+export const REDIRECT_BASE_ROUTE = {
+  path: '/layout',
+  element: <AppLayout />,
   children: layoutRoutes
 }
 
@@ -25,6 +30,6 @@ export const NOT_FOUNT_ROUTE = {
   element: <NotFount />,
 }
 
-export const basicRoutes = [ROOT_ROUTE, LOGIN_ROUTE, NOT_FOUNT_ROUTE]
+export const basicRoutes = [ROOT_ROUTE, REDIRECT_BASE_ROUTE, LOGIN_ROUTE, NOT_FOUNT_ROUTE]
 
 export default basicRoutes

@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Layout, theme } from 'antd'
+import { Outlet } from 'react-router-dom'
 import { SideBar } from '@/components/SideBar'
 import { LayoutHeader } from '@/components/Header'
-import { Outlet } from 'react-router-dom'
 
-function Main() {
+function AppLayout() {
   const [collapsed, setCollapsed] = useState(false)
   const {
     token: { colorBgContainer },
@@ -33,4 +33,4 @@ function Main() {
   )
 }
 
-export default Main
+export default AppLayout
