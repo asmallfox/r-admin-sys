@@ -5,6 +5,9 @@ import { PageEnum } from '@/enums/pageEnum'
 
 import Login from '@/views/login/login'
 
+import { NOT_FOUNT_ROUTE } from './basic'
+import Layout from '@/views/layout/layout'
+
 const modules = import.meta.glob('./modules/**/*.tsx', { eager: true })
 const routeModuleList: RouterRaws[] = []
 
@@ -18,7 +21,8 @@ export const asyncRoutes = [...routeModuleList]
 
 export const RootRoute: RouterRaws = {
   path: '/',
-  element: <Navigate to={PageEnum.BASE_HOME}/>
+  element: <Layout />,
+  children: routeModuleList
 }
 
 export const LoginRoute: RouterRaws = {
@@ -28,4 +32,4 @@ export const LoginRoute: RouterRaws = {
     label: '登录'
   }
 }
-export const basicRoutes = [RootRoute, LoginRoute, ...routeModuleList]
+export const basicRoutes = [RootRoute, LoginRoute, ...routeModuleList, NOT_FOUNT_ROUTE]

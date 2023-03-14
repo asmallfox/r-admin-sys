@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Menu } from 'antd'
 
-import { layoutRoutes } from '@/router'
+import { asyncRoutes } from '@/router/routes'
 import { useDesign } from '@/hooks/web/useDesign'
 import { matchMenu } from '@/utils/menu'
 import './style/index.scss'
@@ -20,7 +20,7 @@ export function LayoutMenu() {
   const [selectKey] = useState([currentKey])
   const [openKeys, setOpenKeys] = useState(pathKeys)
 
-  const menus = matchMenu(layoutRoutes)
+  const menus = matchMenu(asyncRoutes)
 
   const getOpenKeys = (menus: MenuItem[], key: string, result: string[] = []) => {
     const existsCurrentMenu = menus.find((item) => (item!).key === key)
@@ -52,6 +52,7 @@ export function LayoutMenu() {
     const keys = keyPath.filter((path) => key !== path)
     const routePath = keyPath.reverse().join('/')
     setOpenKeys(keys)
+    console.log(evt, routePath)
     navigate(routePath)
   }
 

@@ -4,7 +4,7 @@ import { UserOutlined, AuditOutlined } from '@ant-design/icons'
 import User from '@/views/layout/user/user'
 
 export const UserLayout: RouterRaws = {
-  path: 'user',
+  path: '/user',
   meta: {
     label: '用户管理',
     icon: <AuditOutlined />,
