@@ -1,7 +1,9 @@
+import type { RouterRaws } from '../types'
+
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import About from '@/views/layout/about/about'
 
-export const AboutLayout = {
+export const AboutLayout: RouterRaws = {
   path: 'about',
   element: <About />,
   meta: {

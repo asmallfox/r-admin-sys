@@ -6,12 +6,11 @@ import NotFount from '@/views/notFount/notFount'
 
 import { REDIRECT_BASE_PATH, LOGIN_PATH } from '../constant'
 
-import { layoutRoutes } from './index'
+import { layoutRoutes } from '../index'
 
 export const ROOT_ROUTE = {
   path: '/',
   element: <Navigate to={REDIRECT_BASE_PATH} />,
-  children: layoutRoutes
 }
 
 export const REDIRECT_BASE_ROUTE = {

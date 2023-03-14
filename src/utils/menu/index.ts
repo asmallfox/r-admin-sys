@@ -1,26 +1,30 @@
-import type { RouterRaws, MenuItem  } from '@/router/routes/types'
+import type { RouterRaws } from '@/router/routes/types'
+import type { MenuProps } from 'antd'
 
-type Menu =  {
-  key: string;
-  label: string;
-  icon: JSX.Element;
-  children?: MenuItem[];
-}
+import _ from 'lodash'
 
-export const matchMenu = (menus: RouterRaws[] = []) => {
-  const result: MenuItem[] = []
-  menus.forEach((item) => {
-    const { path, meta, children = [] } = item
-    const menu: Menu  = {
-      key: path,
-      label: meta?.label ?? '',
-      icon: meta?.icon ?? '',
-    }
-    if (children.length > 0) {
-      menu.children = matchMenu(children)
-    }
-    result.push(menu)
-  })
+export type MenuItem = Required<MenuProps>['items'][number]
 
-  return result
+export const matchMenu = (routes: RouterRaws[] = []): MenuItem[] => {
+  const sortMenus = _.sortBy(routes, (item) => item.meta?.sortIndex || 0)
+
+  const mapMenu = (menus: RouterRaws[]) => {
+    const result: MenuItem[] = []
+    menus.forEach((item) => {
+      const { path, meta, children } = item
+      const menu: MenuItem = {
+        key: path,
+        label: meta?.label,
+        icon: meta?.icon,
+        children: undefined
+      }
+      if (children && children.length > 0) {
+        menu['children'] = mapMenu(children)
+      }
+      result.push(menu)
+    })
+    return result
+  }
+
+  return mapMenu(sortMenus)
 }

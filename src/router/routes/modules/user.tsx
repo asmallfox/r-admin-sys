@@ -1,9 +1,10 @@
+import type { RouterRaws } from '../types'
+
 import { UserOutlined, AuditOutlined } from '@ant-design/icons'
 import User from '@/views/layout/user/user'
 
-export const UserLayout = {
+export const UserLayout: RouterRaws = {
   path: 'user',
-  element: <User />,
   meta: {
     label: '用户管理',
     icon: <AuditOutlined />,
@@ -39,7 +40,12 @@ export const UserLayout = {
       element: <User />,
       meta: {
         label: '普通用户',
-      }
+        icon: <UserOutlined />
+      },
+      children: [
+        { path: 'consumer-1', element: <User />, meta: { label: 'test1' } },
+        { path: 'consumer-2', element: <User />, meta: { label: 'test2' } },
+      ]
     }
   ],
 }

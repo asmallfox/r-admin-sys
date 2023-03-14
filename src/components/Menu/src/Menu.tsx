@@ -1,11 +1,11 @@
 import type { MenuProps } from 'antd'
+import type { MenuItem } from '@/utils/menu'
 
 import { useEffect, useState } from 'react'
-import { Menu } from 'antd'
 import { useNavigate, useLocation } from 'react-router-dom'
-import _ from 'lodash'
+import { Menu } from 'antd'
 
-import { layoutRoutes } from '@/router/routes'
+import { layoutRoutes } from '@/router'
 import { useDesign } from '@/hooks/web/useDesign'
 import { matchMenu } from '@/utils/menu'
 import './style/index.scss'
@@ -15,33 +15,48 @@ export function LayoutMenu() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const [openKeys, setOpenKeys] = useState([]);
+  const pathKeys = location.pathname.split('/').filter((v) => v) ?? []
+  const currentKey = pathKeys.at(-1) ?? ''
+  const [selectKey] = useState([currentKey])
+  const [openKeys, setOpenKeys] = useState(pathKeys)
 
-  const menuSortData = _.sortBy(layoutRoutes, (o) => o?.meta?.sortIndex || 0)
-  const items = matchMenu(menuSortData)
+  const menus = matchMenu(layoutRoutes)
 
-  const getCurrentOpenKeys = (keys) => {
-    const result: string[] = []
-    const curKey = keys.find(key => openKeys.indexOf(key) === -1)
-    const firstMenu = items.find(item => openKeys.includes(item.key))
-    if (firstMenu && firstMenu.children) {
-      firstMenu.children.forEach(item => {
-        result.push(...[firstMenu.key, curKey])
-      })
+  const getOpenKeys = (menus: MenuItem[], key: string, result: string[] = []) => {
+    const existsCurrentMenu = menus.find((item) => (item!).key === key)
+    if (existsCurrentMenu) {
+      result.push(key)
     } else {
-      curKey && result.push(curKey)
+      for (const menu of menus) {
+        const { key: path, children } = menu
+        if (children && children.length > 0) {
+          const res = getOpenKeys(children, key, result)
+          if (res.length > 0) {
+            result.push(...res)
+            result.push(path)
+            return [...new Set(result)]
+          }
+        }
+      }
     }
-    console.log(result)
     return result
   }
 
   const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
-    setOpenKeys(getCurrentOpenKeys(keys))
+    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
+    setOpenKeys(latestOpenKey ? getOpenKeys(menus, latestOpenKey) : [])
   }
 
+  const onSelect: MenuProps['onSelect'] = (evt) => {
+    const { key, keyPath } = evt
+    const keys = keyPath.filter((path) => key !== path)
+    const routePath = keyPath.reverse().join('/')
+    setOpenKeys(keys)
+    navigate(routePath)
+  }
 
   useEffect(() => {
-    if (location.pathname === '/layout') {
+    if (currentKey === 'layout') {
       navigate('/layout/workspace/statistics')
     }
   })
@@ -51,9 +66,11 @@ export function LayoutMenu() {
       <Menu
         theme="dark"
         mode="inline"
-        items={items}
+        items={menus}
+        defaultSelectedKeys={selectKey}
         openKeys={openKeys}
         onOpenChange={onOpenChange}
+        onSelect={onSelect}
       />
     </div>
   )

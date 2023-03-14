@@ -1,4 +1,4 @@
-import type { RouterRaws } from './types'
+import type { RouterRaws } from './routes/types'
 
 const layoutRoutes: RouterRaws[] = []
 

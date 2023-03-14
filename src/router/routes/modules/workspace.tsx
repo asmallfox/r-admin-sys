@@ -1,7 +1,9 @@
+import type { RouterRaws } from '../types'
+
 import { AppstoreOutlined } from '@ant-design/icons'
 import Statistics from '@/views/layout/workspace/statistics'
 
-export const Workspace = {
+export const Workspace: RouterRaws = {
   path: 'workspace',
   meta: {
     label: '工作台',
