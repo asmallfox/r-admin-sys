@@ -1,18 +1,17 @@
-import type { UserInfo } from '@/api/modules/login'
+import type { FormValues } from './components/loginForm'
 
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Button, Checkbox, Form, Input } from 'antd'
-import { UserOutlined, UnlockOutlined } from '@ant-design/icons'
 
 import { useDesign } from '@/hooks/web/useDesign'
 import { setToken } from '@/store/modules/user'
 import localCache from '@/utils/localStore'
-import { USERINFO_KEY } from '@/constants'
 import { PageEnum } from '@/enums/pageEnum'
 import { loginApi } from '@/api'
 import { useMessage } from '@/hooks/web/useMessage'
 import './style/login.scss'
+
+import LoginForm from './components/loginForm'
 
 
 function Login() {
@@ -20,68 +19,31 @@ function Login() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { notification } = useMessage()
+  // 清除本地存储 localstorage
+  localCache.clear()
 
-  async function handleFinish(values: any) {
-    const { username = '', password = '', remember } = values
-    const requestParams: UserInfo = { username, password }
+  async function handleFinish(formData: FormValues) {
     try {
-      const res = await loginApi(requestParams)
-      if (res?.token) {
-        if (remember) {
-          localCache.setItem(USERINFO_KEY, { username, password })
-        }
+      const { token } = await loginApi(formData)
+      if (token) {
         notification.success({
           message: '登录成功',
-          description: `欢迎回来 ${username}`
+          description: `欢迎回来 ${formData.username}`
         })
       }
-      dispatch(setToken({ token: res.token }))
+      dispatch(setToken({ token, username: formData.username }))
       navigate(PageEnum.BASE_HOME, { replace: true })
     } catch (error) {
+      console.error(error)
       notification.error({
         message: (error as Error).message
       })
-      console.error(error)
     }
-  }
-
-  const rules = {
-    username: [{ required: true, message: 'Input your username!' }],
-    password: [{ required: true, message: 'Input your password!' }]
-  }
-  const localUserInfo = localCache.getItem(USERINFO_KEY)
-  const initUserInfo = {
-    ...localUserInfo,
-    remember: true
-  }
-
-  if (import.meta.env.MODE === 'development') {
-    initUserInfo['username'] = initUserInfo['username'] ?? 'admin'
-    initUserInfo['password'] = initUserInfo['password'] ?? '123456'
   }
 
   return (
     <div className={prefixCls}>
-      <Form
-        className={prefixCls + '-form'}
-        onFinish={handleFinish}
-        initialValues={initUserInfo}
-      >
-        <Form.Item name="username" rules={rules.username}>
-          <Input placeholder="username" prefix={<UserOutlined />} />
-        </Form.Item>
-        <Form.Item name="password" rules={rules.password}>
-          <Input.Password placeholder="password" prefix={<UnlockOutlined />} />
-        </Form.Item>
-        <Form.Item name="remember" valuePropName="checked">
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-            立即登录
-          </Button>
-        </Form.Item>
-      </Form>
+      <LoginForm onLogin={handleFinish} />
     </div>
   )
 }

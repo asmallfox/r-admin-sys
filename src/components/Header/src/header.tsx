@@ -1,8 +1,8 @@
 import type { MenuProps } from 'antd'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Layout, theme, Dropdown, Space, Modal, notification } from 'antd'
+import { Layout, theme, Dropdown, Space, Modal, Form, Input } from 'antd'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -29,11 +29,11 @@ export function LayoutHeader(props: Props) {
   } = theme.useToken()
   const { collapsed, setCollapsed } = props
 
+  const [isModalOpen, setModalOpen] = useState(false)
+
   const { prefixCls } = useDesign('header')
   const navigate = useNavigate()
-  const updatePassword = () => {
-    console.log(e)
-  }
+
   const logout = () => {
     Modal.confirm({
       title: '温馨提醒',
@@ -51,7 +51,7 @@ export function LayoutHeader(props: Props) {
   const items: MenuProps['items'] = [
     {
       key: 1,
-      label: <span onClick={updatePassword}>修改密码</span>,
+      label: <span onClick={() => setModalOpen(true)}>修改密码</span>,
       icon: <SyncOutlined />
     },
     {
@@ -70,31 +70,55 @@ export function LayoutHeader(props: Props) {
     }
   ]
 
-  
+  const handleOk = () => {
+    setModalOpen(false)
+  }
+  const handleCancel = () => {
+    setModalOpen(false)
+  }
+
+  const rules = {
+    pwd: [{ required: true, message: 'Input your password!' }]
+  }
+
 
   return (
-    <Layout.Header
-      className={prefixCls}
-      style={{ padding: 0, background: colorBgContainer }}
-    >
-      <div>
-        {React.createElement(
-          collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-          {
-            className: 'trigger',
-            onClick: () => setCollapsed(!collapsed)
-          }
-        )}
-      </div>
-      <div className={`${prefixCls}-menu`}>
-        <Dropdown menu={{ items }}>
-          <Space>
-            <UserOutlined style={{ fontSize: '18px' }} />
-            <span style={{ marginLeft: '5px', fontSize: '14px' }}>Admin</span>
-          </Space>
-        </Dropdown>
-      </div>
-    </Layout.Header>
+    <>
+      <Modal title="密码修改" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <Form labelCol={{ span: 4 }}>
+          <Form.Item label="旧密码" rules={rules.pwd}>
+            <Input name="oldPwd" type="password" placeholder="请输入旧密码" />
+          </Form.Item>
+          <Form.Item label="新密码" rules={rules.pwd}>
+            <Input.Password name="newPwd" placeholder="请输入新密码" />
+          </Form.Item>
+          <Form.Item label="确认新密码" rules={rules.pwd}>
+            <Input.Password name="againPwd" placeholder="再次输入新密码" />
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Layout.Header
+        className={prefixCls}
+        style={{ padding: 0, background: colorBgContainer }}
+      >
+        <div>
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              className: 'trigger',
+              onClick: () => setCollapsed(!collapsed)
+            }
+          )}
+        </div>
+        <div className={`${prefixCls}-menu`}>
+          <Dropdown menu={{ items }}>
+            <Space>
+              <UserOutlined style={{ fontSize: '18px' }} />
+              <span style={{ marginLeft: '5px', fontSize: '14px' }}>Admin</span>
+            </Space>
+          </Dropdown>
+        </div>
+      </Layout.Header></>
   )
 }
 
