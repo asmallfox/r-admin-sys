@@ -2,7 +2,7 @@ import type { UserInfo } from '@/api/modules/login'
 
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Button, Checkbox, Form, Input, notification } from 'antd'
+import { Button, Checkbox, Form, Input } from 'antd'
 import { UserOutlined, UnlockOutlined } from '@ant-design/icons'
 
 import { useDesign } from '@/hooks/web/useDesign'
@@ -11,6 +11,7 @@ import localCache from '@/utils/localStore'
 import { USERINFO_KEY } from '@/constants'
 import { PageEnum } from '@/enums/pageEnum'
 import { loginApi } from '@/api'
+import { useMessage } from '@/hooks/web/useMessage'
 import './style/login.scss'
 
 
@@ -18,6 +19,7 @@ function Login() {
   const { prefixCls } = useDesign('login')
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { notification } = useMessage()
 
   async function handleFinish(values: any) {
     const { username = '', password = '', remember } = values
@@ -28,20 +30,16 @@ function Login() {
         if (remember) {
           localCache.setItem(USERINFO_KEY, { username, password })
         }
-        notification.open({
-          message: '欢迎回来',
-          description: `${username} 登录成功`,
-          type: 'success',
-          duration: 2
+        notification.success({
+          message: '登录成功',
+          description: `欢迎回来 ${username}`
         })
       }
       dispatch(setToken({ token: res.token }))
       navigate(PageEnum.BASE_HOME, { replace: true })
     } catch (error) {
-      notification.open({
-        message: (error as Error).message,
-        type: 'error',
-        duration: 2
+      notification.error({
+        message: (error as Error).message
       })
       console.error(error)
     }
