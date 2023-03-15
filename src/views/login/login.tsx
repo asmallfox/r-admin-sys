@@ -1,51 +1,49 @@
-import { useDesign } from '@/hooks/web/useDesign'
-import './style/index.scss'
+import type { UserInfo } from '@/api/modules/login'
 
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Button, Checkbox, Form, Input, notification } from 'antd'
 import { UserOutlined, UnlockOutlined } from '@ant-design/icons'
 
-import type { UserInfo } from '@/api/modules/login'
-import { useDispatch } from 'react-redux'
-import { loginAsync } from '@/store/modules/user'
+import { useDesign } from '@/hooks/web/useDesign'
+import { setToken } from '@/store/modules/user'
 import localCache from '@/utils/localStore'
-import { USERINFO_KEY, REDIRECT_HOME_BASE_KEY } from '@/constants'
-import { useNavigate } from 'react-router-dom'
+import { USERINFO_KEY } from '@/constants'
+import { PageEnum } from '@/enums/pageEnum'
+import { loginApi } from '@/api'
+import './style/login.scss'
+
 
 function Login() {
   const { prefixCls } = useDesign('login')
   const dispatch = useDispatch()
-
   const navigate = useNavigate()
-
-  const openNotification = () => {
-    notification.open({
-      message: 'welcome back',
-      description: '登录成功',
-      type: 'success',
-      duration: 2
-    });
-  };
 
   async function handleFinish(values: any) {
     const { username = '', password = '', remember } = values
-    const requestParams: UserInfo = {
-      username,
-      password
-    }
+    const requestParams: UserInfo = { username, password }
     try {
-      const res = await dispatch(loginAsync(requestParams))
-      if (res && remember) {
-        localCache.setItem(USERINFO_KEY, {
-          username,
-          password
+      const res = await loginApi(requestParams)
+      if (res?.token) {
+        if (remember) {
+          localCache.setItem(USERINFO_KEY, { username, password })
+        }
+        notification.open({
+          message: '欢迎回来',
+          description: `${username} 登录成功`,
+          type: 'success',
+          duration: 2
         })
       }
-      navigate(REDIRECT_HOME_BASE_KEY, {
-        replace: true
-      })
-      openNotification()
+      dispatch(setToken({ token: res.token }))
+      navigate(PageEnum.BASE_HOME, { replace: true })
     } catch (error) {
-      console.warn(error)
+      notification.open({
+        message: (error as Error).message,
+        type: 'error',
+        duration: 2
+      })
+      console.error(error)
     }
   }
 
@@ -59,24 +57,35 @@ function Login() {
     remember: true
   }
 
-  return <div className={prefixCls}>
-    <Form className={prefixCls + '-form'} onFinish={handleFinish} initialValues={initUserInfo}>
-      <Form.Item name="username" rules={rules.username}>
-        <Input placeholder="username" prefix={<UserOutlined />} />
-      </Form.Item>
-      <Form.Item name="password" rules={rules.password}>
-        <Input.Password placeholder="password" prefix={<UnlockOutlined />} />
-      </Form.Item>
-      <Form.Item name="remember" valuePropName="checked">
-        <Checkbox>Remember me</Checkbox>
-      </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-          立即登录
-        </Button>
-      </Form.Item>
-    </Form>
-  </div>
+  if (import.meta.env.MODE === 'development') {
+    initUserInfo['username'] = initUserInfo['username'] ?? 'admin'
+    initUserInfo['password'] = initUserInfo['password'] ?? '123456'
+  }
+
+  return (
+    <div className={prefixCls}>
+      <Form
+        className={prefixCls + '-form'}
+        onFinish={handleFinish}
+        initialValues={initUserInfo}
+      >
+        <Form.Item name="username" rules={rules.username}>
+          <Input placeholder="username" prefix={<UserOutlined />} />
+        </Form.Item>
+        <Form.Item name="password" rules={rules.password}>
+          <Input.Password placeholder="password" prefix={<UnlockOutlined />} />
+        </Form.Item>
+        <Form.Item name="remember" valuePropName="checked">
+          <Checkbox>Remember me</Checkbox>
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
+            立即登录
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
+  )
 }
 
 export default Login

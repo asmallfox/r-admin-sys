@@ -3,7 +3,7 @@ import type { MenuProps } from 'antd'
 export type MenuItem = MenuProps['items']
 
 export interface Meta {
-  label: string
+  label?: string
   icon?: JSX.Element
   sortIndex?: number
   menuHidden?: boolean

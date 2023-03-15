@@ -1,29 +1,32 @@
 import type { MenuProps } from 'antd'
-import type { MenuItem } from '@/utils/menu'
+import type { MenuItem } from '@/router/menu'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Menu } from 'antd'
 
 import { asyncRoutes } from '@/router/routes'
 import { useDesign } from '@/hooks/web/useDesign'
-import { matchMenu } from '@/utils/menu'
+import { matchMenu } from '@/router/menu'
 import './style/index.scss'
 
 export function LayoutMenu() {
   const { prefixCls } = useDesign('menu')
   const navigate = useNavigate()
-  const location = useLocation()
+  const routerLocation = useLocation()
 
-  const pathKeys = location.pathname.split('/').filter((v) => v) ?? []
-  const currentKey = pathKeys.at(-1) ?? ''
-  const [selectKey] = useState([currentKey])
+
+  const pathKeys = routerLocation.pathname.split('/').filter((v) => v)
+  const defaultSelectKey = [pathKeys[1] ?? '']
   const [openKeys, setOpenKeys] = useState(pathKeys)
-
   const menus = matchMenu(asyncRoutes)
 
-  const getOpenKeys = (menus: MenuItem[], key: string, result: string[] = []) => {
-    const existsCurrentMenu = menus.find((item) => (item!).key === key)
+  const getOpenKeys = (
+    menus: MenuItem[],
+    key: string,
+    result: string[] = []
+  ) => {
+    const existsCurrentMenu = menus.find((item) => item!.key === key)
     if (existsCurrentMenu) {
       result.push(key)
     } else {
@@ -52,23 +55,16 @@ export function LayoutMenu() {
     const keys = keyPath.filter((path) => key !== path)
     const routePath = keyPath.reverse().join('/')
     setOpenKeys(keys)
-    console.log(evt, routePath)
     navigate(routePath)
   }
-
-  useEffect(() => {
-    if (currentKey === 'layout') {
-      navigate('/layout/workspace/statistics')
-    }
-  })
-
+  
   return (
     <div className={prefixCls}>
       <Menu
         theme="dark"
         mode="inline"
         items={menus}
-        defaultSelectedKeys={selectKey}
+        selectedKeys={defaultSelectKey}
         openKeys={openKeys}
         onOpenChange={onOpenChange}
         onSelect={onSelect}

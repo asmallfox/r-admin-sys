@@ -3,7 +3,7 @@ export interface UserInfo {
   password: string;
 }
 
-export function apiLogin(userInfo: UserInfo){
+export function loginApi(userInfo: UserInfo){
   const { username, password } = userInfo
   if (!username || !password) {
     throw(new Error('用户名或密码不能为空！'))

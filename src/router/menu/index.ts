@@ -12,6 +12,7 @@ export const matchMenu = (routes: RouterRaws[] = []): MenuItem[] => {
     const result: MenuItem[] = []
     menus.forEach((item) => {
       const { path, meta, children } = item
+      if (meta?.menuHidden) return
       const menu: MenuItem = {
         key: path,
         label: meta?.label,

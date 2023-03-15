@@ -19,11 +19,17 @@ Object.keys(modules).forEach(key => {
 
 export const asyncRoutes = [...routeModuleList]
 
-export const RootRoute: RouterRaws = {
-  path: '/',
-  element: <Layout />,
-  children: routeModuleList
-}
+export const RootRoute: RouterRaws[] = [
+  {
+    path: '/',
+    element: <Navigate to={PageEnum.BASE_HOME} />
+  },
+  {
+    path: '/',
+    element: <Layout />,
+    children: routeModuleList
+  }
+]
 
 export const LoginRoute: RouterRaws = {
   path: '/login',
@@ -32,4 +38,4 @@ export const LoginRoute: RouterRaws = {
     label: '登录'
   }
 }
-export const basicRoutes = [RootRoute, LoginRoute, ...routeModuleList, NOT_FOUNT_ROUTE]
+export const basicRoutes = [LoginRoute, ...RootRoute, ...routeModuleList, NOT_FOUNT_ROUTE]
