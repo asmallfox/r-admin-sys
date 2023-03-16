@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+
+import 'virtual:windi.css'
 // 样式初始化一般放最前面
 import 'reset-css'
 // UI框架的样式

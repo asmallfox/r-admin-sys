@@ -13,7 +13,7 @@ export function SideBar(props: { collapsed: boolean }) {
         <img src="../../../assets/react.svg" alt="logo" />
         { !collapsed && <span >React Admin</span> }
       </div>
-      <LayoutMenu></LayoutMenu>
+      <LayoutMenu collapsed={collapsed} />
     </Layout.Sider>
   )
 }

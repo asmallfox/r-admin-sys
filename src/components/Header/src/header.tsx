@@ -2,7 +2,17 @@ import type { MenuProps } from 'antd'
 
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Layout, theme, Dropdown, Space, Modal, Form, Input } from 'antd'
+import {
+  Layout,
+  theme,
+  Dropdown,
+  Space,
+  Modal,
+  Form,
+  Input,
+  Divider,
+  Tag
+} from 'antd'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -81,19 +91,25 @@ export function LayoutHeader(props: Props) {
     pwd: [{ required: true, message: 'Input your password!' }]
   }
 
+  const [tags, setTags] = useState(['表盘仪', '统计', '关于'])
 
   return (
     <>
-      <Modal title="密码修改" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <Form labelCol={{ span: 4 }}>
-          <Form.Item label="旧密码" rules={rules.pwd}>
-            <Input name="oldPwd" type="password" placeholder="请输入旧密码" />
+      <Modal
+        title="密码修改"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <Form labelCol={{ span: 5 }}>
+          <Form.Item label="旧密码" name="oldPwd" rules={rules.pwd}>
+            <Input type="password" placeholder="请输入旧密码" />
           </Form.Item>
-          <Form.Item label="新密码" rules={rules.pwd}>
-            <Input.Password name="newPwd" placeholder="请输入新密码" />
+          <Form.Item label="新密码" name="newPwd" rules={rules.pwd}>
+            <Input.Password placeholder="请输入新密码" />
           </Form.Item>
-          <Form.Item label="确认新密码" rules={rules.pwd}>
-            <Input.Password name="againPwd" placeholder="再次输入新密码" />
+          <Form.Item label="确认新密码" name="againPwd" rules={rules.pwd}>
+            <Input.Password placeholder="再次输入新密码" />
           </Form.Item>
         </Form>
       </Modal>
@@ -118,7 +134,32 @@ export function LayoutHeader(props: Props) {
             </Space>
           </Dropdown>
         </div>
-      </Layout.Header></>
+      </Layout.Header>
+      <Divider style={{ margin: 0 }} />
+      <div
+        className="px-2"
+        style={{ height: '30px', background: '#fff', marginTop: '1px' }}
+      >
+        {tags.map((v, index) => {
+          const isLastItem = index === tags.length - 1
+          return (
+            <Tag
+              key={v}
+              closable={isLastItem}
+              style={{
+                height: '28px',
+                backgroundColor: isLastItem ? '#0960bd' : '#fff',
+                color: isLastItem ? '#fff' : '#222',
+                fontSize: '12px',
+                lineHeight: '24px'
+              }}
+            >
+              {v}
+            </Tag>
+          )
+        })}
+      </div>
+    </>
   )
 }
 

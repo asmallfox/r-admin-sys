@@ -1,7 +1,7 @@
 import type { MenuProps } from 'antd'
 import type { MenuItem } from '@/router/menu'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Menu } from 'antd'
 
@@ -10,11 +10,10 @@ import { useDesign } from '@/hooks/web/useDesign'
 import { matchMenu } from '@/router/menu'
 import './style/index.scss'
 
-export function LayoutMenu() {
+export function LayoutMenu(props: { collapsed: boolean }) {
   const { prefixCls } = useDesign('menu')
   const navigate = useNavigate()
   const routerLocation = useLocation()
-
 
   const pathKeys = routerLocation.pathname.split('/').filter((v) => v)
   const defaultSelectKey = [pathKeys[1] ?? '']
@@ -57,7 +56,11 @@ export function LayoutMenu() {
     setOpenKeys(keys)
     navigate(routePath)
   }
-  
+
+  useEffect(() => {
+    setOpenKeys(pathKeys)
+  }, [props])
+
   return (
     <div className={prefixCls}>
       <Menu
