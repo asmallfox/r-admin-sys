@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# 不校验，报node不是可执行程序错误
+pnpm run commit --no-verify
