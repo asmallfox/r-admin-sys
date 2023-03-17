@@ -1,4 +1,4 @@
-import LayoutHeader from './src/header'
+import LayoutHeader from './src/Header'
 
 export { LayoutHeader }
 

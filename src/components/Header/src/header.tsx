@@ -30,6 +30,8 @@ import localCache from '@/utils/localStore'
 import { PageEnum } from '@/enums/pageEnum'
 import { removeTag } from '@/store/modules/menu'
 
+import HeaderTag from './HeaderTag'
+
 import './style/index.scss'
 
 interface Props {
@@ -157,28 +159,7 @@ export function LayoutHeader(props: Props) {
         </div>
       </Layout.Header>
       <Divider style={{ margin: 0 }} />
-      <div
-        className="px-2"
-        style={{ height: '30px', background: '#fff', marginTop: '1px' }}
-      >
-        {tags.map((item, index) => {
-          const getClass =
-            routerLocal.pathname === `/${item.routePath}`
-              ? `header-tag header-tag-action`
-              : 'header-tag'
-          return (
-            <Tag
-              className={getClass}
-              key={item.routePath}
-              closable={index !== 0}
-              onClick={() => onClickTag(item)}
-              onClose={() => oncloseTag(item)}
-            >
-              <span className="header-tag-text">{item.label}</span>
-            </Tag>
-          )
-        })}
-      </div>
+      <HeaderTag />
       <Divider style={{ margin: 0 }} />
     </>
   )
