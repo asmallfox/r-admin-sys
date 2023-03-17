@@ -12,7 +12,7 @@ specifiers:
   '@vitejs/plugin-react': ^3.1.0
   antd: ^5.2.3
   commitizen: ^4.3.0
-  cz-git: ^1.6.0
+  cz-conventional-changelog: ^3.3.0
   eslint: ^8.35.0
   eslint-plugin-react: ^7.32.2
   lodash: ^4.17.21
@@ -51,7 +51,7 @@ devDependencies:
   '@typescript-eslint/parser': 5.55.0_ycpbpc6yetojsgtrx3mwntkhsu
   '@vitejs/plugin-react': 3.1.0_vite@4.1.4
   commitizen: 4.3.0
-  cz-git: 1.6.0
+  cz-conventional-changelog: 3.3.0
   eslint: 8.35.0
   eslint-plugin-react: 7.32.2_eslint@8.35.0
   prettier: 2.8.4
@@ -1581,10 +1581,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-    dev: true
-
-  /cz-git/1.6.0:
-    resolution: {integrity: sha512-eOGpDlYtY9qcJ+PC9Rg+Dk0aDrk6azkOOU5z52MJzKm11mtIMQIzqCtvsM7fHYschiQ0NCcrg5pNr9JaxtVA1A==}
     dev: true
 
   /dayjs/1.11.7:
