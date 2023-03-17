@@ -1,5 +1,7 @@
 $header-prefix-cls: 'lege-header';
 
+$tag-color-active: '#0960db';
+
 .#{$header-prefix-cls} {
   height: 48px;
   display: flex;
@@ -13,6 +15,39 @@ $header-prefix-cls: 'lege-header';
     padding: 0 10px;
     &:hover {
       background-color: #e5e5e5;
+    }
+  }
+}
+
+.header-tag {
+  height: 28px;
+  line-height: 24px;
+  font-size: 12px;
+  background-color: #fff;
+  box-sizing: border-box;
+  &:hover {
+    cursor: pointer;
+    &:not(.header-tag-action) {
+      color: #{$tag-color-active};
+      .ant-tag-close-icon {
+        color: #{$tag-color-active};
+      }
+    }
+  }
+  .ant-tag-close-icon {
+    color: #fff;
+    width: 12px;
+  }
+}
+
+.header-tag-action {
+  background-color: #{$tag-color-active};
+  color: #fff;
+  .ant-tag-close-icon {
+    color: #fff;
+    &:hover {
+      color: #fff;
+      font-size: 12px;
     }
   }
 }

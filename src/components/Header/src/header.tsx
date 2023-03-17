@@ -1,7 +1,10 @@
 import type { MenuProps } from 'antd'
+import type { RootState } from '@/store'
 
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+
 import {
   Layout,
   theme,
@@ -25,6 +28,7 @@ import { useDesign } from '@/hooks/web/useDesign'
 
 import localCache from '@/utils/localStore'
 import { PageEnum } from '@/enums/pageEnum'
+import { removeTag } from '@/store/modules/menu'
 
 import './style/index.scss'
 
@@ -43,6 +47,9 @@ export function LayoutHeader(props: Props) {
 
   const { prefixCls } = useDesign('header')
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const routerLocal = useLocation()
+  const tagsList = useSelector((state: RootState) => state.menuReducer.tagList)
 
   const logout = () => {
     Modal.confirm({
@@ -91,8 +98,22 @@ export function LayoutHeader(props: Props) {
     pwd: [{ required: true, message: 'Input your password!' }]
   }
 
-  const [tags, setTags] = useState(['表盘仪', '统计', '关于'])
+  const [tags, setTags] = useState(tagsList)
 
+  function onClickTag(item) {
+    if (item.routePath === routerLocal.pathname) return
+    navigate(item.routePath)
+  }
+  function oncloseTag(tag) {
+    dispatch(removeTag(tag.routePath))
+    if (routerLocal.pathname === `/${tag.routePath}`) {
+      navigate(tags.at(-2)?.routePath)
+    }
+  }
+
+  useEffect(() => {
+    setTags(tagsList)
+  }, [tagsList])
   return (
     <>
       <Modal
@@ -140,25 +161,25 @@ export function LayoutHeader(props: Props) {
         className="px-2"
         style={{ height: '30px', background: '#fff', marginTop: '1px' }}
       >
-        {tags.map((v, index) => {
-          const isLastItem = index === tags.length - 1
+        {tags.map((item, index) => {
+          const getClass =
+            routerLocal.pathname === `/${item.routePath}`
+              ? `header-tag header-tag-action`
+              : 'header-tag'
           return (
             <Tag
-              key={v}
-              closable={isLastItem}
-              style={{
-                height: '28px',
-                backgroundColor: isLastItem ? '#0960bd' : '#fff',
-                color: isLastItem ? '#fff' : '#222',
-                fontSize: '12px',
-                lineHeight: '24px'
-              }}
+              className={getClass}
+              key={item.routePath}
+              closable={index !== 0}
+              onClick={() => onClickTag(item)}
+              onClose={() => oncloseTag(item)}
             >
-              {v}
+              <span className="header-tag-text">{item.label}</span>
             </Tag>
           )
         })}
       </div>
+      <Divider style={{ margin: 0 }} />
     </>
   )
 }

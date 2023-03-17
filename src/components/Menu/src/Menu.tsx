@@ -3,23 +3,25 @@ import type { MenuItem } from '@/router/menu'
 
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { Menu } from 'antd'
 
 import { asyncRoutes } from '@/router/routes'
 import { useDesign } from '@/hooks/web/useDesign'
-import { matchMenu } from '@/router/menu'
+import { matchMenu, getRouteMapItem } from '@/router/menu'
+import { setTags } from '@/store/modules/menu'
 import './style/index.scss'
 
 export function LayoutMenu(props: { collapsed: boolean }) {
   const { prefixCls } = useDesign('menu')
   const navigate = useNavigate()
   const routerLocation = useLocation()
+  const dispatch = useDispatch()
 
   const pathKeys = routerLocation.pathname.split('/').filter((v) => v)
-  const defaultSelectKey = [pathKeys[1] ?? '']
+  const [selectKey, setSelectKey] = useState([pathKeys.at(-1)])
   const [openKeys, setOpenKeys] = useState(pathKeys)
   const menus = matchMenu(asyncRoutes)
-
   const getOpenKeys = (
     menus: MenuItem[],
     key: string,
@@ -43,7 +45,6 @@ export function LayoutMenu(props: { collapsed: boolean }) {
     }
     return result
   }
-
   const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
     setOpenKeys(latestOpenKey ? getOpenKeys(menus, latestOpenKey) : [])
@@ -53,13 +54,16 @@ export function LayoutMenu(props: { collapsed: boolean }) {
     const { key, keyPath } = evt
     const keys = keyPath.filter((path) => key !== path)
     const routePath = keyPath.reverse().join('/')
+    dispatch(setTags(getRouteMapItem(asyncRoutes, routePath)))
     setOpenKeys(keys)
     navigate(routePath)
   }
 
   useEffect(() => {
     setOpenKeys(pathKeys)
-  }, [props])
+    setSelectKey([routerLocation.pathname.split('/').at(-1)])
+    dispatch(setTags(getRouteMapItem(asyncRoutes, routerLocation.pathname)))
+  }, [props, routerLocation])
 
   return (
     <div className={prefixCls}>
@@ -67,7 +71,7 @@ export function LayoutMenu(props: { collapsed: boolean }) {
         theme="dark"
         mode="inline"
         items={menus}
-        selectedKeys={defaultSelectKey}
+        selectedKeys={selectKey}
         openKeys={openKeys}
         onOpenChange={onOpenChange}
         onSelect={onSelect}

@@ -1,4 +1,4 @@
-import type { FormValues } from './components/loginForm'
+import type { FormValues } from './loginForm'
 
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -11,7 +11,7 @@ import { loginApi } from '@/api'
 import { useMessage } from '@/hooks/web/useMessage'
 import './style/login.scss'
 
-import LoginForm from './components/loginForm'
+import LoginForm from './loginForm'
 
 
 function Login() {
