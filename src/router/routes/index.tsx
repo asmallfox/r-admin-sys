@@ -6,7 +6,7 @@ import { PageEnum } from '@/enums/pageEnum'
 import Login from '@/views/login/login'
 
 import { NOT_FOUNT_ROUTE } from './basic'
-import Layout from '@/views/layout/layout'
+import AppLayout from '@/views/layout/layout'
 
 const modules = import.meta.glob('./modules/**/*.tsx', { eager: true })
 const routeModuleList: RouterRaws[] = []
@@ -26,7 +26,7 @@ export const RootRoute: RouterRaws[] = [
   },
   {
     path: '/',
-    element: <Layout />,
+    element: <AppLayout />,
     children: routeModuleList
   }
 ]

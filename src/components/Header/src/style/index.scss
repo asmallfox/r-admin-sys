@@ -1,5 +1,7 @@
 $header-prefix-cls: 'lege-header';
 
+$tag-prefix-cls: '#{$header-prefix-cls}-tag';
+
 $tag-color-active: '#0960db';
 
 .#{$header-prefix-cls} {
@@ -7,6 +9,11 @@ $tag-color-active: '#0960db';
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  // .trigger {
+  //   height: 48px;
+  //   line-height: 48px;
+  // }
 
   &-menu {
     height: 100%;
@@ -19,35 +26,37 @@ $tag-color-active: '#0960db';
   }
 }
 
-.header-tag {
+.#{$tag-prefix-cls} {
+  margin: 1px 0;
   height: 28px;
-  line-height: 24px;
-  font-size: 12px;
   background-color: #fff;
   box-sizing: border-box;
-  &:hover {
-    cursor: pointer;
-    &:not(.header-tag-action) {
+
+  &-item {
+    line-height: 26px;
+    font-size: 12px;
+    &__action {
+      color: #fff;
+      background-color: #{$tag-color-active};
+    }
+    &:hover {
+      cursor: pointer;
+    }
+    &:hover:not(&__action) {
+      transition: 1s;
       color: #{$tag-color-active};
       .ant-tag-close-icon {
         color: #{$tag-color-active};
       }
     }
-  }
-  .ant-tag-close-icon {
-    color: #fff;
-    width: 12px;
-  }
-}
 
-.header-tag-action {
-  background-color: #{$tag-color-active};
-  color: #fff;
-  .ant-tag-close-icon {
-    color: #fff;
-    &:hover {
+    .ant-tag-close-icon {
       color: #fff;
-      font-size: 12px;
+      width: 12px;
+      &:hover {
+        color: inherit;
+        font-size: 12px;
+      }
     }
   }
 }
