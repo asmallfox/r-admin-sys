@@ -1,5 +1,7 @@
 $header-prefix-cls: 'lege-header';
 
+$bread-prefix-cls: '#{$header-prefix-cls}-bread';
+
 $tag-prefix-cls: '#{$header-prefix-cls}-tag';
 
 $tag-color-active: '#0960db';
@@ -10,10 +12,16 @@ $tag-color-active: '#0960db';
   align-items: center;
   justify-content: space-between;
 
-  // .trigger {
-  //   height: 48px;
-  //   line-height: 48px;
-  // }
+  .#{$bread-prefix-cls} {
+    & .trigger {
+      cursor: pointer;
+      font-size: 18px;
+      transition: color 0.3s;
+      &:hover {
+        color: #1890ff;
+      }
+    }
+  }
 
   &-menu {
     height: 100%;

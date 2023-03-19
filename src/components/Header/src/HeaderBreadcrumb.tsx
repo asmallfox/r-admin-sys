@@ -6,6 +6,7 @@ import {
 } from '@ant-design/icons'
 
 import { getBreadcrumb } from '@/router/menu'
+import { useDesign } from '@/hooks/web/useDesign'
 
 interface Props {
   collapsed: boolean
@@ -13,14 +14,15 @@ interface Props {
 }
 
 function HeaderBreadcrumb(props: Props) {
+  const { prefixCls } = useDesign('header-bread')
   const { collapsed, setCollapsed } = props
   const breadcrumbItems = getBreadcrumb(location.pathname)
 
-  return <div className="flex items-center ">
+  return <div className={`${prefixCls} flex items-center px-3`}>
     {React.createElement(
       collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
       {
-        className: 'trigger',
+        className: "trigger mr-3",
         onClick: () => setCollapsed(!collapsed)
       }
     )}
