@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'antd'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined
 } from '@ant-design/icons'
+import { useLocation } from 'react-router-dom'
 
 import { getBreadcrumb } from '@/router/menu'
 import { useDesign } from '@/hooks/web/useDesign'
@@ -16,7 +17,12 @@ interface Props {
 function HeaderBreadcrumb(props: Props) {
   const { prefixCls } = useDesign('header-bread')
   const { collapsed, setCollapsed } = props
-  const breadcrumbItems = getBreadcrumb(location.pathname)
+  const location = useLocation()
+  const [breadcrumbItems, setBreadcrumbItems] = useState([])
+
+  useEffect(() => {
+    setBreadcrumbItems(getBreadcrumb(location.pathname))
+  }, [location])
 
   return <div className={`${prefixCls} flex items-center px-3`}>
     {React.createElement(
