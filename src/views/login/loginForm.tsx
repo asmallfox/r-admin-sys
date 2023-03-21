@@ -1,11 +1,10 @@
-import type { UserInfo } from '@/api/modules/login'
+import type { LoginParams } from '@/api/modules/sys/user'
 import { Button, Checkbox, Form, Input } from 'antd'
 import { UserOutlined, UnlockOutlined } from '@ant-design/icons'
 import { useDesign } from '@/hooks/web/useDesign'
 import localCache from '@/utils/localStore'
-import { USERINFO_KEY } from '@/constants'
-
-export interface FormValues extends UserInfo {
+import { cacheEnum } from '@/enums/cacheEnum'
+export interface FormValues extends LoginParams {
   remember?: boolean;
 }
 
@@ -20,7 +19,7 @@ function LoginForm(props: {
     const { username, password, remember } = formData
     onLogin && onLogin(formData)
     if (remember) {
-      localCache.setItem(USERINFO_KEY, {
+      localCache.setItem(cacheEnum.USERINFO_KEY, {
         username,
         password
       })
@@ -31,7 +30,7 @@ function LoginForm(props: {
     username: [{ required: true, message: 'Input your username!' }],
     password: [{ required: true, message: 'Input your password!' }]
   }
-  const localUserInfo = localCache.getItem(USERINFO_KEY)
+  const localUserInfo = localCache.getItem(cacheEnum.USERINFO_KEY)
   const initUserInfo = {
     ...localUserInfo,
     remember: true

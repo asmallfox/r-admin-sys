@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import localCache from '@/utils/localStore'
 
-import { TOKEN_KEY } from '@/constants/user'
+import { cacheEnum } from '@/enums/cacheEnum'
 
 const initialState = {
-  token: localCache.getItem(TOKEN_KEY) ?? ''
+  token: localCache.getItem(cacheEnum.TOKEN_KEY) ?? ''
 }
 
 export const userSlice = createSlice({
@@ -14,7 +14,7 @@ export const userSlice = createSlice({
     setToken(state, action) {
       const { token } = action.payload
       state.token = token
-      localCache.setItem(TOKEN_KEY, token)
+      localCache.setItem(cacheEnum.TOKEN_KEY, token)
     }
   }
 })

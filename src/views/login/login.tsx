@@ -3,12 +3,12 @@ import type { FormValues } from './loginForm'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+import { loginApi } from '@/api'
 import { useDesign } from '@/hooks/web/useDesign'
 import { setToken } from '@/store/modules/user'
-import localCache from '@/utils/localStore'
 import { PageEnum } from '@/enums/pageEnum'
-import { loginApi } from '@/api'
 import { useMessage } from '@/hooks/web/useMessage'
+import localCache from '@/utils/localStore'
 import './style/login.scss'
 
 import LoginForm from './loginForm'
@@ -24,15 +24,21 @@ function Login() {
 
   async function handleFinish(formData: FormValues) {
     try {
-      const { token } = await loginApi(formData)
+      const { username, password } = formData
+      const res = await loginApi({
+        username,
+        password
+      })
+      const token = res.data?.token
       if (token) {
+        dispatch(setToken({ token, username }))
+        navigate(PageEnum.BASE_HOME, { replace: true })
         notification.success({
           message: '登录成功',
           description: `欢迎回来 ${formData.username}`
         })
       }
-      dispatch(setToken({ token, username: formData.username }))
-      navigate(PageEnum.BASE_HOME, { replace: true })
+
     } catch (error) {
       console.error(error)
       notification.error({
