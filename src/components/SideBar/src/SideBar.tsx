@@ -12,8 +12,8 @@ export function SideBar(props: { collapsed: boolean }) {
   return (
     <Layout.Sider className={prefixCls} collapsed={collapsed}>
       <div className={`${prefixCls}-logo`}>
-        <img src={logo} />
-        { !collapsed && <span >React Admin</span> }
+        {/* <img src={logo} /> */}
+        { !collapsed && <span >Management System</span> }
       </div>
       <LayoutMenu collapsed={collapsed} />
     </Layout.Sider>

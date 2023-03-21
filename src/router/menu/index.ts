@@ -2,6 +2,8 @@ import type { RouterRaws } from '@/router/routes/types'
 import type { MenuProps } from 'antd'
 
 import _ from 'lodash'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 import { asyncRoutes } from '@/router/routes'
 
@@ -35,9 +37,9 @@ export const matchMenu = (routes: RouterRaws[] = []): MenuItem[] => {
 }
 
 export function getRouteMapItem(routes: RouterRaws[] = [], routePath: string) {
-  const filterRoutes = routes.filter((item) => !item.meta?.menuHidden)
-  const routePaths = routePath.split('/').filter((v) => v !== '')
+  const routePaths = pathSnippets(routePath)
   const resPath = routePaths.join('/')
+  const filterRoutes = routes.filter((item) => !item.meta?.menuHidden)
   const getRouteItem = (routes: RouterRaws[], paths: string[]): RouterRaws => {
     let find = routes.find((item) => item.path === paths[0])
     paths.shift()
@@ -58,29 +60,25 @@ export function getBreadcrumb(path: string) {
   const routes = matchMenu(asyncRoutes)
   const paths = pathSnippets(path)
   const find = _.cloneDeep(routes.find((route) => route.key === paths[0]))
-  const flatten = (arr, paths) => {
-    let result = []
-    for (let i = 0; i < arr.length; i++) {
-      const item = arr[i]
+  const flattenMenu = (menus, result = []) => {
+    const oneLevelFilter = menus.filter((item) => !item.meta?.menuHidden)
+    for (const item of oneLevelFilter) {
+      const breadItem = {
+        title: item.title,
+        path: item.key
+      }
       if (item.children && item.children.length > 0) {
-        result.push({
-          ...item,
-          menu: {
-            items: item.children.map((m) => ({ title: m.title, key: m.key }))
-          }
-        })
-        result = result.concat(flatten(item.children, paths))
+        breadItem.children = item.children.map(child => ({ title: child.title, key: child.key }))
+        result = result.concat([breadItem, ...flattenMenu(item.children)])
       } else {
-        result.push({
-          title: item.title,
-          key: item.key
-        })
+        result.push(breadItem)
       }
     }
     return result
   }
-  const filterResult = flatten([find], paths).filter((item) =>
-    paths.includes(item.key)
+  const filterResult = flattenMenu([find]).filter((item) =>
+    paths.includes(item.path)
   )
+  console.log(filterResult)
   return filterResult
 }

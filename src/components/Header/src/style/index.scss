@@ -43,6 +43,7 @@ $tag-color-active: '#0960db';
   &-item {
     line-height: 26px;
     font-size: 12px;
+    background-color: #fff;
     &__action {
       color: #fff;
       background-color: #{$tag-color-active};
