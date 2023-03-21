@@ -1,8 +1,4 @@
-import {
-  Layout,
-  theme,
-  Divider
-} from 'antd'
+import { Layout, theme, Divider } from 'antd'
 
 import { useDesign } from '@/hooks/web/useDesign'
 import HeaderTag from './HeaderTag'
@@ -21,22 +17,23 @@ export function LayoutHeader(props: Props) {
   } = theme.useToken()
   const { collapsed, setCollapsed } = props
 
-
   const { prefixCls } = useDesign('header')
 
   return (
-    <>
-      <Layout.Header
-        className={prefixCls}
-        style={{ padding: 0, background: colorBgContainer }}
-      >
+    <Layout.Header
+      className={prefixCls}
+      style={{ padding: 0, background: colorBgContainer }}
+    >
+      <div className="flex justify-between items-center flex-nowrap" style={{ height: '48px', width: '100%' }}>
         <HeaderBreadcrumb collapsed={collapsed} setCollapsed={setCollapsed} />
         <HeaderMenu />
-      </Layout.Header>
-      <Divider style={{ margin: 0 }} />
-      <HeaderTag />
-      <Divider style={{ margin: 0 }} />
-    </>
+      </div>
+      <div>
+        <Divider style={{ margin: 0 }} />
+        <HeaderTag />
+        <Divider style={{ margin: 0 }} />
+      </div>
+    </Layout.Header>
   )
 }
 

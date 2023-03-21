@@ -10,5 +10,13 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src')
     }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // 全局引入变量，给导入的路径最后加上 ;
+        additionalData: `@import '@/design/index.scss';`
+      }
+    }
   }
 })

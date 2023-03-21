@@ -1,4 +1,4 @@
-$header-prefix-cls: 'lege-header';
+$header-prefix-cls: #{$namespace}-header;
 
 $bread-prefix-cls: '#{$header-prefix-cls}-bread';
 
@@ -7,11 +7,6 @@ $tag-prefix-cls: '#{$header-prefix-cls}-tag';
 $tag-color-active: '#0960db';
 
 .#{$header-prefix-cls} {
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
   .#{$bread-prefix-cls} {
     & .trigger {
       cursor: pointer;
@@ -35,10 +30,12 @@ $tag-color-active: '#0960db';
 }
 
 .#{$tag-prefix-cls} {
+  background-color: pink;
   margin: 1px 0;
   height: 28px;
   background-color: #fff;
   box-sizing: border-box;
+  display: flex;
   white-space: nowrap;
   &-item {
     line-height: 26px;

@@ -4,18 +4,20 @@ import { UserOutlined, AuditOutlined } from '@ant-design/icons'
 import User from '@/views/layout/user/user'
 
 export const UserLayout: RouterRaws = {
-  path: 'user',
+  path: '/user',
+  redirect: '/user/administrator/super-admin',
   meta: {
-    label: '用户管理',
+    title: '用户管理',
     icon: <AuditOutlined />,
     sortIndex: 1
   },
   children: [
     {
       path: 'administrator',
+      redirect: '/user/administrator/super-admin',
       element: <User />,
       meta: {
-        label: '管理员',
+        title: '管理员',
         icon: <UserOutlined />
       },
       children: [
@@ -23,31 +25,38 @@ export const UserLayout: RouterRaws = {
           path: 'super-admin',
           element: <User />,
           meta: {
-            label: '系统管理员',
-          },
+            title: '系统管理员'
+          }
         },
         {
           path: 'site-admin',
           element: <User />,
           meta: {
-            label: '站点管理员',
-          },
-        },
-      ],
+            title: '站点管理员'
+          }
+        }
+      ]
     },
     {
       path: 'consumer',
+      redirect: '/user/consumer/consumer-1',
       element: <User />,
       meta: {
-        label: '普通用户',
+        title: '普通用户',
         icon: <UserOutlined />
       },
       children: [
-        { path: 'consumer-1', element: <User />, meta: { label: 'test1' } },
-        { path: 'consumer-2', element: <User />, meta: { label: 'test2' } },
+        {
+          path: 'consumer-1',
+          element: <User />,
+          meta: {
+            title: 'test1'
+          }
+        },
+        { path: 'consumer-2', element: <User />, meta: { title: 'test2' } }
       ]
     }
-  ],
+  ]
 }
 
 export default UserLayout

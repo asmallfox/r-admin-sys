@@ -7,16 +7,17 @@ import Workspace from '@/views/layout/dashboard/workspace'
 
 export const Dashboard: RouterRaws[] = [
   {
-    path: 'dashboard',
+    path: '/dashboard',
     element: <Navigate to="analysis" />,
     meta: {
       menuHidden: true
     }
   },
   {
-    path: 'dashboard',
+    path: '/dashboard',
+    redirect: '/dashboard/analysis',
     meta: {
-      label: '工作台',
+      title: '工作台',
       icon: <AppstoreOutlined />,
       sortIndex: 0
     },
@@ -25,14 +26,14 @@ export const Dashboard: RouterRaws[] = [
         path: 'analysis',
         element: <Analysis />,
         meta: {
-          label: '表盘仪'
+          title: '表盘仪'
         }
       },
       {
         path: 'workspace',
         element: <Workspace />,
         meta: {
-          label: '统计'
+          title: '统计'
         }
       }
     ]

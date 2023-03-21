@@ -1,4 +1,4 @@
-$login-prefix-cls: 'lege-login';
+$login-prefix-cls: '#{$namespace}-login';
 
 .#{$login-prefix-cls} {
   min-height: 100vh;

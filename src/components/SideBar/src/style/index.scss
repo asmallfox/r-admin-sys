@@ -1,4 +1,4 @@
-$sideBar-prefix-cls: 'lege-sideBar';
+$sideBar-prefix-cls: '#{$namespace}-sideBar';
 
 .#{$sideBar-prefix-cls} {
   height: 100vh;

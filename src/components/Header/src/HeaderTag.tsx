@@ -25,10 +25,10 @@ function HeaderTag() {
 
   function oncloseTag(item: TagItem) {
     const lastMenuItem = tagList.at(-1)
-    if (lastMenuItem?.routePath === item.routePath) {
-      navigate(tagList.at(-2)?.routePath ?? PageEnum.BASE_HOME)
+    if (lastMenuItem?.path === item.path) {
+      navigate(tagList.at(-2)?.path ?? PageEnum.BASE_HOME)
     }
-    dispatch(removeTag(item.routePath))
+    dispatch(removeTag(item.path))
   }
 
   useEffect(() => {
@@ -38,16 +38,14 @@ function HeaderTag() {
     <div className={`${prefixCls} px-2`}>
       {tagList.map((item, index) => {
         const clsName = getClass(
-          pathname.replace(/^\/?/, '') === item.routePath
-            ? `${prefixCls}-item__action`
-            : ''
+          pathname === item.path ? `${prefixCls}-item__action` : ''
         )
         return (
           <Tag
             className={clsName}
-            key={item.routePath}
+            key={item.path}
             closable={index !== 0}
-            onClick={() => navigate(item.routePath)}
+            onClick={() => navigate(item.path)}
             onClose={() => oncloseTag(item)}
           >
             {item.label}

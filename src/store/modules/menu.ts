@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export interface TagItem {
   label: string
-  routePath: string
+  path: string
 }
 
 interface menuStore {
@@ -10,7 +10,7 @@ interface menuStore {
 }
 
 const initialState: menuStore = {
-  tagList: [{ label: '表盘仪', routePath: 'dashboard/analysis' }]
+  tagList: [{ label: '表盘仪', path: '/dashboard/analysis' }]
 }
 
 export const menuSlice = createSlice({
@@ -20,15 +20,15 @@ export const menuSlice = createSlice({
     setTags: (state, action) => {
       const { payload: menuItem } = action
       if (
-        !state.tagList.some((item) => item.routePath === menuItem.routePath)
+        !state.tagList.some((item) => item.path === menuItem.path)
       ) {
         state.tagList.push(menuItem)
       }
     },
     removeTag: (state, action) => {
-      const { payload: routePath } = action
+      const { payload: path } = action
       const index = state.tagList.findIndex(
-        (item) => item.routePath === routePath
+        (item) => item.path === path
       )
       if (index !== -1) {
         state.tagList.splice(index, 1)

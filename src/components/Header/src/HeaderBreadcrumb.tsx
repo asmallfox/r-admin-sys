@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'antd'
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined
-} from '@ant-design/icons'
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 
 import { getBreadcrumb } from '@/router/menu'
 import { useDesign } from '@/hooks/web/useDesign'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, Link } from 'react-router-dom'
+import { MenuItem, RouterRaws } from '@/router/routes/types'
 
 interface Props {
   collapsed: boolean
@@ -16,21 +14,24 @@ interface Props {
 
 function HeaderBreadcrumb(props: Props) {
   const { prefixCls } = useDesign('header-bread')
-  const navigate = useNavigate()
   const location = useLocation()
+  const navigate = useNavigate()
   const { collapsed, setCollapsed } = props
-  const [breadcrumbItems, setBreadcrumbItems] = useState([])
 
-  useEffect(() => {
-    setBreadcrumbItems(getBreadcrumb(location.pathname))
-  }, [location])
+  const breadcrumbs = getBreadcrumb(location.pathname)
 
-  const aaa = (e) => {
-    console.log('aaaa', e)
-  }
+  const [breadcrumbItems, setBreadcrumbItems] = useState(breadcrumbs)
 
-  const itemRender = (item) => {
-    return (<span onClick={() => aaa(item)}>{item.title}</span>)
+  const handleItemRender = (route: any) => {
+    const { menu, path, title } = route
+    const go = (e: React.MouseEvent) => {
+      e?.preventDefault()
+      if (menu?.items?.length) {
+        if (location.pathname === path) return
+        navigate(route.path)
+      }
+    }
+    return <span onClick={go}>{title}</span>
   }
 
   useEffect(() => {
@@ -44,7 +45,7 @@ function HeaderBreadcrumb(props: Props) {
         onClick: () => setCollapsed(!collapsed)
       })}
       <div className="header-bread">
-        <Breadcrumb items={breadcrumbItems} itemRender={itemRender} />
+        <Breadcrumb items={breadcrumbItems} itemRender={handleItemRender} />
       </div>
     </div>
   )

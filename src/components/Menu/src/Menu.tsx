@@ -1,27 +1,26 @@
 import type { MenuProps } from 'antd'
-import type { MenuItem } from '@/router/menu'
+import { joinPath, MenuItem } from '@/router/menu'
 
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { Menu } from 'antd'
 
-import { asyncRoutes } from '@/router/routes'
 import { useDesign } from '@/hooks/web/useDesign'
-import { matchMenu, getRouteMapItem } from '@/router/menu'
+import { getRouteMapItem, getMenus, pathSnippets } from '@/router/menu'
 import { setTags } from '@/store/modules/menu'
 import './style/index.scss'
 
 export function LayoutMenu(props: { collapsed: boolean }) {
   const { prefixCls } = useDesign('menu')
   const navigate = useNavigate()
-  const routerLocation = useLocation()
   const dispatch = useDispatch()
+  const location = useLocation()
 
-  const pathKeys = routerLocation.pathname.split('/').filter((v) => v)
-  const [selectKey, setSelectKey] = useState([pathKeys.at(-1)])
-  const [openKeys, setOpenKeys] = useState(pathKeys)
-  const menus = matchMenu(asyncRoutes)
+  const pathSplits = pathSnippets(location.pathname)
+  const [selectKey, setSelectKey] = useState(pathSplits.slice(-1))
+  const [openKeys, setOpenKeys] = useState(pathSplits)
+  const menus = getMenus()
   const getOpenKeys = (
     menus: MenuItem[],
     key: string,
@@ -53,17 +52,19 @@ export function LayoutMenu(props: { collapsed: boolean }) {
   const onSelect: MenuProps['onSelect'] = (evt) => {
     const { key, keyPath } = evt
     const keys = keyPath.filter((path) => key !== path)
-    const routePath = keyPath.reverse().join('/')
-    dispatch(setTags(getRouteMapItem(asyncRoutes, routePath)))
+    const routePath = joinPath(keyPath.reverse())
+    dispatch(setTags(getRouteMapItem(routePath)))
     setOpenKeys(keys)
     navigate(routePath)
   }
 
   useEffect(() => {
-    setOpenKeys(pathKeys)
-    setSelectKey([routerLocation.pathname.split('/').at(-1)])
-    dispatch(setTags(getRouteMapItem(asyncRoutes, routerLocation.pathname)))
-  }, [props, routerLocation])
+    setOpenKeys(pathSplits)
+    if (selectKey[0] !== pathSplits.at(-1)) {
+      setSelectKey(pathSplits.slice(-1))
+    }
+    dispatch(setTags(getRouteMapItem(location.pathname)))
+  }, [props, location])
 
   return (
     <div className={prefixCls}>

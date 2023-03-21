@@ -35,7 +35,7 @@ export const LoginRoute: RouterRaws = {
   path: '/login',
   element: <Login />,
   meta: {
-    label: '登录'
+    title: '登录'
   }
 }
 export const basicRoutes = [LoginRoute, ...RootRoute, ...routeModuleList, NOT_FOUNT_ROUTE]

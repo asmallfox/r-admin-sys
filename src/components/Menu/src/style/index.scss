@@ -1,4 +1,4 @@
-$menu-prefix-cls: 'lege-menu';
+$menu-prefix-cls: #{$namespace}-menu;
 
 .#{$menu-prefix-cls} {
   height: 100%;
