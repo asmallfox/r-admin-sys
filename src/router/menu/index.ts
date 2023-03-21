@@ -56,19 +56,37 @@ export function getRouteMapItem(routes: RouterRaws[] = [], routePath: string) {
   }
 }
 
+export function getRoutePath(menuRaw: RouterRaws | RouterRaws[], key: string, reslut = []) {
+  const menus = Array.isArray(menuRaw) ? menuRaw : [menuRaw]
+  for (const item of menus) {
+    if (item.path === key) {
+      result.push(item.path)
+    }
+  }
+}
+
 export function getBreadcrumb(path: string) {
   const routes = matchMenu(asyncRoutes)
   const paths = pathSnippets(path)
   const find = _.cloneDeep(routes.find((route) => route.key === paths[0]))
+
   const flattenMenu = (menus, result = []) => {
-    const oneLevelFilter = menus.filter((item) => !item.meta?.menuHidden)
-    for (const item of oneLevelFilter) {
+    for (const item of menus) {
       const breadItem = {
         title: item.title,
-        path: item.key
+        key: item.key
       }
       if (item.children && item.children.length > 0) {
-        breadItem.children = item.children.map(child => ({ title: child.title, key: child.key }))
+        breadItem.menu = {
+          items: item.children.map((child) => ({
+            title: React.createElement(
+              Link,
+              { to: `/${item.key}/${child.key}` },
+              child.title
+            ),
+            key: child.key
+          }))
+        }
         result = result.concat([breadItem, ...flattenMenu(item.children)])
       } else {
         result.push(breadItem)
@@ -76,8 +94,9 @@ export function getBreadcrumb(path: string) {
     }
     return result
   }
+
   const filterResult = flattenMenu([find]).filter((item) =>
-    paths.includes(item.path)
+    paths.includes(item.key)
   )
   console.log(filterResult)
   return filterResult

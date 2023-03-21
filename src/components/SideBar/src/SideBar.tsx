@@ -13,7 +13,7 @@ export function SideBar(props: { collapsed: boolean }) {
     <Layout.Sider className={prefixCls} collapsed={collapsed}>
       <div className={`${prefixCls}-logo`}>
         {/* <img src={logo} /> */}
-        { !collapsed && <span >Management System</span> }
+        {!collapsed && <span>Management System</span>}
       </div>
       <LayoutMenu collapsed={collapsed} />
     </Layout.Sider>

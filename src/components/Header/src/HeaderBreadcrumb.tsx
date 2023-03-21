@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'antd'
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined
+} from '@ant-design/icons'
 
 import { getBreadcrumb } from '@/router/menu'
 import { useDesign } from '@/hooks/web/useDesign'
@@ -13,10 +16,14 @@ interface Props {
 
 function HeaderBreadcrumb(props: Props) {
   const { prefixCls } = useDesign('header-bread')
-  const location = useLocation()
   const navigate = useNavigate()
+  const location = useLocation()
   const { collapsed, setCollapsed } = props
   const [breadcrumbItems, setBreadcrumbItems] = useState([])
+
+  useEffect(() => {
+    setBreadcrumbItems(getBreadcrumb(location.pathname))
+  }, [location])
 
   const aaa = (e) => {
     console.log('aaaa', e)
