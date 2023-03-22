@@ -15,21 +15,25 @@ notification.config({
   duration: 2
 })
 
+message.config({
+  duration: 2,
+  maxCount: 3
+})
+
 const createModal = () => {
   return Modal
 }
 
 const createConfirm = (options: ArgsProps) => {
   const opt = {
-    centered: true,
-
+    centered: true
   }
 }
-
 
 export function useMessage() {
   return {
     notification,
-    createConfirm
+    createConfirm,
+    createMessage: message
   }
 }

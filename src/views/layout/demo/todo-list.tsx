@@ -1,15 +1,18 @@
+import type { CheckboxChangeEvent } from 'antd/es/checkbox'
 import { Card, Form, Input, Button, Checkbox } from 'antd'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { useDesign } from '@/hooks/web/useDesign'
-import { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
+import { useMessage } from '@/hooks/web/useMessage'
 import './style/todo-list.scss'
-import { CheckboxChangeEvent } from 'antd/es/checkbox'
 
 function TodoList() {
   const { prefixCls } = useDesign('todo-list')
 
-  const handleAdd = (e) => {}
+  const { createMessage } = useMessage()
+
+  const [form] = Form.useForm()
 
   const [list, setList] = useState([
     {
@@ -22,22 +25,34 @@ function TodoList() {
     }
   ])
 
-  const handleCheck = (index: number, $event: CheckboxChangeEvent) => {
-    const item = list[index]
-    item.finished = !item.finished
-    const res = list.splice(index, 1, item)
-    console.log(res, index)
-    setList(res)
+  const handleFinish = (values: { content: string }) => {
+    const { content } = values
+    if (!content) return
+    const exist = list.some(item => item.content === content)
+    if (exist) {
+      createMessage.warning({
+        content: '标签内容已存在'
+      })
+    } else {
+      setList([{ finished: false, content }, ...list])
+      form.resetFields()
+    }
+  }
+
+
+  const handleCheck = (index: number) => {
+    list[index].finished = !list[index].finished
+    setList([...list])
   }
 
   return (
     <Card className={prefixCls} title="THINGS TO DO" hoverable>
-      <Form className="flex">
-        <Form.Item className="flex-1 mr-1">
-          <Input name="addContent"></Input>
+      <Form form={form} className="flex" onFinish={handleFinish}>
+        <Form.Item className="flex-1 mr-1" name="content">
+          <Input placeholder="请输入要添加标签内容" />
         </Form.Item>
         <Form.Item>
-          <Button onClick={handleAdd}>Add</Button>
+          <Button htmlType="submit">Add</Button>
         </Form.Item>
       </Form>
       {list.map((item, index) => {
@@ -49,7 +64,7 @@ function TodoList() {
             <Checkbox
               className="mr-2"
               checked={item.finished}
-              onChange={(evt) => handleCheck(index, evt)}
+              onChange={() => handleCheck(index)}
             />
             <span className={item.finished ? 'finished' : ''}>
               {item.content}
