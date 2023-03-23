@@ -33,7 +33,10 @@ export class VAxios {
     })
   }
 
-  request(config: AxiosRequestConfig, options?: RequestOptions) {
+  request<T = any>(
+    config: AxiosRequestConfig,
+    options?: RequestOptions
+  ): Promise<T> {
     return new Promise((resolve, reject) => {
       this.axiosInstance
         .request(config)
@@ -50,14 +53,22 @@ export class VAxios {
     })
   }
 
-  get(url: string, data: any) {
-    // return request()
+  get<T = any>(
+    config: AxiosRequestConfig,
+    options?: RequestOptions
+  ): Promise<T> {
+    return this.request<T>({ ...config, method: 'GET' }, options)
   }
   post<T = any>(
     config: AxiosRequestConfig,
     options?: RequestOptions
   ): Promise<T> {
-    return this.request({ ...config, method: 'POST' }, options)
+    return this.request<T>({ ...config, method: 'POST' }, options)
   }
-  put() {}
+  put<T = any>(
+    config: AxiosRequestConfig,
+    options?: RequestOptions
+  ): Promise<T> {
+    return this.request<T>({ ...config, method: 'PUT' }, options)
+  }
 }

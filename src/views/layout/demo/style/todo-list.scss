@@ -7,9 +7,30 @@ $todo-prefix-cls: #{$namespace}-todo-list;
     padding: 12px;
   }
 
+  &-container {
+    max-height: calc(6 * 40px);
+    overflow-y: scroll;
+    // scrollbar-width: 4px;
+    &::-webkit-scrollbar {
+      display: block;
+      width: 6px;
+      background-color: #f1f1f1;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 8px;
+      background-color: #c5c3c3;
+    }
+  }
+
   &_item {
     height: 42px;
     border-bottom: 1px solid #eee;
+    &_content {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
 
   &_func-list {

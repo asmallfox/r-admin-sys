@@ -2,10 +2,17 @@ import type { CheckboxChangeEvent } from 'antd/es/checkbox'
 import { Card, Form, Input, Button, Checkbox } from 'antd'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { useDesign } from '@/hooks/web/useDesign'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { useMessage } from '@/hooks/web/useMessage'
+import { getTodoListApi, addTodoListApi } from '@/api'
 import './style/todo-list.scss'
+
+interface TodoListItem {
+  id?: string | number
+  content: string
+  finished: boolean
+}
 
 function TodoList() {
   const { prefixCls } = useDesign('todo-list')
@@ -14,36 +21,50 @@ function TodoList() {
 
   const [form] = Form.useForm()
 
-  const [list, setList] = useState([
-    {
-      finished: false,
-      content: 'list1'
-    },
-    {
-      finished: true,
-      content: 'list12'
-    }
-  ])
+  const [list, setList] = useState<TodoListItem[]>([])
 
-  const handleFinish = (values: { content: string }) => {
+  const handleFinish = async (values: { content: string }) => {
     const { content } = values
     if (!content) return
-    const exist = list.some(item => item.content === content)
+    const exist = list.some((item) => item.content === content)
     if (exist) {
       createMessage.warning({
         content: '标签内容已存在'
       })
     } else {
-      setList([{ finished: false, content }, ...list])
-      form.resetFields()
+      try {
+        const requestParams = {
+          content,
+          finished: false
+        }
+        await addTodoListApi(requestParams)
+        await fetchData()
+        form.resetFields()
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
-
 
   const handleCheck = (index: number) => {
     list[index].finished = !list[index].finished
     setList([...list])
   }
+
+  const fetchData = async () => {
+    try {
+      const res = await getTodoListApi()
+      if (res?.rows?.length) {
+        setList([...res.rows])
+      }
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
 
   return (
     <Card className={prefixCls} title="THINGS TO DO" hoverable>
@@ -55,26 +76,27 @@ function TodoList() {
           <Button htmlType="submit">Add</Button>
         </Form.Item>
       </Form>
-      {list.map((item, index) => {
-        return (
-          <div
-            className={`${prefixCls}_item flex items-center`}
-            key={item.content}
-          >
-            <Checkbox
-              className="mr-2"
-              checked={item.finished}
-              onChange={() => handleCheck(index)}
-            />
-            <span className={item.finished ? 'finished' : ''}>
-              {item.content}
-            </span>
-          </div>
-        )
-      })}
+      <div className={`${prefixCls}-container`}>
+        {list.map((item, index) => {
+          return (
+            <div
+              className={`${prefixCls}_item flex items-center`}
+              key={item.content}
+            >
+              <Checkbox
+                className="mr-2"
+                checked={item.finished}
+                onChange={() => handleCheck(index)}
+              />
+              <span className={`${item.finished ? 'finished' : ''} ${prefixCls}_item_content`}>
+                {item.content}
+              </span>
+            </div>
+          )
+        })}
+      </div>
       <div className={`${prefixCls}_func-list flex items-center px-2`}>
-        <PlusCircleOutlined />
-        <span className="ml-4">{list.length} </span>
+        <span className="">count: {list.length} </span>
       </div>
     </Card>
   )
