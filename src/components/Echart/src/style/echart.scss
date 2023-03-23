@@ -1,0 +1,6 @@
+$echart-prefix-cls: #{$namespace}-echart;
+
+.#{$echart-prefix-cls} {
+  width: 100%;
+  height: 400px;
+}

@@ -2,7 +2,7 @@ import type { CheckboxChangeEvent } from 'antd/es/checkbox'
 import { Card, Form, Input, Button, Checkbox } from 'antd'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { useDesign } from '@/hooks/web/useDesign'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react'
 
 import { useMessage } from '@/hooks/web/useMessage'
 import { getTodoListApi, addTodoListApi } from '@/api'
@@ -22,6 +22,7 @@ function TodoList() {
   const [form] = Form.useForm()
 
   const [list, setList] = useState<TodoListItem[]>([])
+  const [btnDisabled, setBtnDisabled] = useState(true)
 
   const handleFinish = async (values: { content: string }) => {
     const { content } = values
@@ -37,12 +38,21 @@ function TodoList() {
           content,
           finished: false
         }
+        setBtnDisabled(true)
         await addTodoListApi(requestParams)
         await fetchData()
         form.resetFields()
       } catch (error) {
         console.error(error)
       }
+    }
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e?.target?.value === '') {
+      setBtnDisabled(true)
+    } else if (btnDisabled) {
+      setBtnDisabled(false)
     }
   }
 
@@ -70,10 +80,12 @@ function TodoList() {
     <Card className={prefixCls} title="THINGS TO DO" hoverable>
       <Form form={form} className="flex" onFinish={handleFinish}>
         <Form.Item className="flex-1 mr-1" name="content">
-          <Input placeholder="请输入要添加标签内容" />
+          <Input placeholder="请输入要添加标签内容" onChange={handleChange} />
         </Form.Item>
         <Form.Item>
-          <Button htmlType="submit">Add</Button>
+          <Button htmlType="submit" disabled={btnDisabled}>
+            Add
+          </Button>
         </Form.Item>
       </Form>
       <div className={`${prefixCls}-container`}>
@@ -88,7 +100,11 @@ function TodoList() {
                 checked={item.finished}
                 onChange={() => handleCheck(index)}
               />
-              <span className={`${item.finished ? 'finished' : ''} ${prefixCls}_item_content`}>
+              <span
+                className={`${
+                  item.finished ? 'finished' : ''
+                } ${prefixCls}_item_content`}
+              >
                 {item.content}
               </span>
             </div>
@@ -96,7 +112,7 @@ function TodoList() {
         })}
       </div>
       <div className={`${prefixCls}_func-list flex items-center px-2`}>
-        <span className="">count: {list.length} </span>
+        <span>count: {list.length} </span>
       </div>
     </Card>
   )

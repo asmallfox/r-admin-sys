@@ -14,9 +14,18 @@ function AppLayout() {
   return (
     <Layout className={prefixCls}>
       <SideBar collapsed={collapsed}></SideBar>
-      <Layout className={`${prefixCls}-site`}>
+      <Layout className={`${prefixCls}-site`} style={{background: '#f0f2f5'}}>
         <LayoutHeader collapsed={collapsed} setCollapsed={setCollapsed} />
         <Layout.Content
+          style={{
+            margin: '24px 16px',
+            padding: 24,
+            minHeight: 280,
+          }}
+        >
+          <Outlet />
+        </Layout.Content>
+        {/* <Layout.Content
           style={{
             margin: '24px 16px',
             padding: 24,
@@ -25,7 +34,7 @@ function AppLayout() {
           }}
         >
           <Outlet />
-        </Layout.Content>
+        </Layout.Content> */}
       </Layout>
     </Layout>
   )
