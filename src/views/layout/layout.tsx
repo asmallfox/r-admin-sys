@@ -5,6 +5,8 @@ import { SideBar } from '@/components/SideBar'
 import { LayoutHeader } from '@/components/Header'
 import { useDesign } from '@/hooks/web/useDesign'
 
+import "./style/layout.scss"
+
 function AppLayout() {
   const { prefixCls } = useDesign('layout')
   const [collapsed, setCollapsed] = useState(false)
@@ -14,27 +16,11 @@ function AppLayout() {
   return (
     <Layout className={prefixCls}>
       <SideBar collapsed={collapsed}></SideBar>
-      <Layout className={`${prefixCls}-site`} style={{background: '#f0f2f5'}}>
+      <Layout className={`${prefixCls}-site`} style={{ background: '#f0f2f5' }}>
         <LayoutHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-        <Layout.Content
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-          }}
-        >
+        <Layout.Content className={`${prefixCls}-site_content p-4`}>
           <Outlet />
         </Layout.Content>
-        {/* <Layout.Content
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer
-          }}
-        >
-          <Outlet />
-        </Layout.Content> */}
       </Layout>
     </Layout>
   )

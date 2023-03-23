@@ -2,8 +2,8 @@ import type { RouterRaws } from '../types'
 
 import { Navigate } from 'react-router-dom'
 import { AppstoreOutlined } from '@ant-design/icons'
-import Analysis from '@/views/layout//dashboard/analysis'
-import Workspace from '@/views/layout/dashboard/workspace'
+import Analysis from '@/views/layout/dashboard/analysis/analysis'
+import Workspace from '@/views/layout/dashboard/workspace/workspace'
 
 export const Dashboard: RouterRaws[] = [
   {

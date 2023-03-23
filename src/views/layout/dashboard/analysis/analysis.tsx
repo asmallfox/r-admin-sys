@@ -12,7 +12,7 @@ const Analysis = () => {
 
   const times = new Array(19).fill(0).map((_, index) => `${index + 5}:00`)
   const moths = new Array(12).fill(0).map((_, index) => `${index + 1}月`)
-  console.log(times,moths)
+  console.log(times, moths)
 
   const options1 = {
     tooltip: {},
@@ -30,19 +30,32 @@ const Analysis = () => {
   }
 
   const options2 = {
-    tooltip: {},
-    xAxis: {
-      data: [1, 2, 3, 45]
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'line',
+      }
     },
-    yAxis: {},
+    xAxis: [
+      {
+        type: 'category',
+        boundaryGap: false,
+        data: new Array(18).fill(0).map((_, index) => `${index + 6}:00`)
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value'
+      }
+    ],
     series: [
       {
-        name: 'title',
         type: 'bar',
-        data: ['', 100, 200, 300]
+        color: '#37a3db',
+        data: [200, 300, 100, 500, 50, 79, 675, 399, 234, 800, 1200, 200, 123, 654, 900, 233, 122, 700]
       }
     ]
-  }
+  };
 
   const tagPanels = [
     {
@@ -86,7 +99,7 @@ const Analysis = () => {
 
   return (
     <div className={prefixCls}>
-      {/* <div className="flex justify-between">
+      <div className="flex justify-between mb-3">
         {tagPanels.map((item) => {
           return (
             <Card
@@ -109,8 +122,10 @@ const Analysis = () => {
             </Card>
           )
         })}
-      </div> */}
-      <Echart options={options2} />
+      </div>
+      <Card>
+        <Echart options={options2} />
+      </Card>
     </div>
   )
 }

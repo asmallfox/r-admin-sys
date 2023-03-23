@@ -1,13 +1,11 @@
-$header-prefix-cls: #{$namespace}-header;
-
-$bread-prefix-cls: '#{$header-prefix-cls}-bread';
-
-$tag-prefix-cls: '#{$header-prefix-cls}-tag';
+$prefix-cls: #{$namespace}-header;
 
 $tag-color-active: '#0960db';
 
-.#{$header-prefix-cls} {
-  .#{$bread-prefix-cls} {
+.#{$prefix-cls} {
+  height: 80px;
+  &-bread {
+    height: 48px;
     & .trigger {
       cursor: pointer;
       font-size: 18px;
@@ -16,52 +14,51 @@ $tag-color-active: '#0960db';
         color: #1890ff;
       }
     }
-  }
 
-  &-menu {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    &:hover {
-      background-color: #e5e5e5;
-    }
-  }
-}
-
-.#{$tag-prefix-cls} {
-  background-color: pink;
-  margin: 1px 0;
-  height: 28px;
-  background-color: #fff;
-  box-sizing: border-box;
-  display: flex;
-  white-space: nowrap;
-  &-item {
-    line-height: 26px;
-    font-size: 12px;
-    background-color: #fff;
-    &__action {
-      color: #fff;
-      background-color: #{$tag-color-active};
-    }
-    &:hover {
-      cursor: pointer;
-    }
-    &:hover:not(&__action) {
-      transition: 1s;
-      color: #{$tag-color-active};
-      .ant-tag-close-icon {
-        color: #{$tag-color-active};
+    &-menu {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      &:hover {
+        background-color: #e5e5e5;
       }
     }
+  }
 
-    .ant-tag-close-icon {
-      color: #fff;
-      width: 12px;
+  &-tag {
+    height: 28px;
+    margin: 1px 0;
+    background-color: #fff;
+    box-sizing: border-box;
+    display: flex;
+    white-space: nowrap;
+    &-item {
+      line-height: 26px;
+      font-size: 12px;
+      background-color: #fff;
+      &__action {
+        color: #fff;
+        background-color: #{$tag-color-active};
+      }
       &:hover {
-        color: inherit;
-        font-size: 12px;
+        cursor: pointer;
+      }
+      &:hover:not(&__action) {
+        transition: 1s;
+        color: #{$tag-color-active};
+        .ant-tag-close-icon {
+          color: #{$tag-color-active};
+        }
+      }
+
+      .ant-tag-close-icon {
+        color: #fff;
+        width: 12px;
+        &:hover {
+          color: inherit;
+          font-size: 12px;
+        }
       }
     }
   }
