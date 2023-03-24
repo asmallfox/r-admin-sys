@@ -1,3 +1,3 @@
-import Echart from './src/Echart'
+import EChart from './src/Echart'
 
-export { Echart }
+export { EChart }

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.2/echarts.common.min.js" integrity="sha512-Zo4VYLfEAz0Vxyiohkl7bCDIWl2uQ8yZc/StiJ8RFEK6ms5eXtvOOErLhnGHxuTO1+r3jGBWAzU4wu1AK2aTRg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+  <div id="myChart" style="width: 100vw; height: 400px;"></div>
+  <script>
+    (function () {
+      const myChart = echarts.init(document.querySelector('#myChart'))
+
+      const option = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'line',
+          }
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: new Array(18).fill(0).map((_, index) => `${index + 6}:00`)
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: [
+          {
+            type: 'bar',
+            color: '#37a3db',
+            data: [200, 300, 100, 500, 50, 79, 675, 399, 234, 800, 1200, 200, 123, 654, 900, 233, 122, 700]
+          }
+        ]
+      };
+
+      myChart.setOption(option)
+    })();
+  </script>
+</body>
+
+</html>

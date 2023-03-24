@@ -1,17 +1,12 @@
 import * as echarts from 'echarts'
 import { useEffect, useRef } from 'react'
-import { useDesign } from '@/hooks/web/useDesign'
-
-import './style/echart.scss'
-
 interface PropsType {
-  width: string
-  height: string
-  options: any
+  width?: string
+  height?: string
+  option: any
 }
 
-const Eachrt = (props: PropsType) => {
-  const { prefixCls } = useDesign('echart')
+const EChart = (props: PropsType) => {
   const chartRef = useRef<HTMLDivElement>(null)
 
   const defaultOptions = {
@@ -20,31 +15,28 @@ const Eachrt = (props: PropsType) => {
       right: '0',
       bottom: '3%',
       containLabel: true
-    },
+    }
   }
 
-  const options = {
+  const option = {
     ...defaultOptions,
-    ...props.options,
+    ...props.option
   }
-
   const initChart = () => {
     const chartInstance = echarts.init(chartRef.current)
-    chartInstance.setOption(options)
-
+    chartInstance.setOption(option)
     return chartInstance
   }
 
   useEffect(() => {
-    const instance = initChart()
-    window.addEventListener('resize', () => {
-      instance.resize()
+    setTimeout(() => {
+      const instance = initChart()
+      window.addEventListener('resize', () => {
+        instance.resize()
+      })
     })
-  })
+  }, [])
 
-  // return <div className={prefixCls} ref={chartRef} />
-  return <div style={{width: '100%'}}>
-    <div ref={chartRef} style={{height: '400px'}} ></div>
-  </div>
+  return <div ref={chartRef} style={{ width: '100%', height: '280px' }} />
 }
-export default Eachrt
+export default EChart
