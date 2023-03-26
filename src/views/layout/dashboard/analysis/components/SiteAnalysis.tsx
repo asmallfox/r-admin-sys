@@ -4,7 +4,9 @@ import React, { useState } from 'react'
 import TrafficTrend from './TrafficTrend'
 import Visits from './Visits'
 
-function SiteAnalysis() {
+function SiteAnalysis(props: { loading?: boolean }) {
+  const { loading } = props
+
   const tabListTitle = [
     {
       key: 'trafficTrend',
@@ -32,6 +34,7 @@ function SiteAnalysis() {
       tabList={tabListTitle}
       activeTabKey={activeTabKey}
       onTabChange={onTabChange}
+      loading={loading}
     >
       {contentList[activeTabKey]}
     </Card>

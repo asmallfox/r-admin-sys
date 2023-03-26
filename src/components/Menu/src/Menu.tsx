@@ -1,5 +1,5 @@
 import type { MenuProps } from 'antd'
-import { joinPath, MenuItem } from '@/router/menu'
+import { joinPath } from '@/router/menu'
 
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
@@ -21,11 +21,7 @@ export function LayoutMenu(props: { collapsed: boolean }) {
   const [selectKey, setSelectKey] = useState(pathSplits.slice(-1))
   const [openKeys, setOpenKeys] = useState(pathSplits)
   const menus = getMenus()
-  const getOpenKeys = (
-    menus: MenuItem[],
-    key: string,
-    result: string[] = []
-  ) => {
+  const getOpenKeys = (menus, key: string, result: string[] = []) => {
     const existsCurrentMenu = menus.find((item) => item!.key === key)
     if (existsCurrentMenu) {
       result.push(key)
@@ -53,7 +49,6 @@ export function LayoutMenu(props: { collapsed: boolean }) {
     const { key, keyPath } = evt
     const keys = keyPath.filter((path) => key !== path)
     const routePath = joinPath(keyPath.reverse())
-    dispatch(setTags(getRouteMapItem(routePath)))
     setOpenKeys(keys)
     navigate(routePath)
   }
@@ -63,9 +58,16 @@ export function LayoutMenu(props: { collapsed: boolean }) {
     if (selectKey[0] !== pathSplits.at(-1)) {
       setSelectKey(pathSplits.slice(-1))
     }
-    dispatch(setTags(getRouteMapItem(location.pathname)))
+    const routeMapItem = getRouteMapItem(location.pathname)
+    if (!routeMapItem?.children?.length) {
+      dispatch(
+        setTags({
+          label: routeMapItem?.meta?.title,
+          path: routeMapItem.path
+        })
+      )
+    }
   }, [props, location])
-
   return (
     <div className={prefixCls}>
       <Menu

@@ -15,10 +15,10 @@ function AppLayout() {
   } = theme.useToken()
   return (
     <Layout className={prefixCls}>
-      <SideBar collapsed={collapsed}></SideBar>
+      <SideBar collapsed={collapsed} />
       <Layout className={`${prefixCls}-site`} style={{ background: '#f0f2f5' }}>
         <LayoutHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-        <Layout.Content className={`${prefixCls}-site_content p-4`}>
+        <Layout.Content className={`${prefixCls}-site_content p-4 overflow-x-hidden`}>
           <Outlet />
         </Layout.Content>
       </Layout>

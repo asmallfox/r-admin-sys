@@ -23,7 +23,7 @@ export function transformRouteToMenu(routes: RouterRaws[] = []) {
   const getFormatMenu = (formatMenu: any[]) => {
     for (const item of formatMenu) {
       item.label = item?.meta?.title
-      item.title = item?.meta?.title
+      // item.title = item?.meta?.title
       item.icon = item?.meta?.icon
       item.key = pathSnippets(item.path)[0]
       if (item?.children?.length) {
@@ -36,7 +36,7 @@ export function transformRouteToMenu(routes: RouterRaws[] = []) {
 }
 
 /* 获取路由信息 */
-export function getRouteMapItem(path: string) {
+export function getRouteMapItem(path: string): RouterRaws {
   const routePaths = pathSnippets(path)
   const menuList = getMenus()
   const getRouteItem = (menus: MenuItem[], paths: string[]): ItemType => {
@@ -49,7 +49,7 @@ export function getRouteMapItem(path: string) {
   }
   const routeItem = getRouteItem(menuList, routePaths)
   return {
-    label: routeItem.label,
+    ...routeItem,
     path
   }
 }

@@ -19,17 +19,13 @@ export const menuSlice = createSlice({
   reducers: {
     setTags: (state, action) => {
       const { payload: menuItem } = action
-      if (
-        !state.tagList.some((item) => item.path === menuItem.path)
-      ) {
-        state.tagList.push(menuItem)
+      if (!state.tagList.some((item) => item.path === menuItem.path)) {
+        state.tagList.push({ label: menuItem.label, path: menuItem.path })
       }
     },
     removeTag: (state, action) => {
       const { payload: path } = action
-      const index = state.tagList.findIndex(
-        (item) => item.path === path
-      )
+      const index = state.tagList.findIndex((item) => item.path === path)
       if (index !== -1) {
         state.tagList.splice(index, 1)
       }

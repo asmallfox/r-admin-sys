@@ -1,0 +1,7 @@
+$prefix-cls: '#{$namespace}-analysis';
+
+.#{$prefix-cls} {
+  .ant-card-head-title {
+    font-weight: normal;
+  }
+}
