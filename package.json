@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host --port 3301",
+    "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "prettier": "prettier write .",

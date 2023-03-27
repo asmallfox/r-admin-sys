@@ -34,7 +34,7 @@ const list = [
 export default [
   // 获取todo-list列表
   {
-    url: '/lege-api/todo-list',
+    url: '/basic-api/todo-list',
     method: 'get',
     response: (requestConfig: AxiosRequestConfig) => {
       const { query, headers } = requestConfig
@@ -50,7 +50,7 @@ export default [
   },
   // 添加项
   {
-    url: '/lege-api/todo-list',
+    url: '/basic-api/todo-list',
     method: 'put',
     response: (requestConfig: AxiosRequestConfig) => {
       const { body, headers } = requestConfig

@@ -15,7 +15,7 @@ import localCache from '@/utils/localStore'
 import { PageEnum } from '@/enums/pageEnum'
 
 function HeaderMenu() {
-  const { prefixCls } = useDesign('headser-menu')
+  const { prefixCls } = useDesign('header-menu')
   const navigate = useNavigate()
   const [isModalOpen, setModalOpen] = useState(false)
 

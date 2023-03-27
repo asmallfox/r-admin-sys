@@ -1,8 +1,10 @@
 import { VAxios } from './Axios'
 
+const { VITE_GLOB_API_URL } = import.meta.env
+
 export function createAxios(opt?: any) {
   return new VAxios({
-    baseURL: '/lege-api',
+    baseURL: VITE_GLOB_API_URL,
     timeout: 5000,
     headers: {
       'Content-Type': 'application/json'

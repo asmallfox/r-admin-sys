@@ -20,10 +20,15 @@ $tag-color-active: '#0960db';
       display: flex;
       align-items: center;
       padding: 0 10px;
+      cursor: pointer;
       &:hover {
         background-color: #e5e5e5;
       }
     }
+  }
+
+  &-menu {
+    cursor: pointer;
   }
 
   &-tag {

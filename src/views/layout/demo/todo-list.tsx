@@ -1,8 +1,6 @@
-import type { CheckboxChangeEvent } from 'antd/es/checkbox'
 import { Card, Form, Input, Button, Checkbox } from 'antd'
-import { PlusCircleOutlined } from '@ant-design/icons'
 import { useDesign } from '@/hooks/web/useDesign'
-import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useMessage } from '@/hooks/web/useMessage'
 import { getTodoListApi, addTodoListApi } from '@/api'

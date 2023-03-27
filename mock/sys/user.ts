@@ -3,7 +3,7 @@ import { MockMethod } from 'vite-plugin-mock'
 export default [
   // mock user login
   {
-    url: '/lege-api/login',
+    url: '/basic-api/login',
     method: 'post',
     response: ({ body }) => {
       const { username, password } = body
