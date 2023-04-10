@@ -1,7 +1,7 @@
 import type { EChartOption } from './types'
 
 import * as echarts from 'echarts'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 
 interface PropsType {

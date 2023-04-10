@@ -11,7 +11,8 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
   const root = process.cwd()
   const env = loadEnv(mode, root)
 
-  const { VITE_PORT, VITE_PROXY, VITE_PUBLIC_PATH } = env
+  const { VITE_PORT, VITE_PUBLIC_PATH } = env
+  // const { VITE_PORT, VITE_PROXY, VITE_PUBLIC_PATH } = env
   return {
     base: VITE_PUBLIC_PATH,
     root,

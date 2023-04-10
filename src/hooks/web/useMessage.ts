@@ -1,5 +1,6 @@
 import type { ArgsProps } from 'antd/lib/notification/interface'
-import { Modal, message, notification } from 'antd'
+import { message, notification } from 'antd'
+// import { Modal, message, notification } from 'antd'
 
 export interface Notification {
   success: (config: ArgsProps) => void
@@ -20,20 +21,20 @@ message.config({
   maxCount: 3
 })
 
-const createModal = () => {
-  return Modal
-}
+// const createModal = () => {
+//   return Modal
+// }
 
-const createConfirm = (options: ArgsProps) => {
-  const opt = {
-    centered: true
-  }
-}
+// const createConfirm = (options: ArgsProps) => {
+//   const opt = {
+//     centered: true
+//   }
+// }
 
 export function useMessage() {
   return {
     notification,
-    createConfirm,
+    // createConfirm,
     createMessage: message
   }
 }

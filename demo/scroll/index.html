@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        /* user-select: none; */
+      }
+      .scroll {
+        margin: 50px;
+        width: 200px;
+        height: 200px;
+        border: 1px solid #eee;
+        position: relative;
+      }
+
+      .scroll:hover .scroll-thumb {
+        opacity: 1;
+      }
+      .scroll_wrap {
+        height: 100%;
+        overflow: auto;
+      }
+      .scroll_wrap::-webkit-scrollbar {
+        width: 8px;
+      }
+      .scroll_wrap::-webkit-scrollbar-thumb {
+        display: none;
+      }
+      .scroll-thumb {
+        width: 6px;
+        height: 20px;
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.2);
+        top: 0;
+        right: 0;
+        border-radius: 8px;
+        transition: opacity 0.8s;
+        opacity: 0;
+      }
+      .scroll-thumb:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+      .scroll-thumb_action {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scroll">
+      <div class="scroll_wrap"></div>
+      <div class="scroll-thumb"></div>
+    </div>
+    <script>
+      const scroll = document.querySelector('.scroll')
+      const wrap = document.querySelector('.scroll_wrap')
+      const thumb = document.querySelector('.scroll-thumb')
+
+      wrap.innerHTML = new Array(100)
+        .fill(0)
+        .map((_, index) => {
+          return `<div>------${index}</div>`
+        })
+        .join('')
+
+      wrap.addEventListener('scroll', (evt) => {
+        const scrollTop = evt.target.scrollTop
+        const top = Math.ceil(
+          scrollTop /
+            ((wrap.scrollHeight - 200) /
+              (wrap.offsetHeight - thumb.offsetHeight))
+        )
+        thumb.style.transform = `translateY(${top}px)`
+      })
+
+      thumb.style.height = `${(wrap.scrollHeight / wrap.offsetHeight) * 4}px`
+
+      let downOffsetY = 0
+      const handleMousedown = (e) => {
+        downOffsetY = e.offsetY
+        thumb.classList.add('scroll-thumb_action')
+        window.getSelection().removeAllRanges()
+        e.stopImmediatePropagation()
+        document.addEventListener('mousemove', handleMousemove)
+        document.addEventListener('mouseleave', handleMouseleave)
+        document.addEventListener('mouseup', handleMouseleave)
+      }
+
+      const handleMousemove = (evt) => {
+        // window.getSelection().removeAllRanges()
+
+        const scrollTop = evt.pageY - downOffsetY - 50
+        if (
+          scrollTop >= 0 &&
+          scrollTop < scroll.offsetHeight - thumb.offsetHeight
+        ) {
+          thumb.style.transform = `translateY(${scrollTop}px)`
+          wrap.scrollTop =
+            ((wrap.scrollHeight - 200) /
+              (wrap.offsetHeight - thumb.offsetHeight)) *
+            scrollTop
+        }
+      }
+
+      const handleMouseleave = () => {
+        document.removeEventListener('mousemove', handleMousemove)
+        document.removeEventListener('mouseup', handleMousemove)
+        thumb.classList.remove('scroll-thumb_action')
+      }
+
+      thumb.addEventListener('mousedown', handleMousedown)
+    </script>
+
+    <script>
+      /* 
+        offsetY 距离当前元素的Y坐标
+      */
+    </script>
+  </body>
+</html>

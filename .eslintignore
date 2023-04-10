@@ -1,5 +1,8 @@
-node_modules
-dist
+/node_modules
+/dist
 /public
+src/store/demo
+demo/**
+.eslintrc.cjs
 .husky
 .vscode

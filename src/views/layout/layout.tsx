@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Layout, theme } from 'antd'
+import { Layout } from 'antd'
+// import { Layout, theme } from 'antd'
 import { Outlet } from 'react-router-dom'
 import { SideBar } from '@/components/SideBar'
 import { LayoutHeader } from '@/components/Header'
@@ -10,9 +11,10 @@ import "./style/layout.scss"
 function AppLayout() {
   const { prefixCls } = useDesign('layout')
   const [collapsed, setCollapsed] = useState(false)
-  const {
-    token: { colorBgContainer }
-  } = theme.useToken()
+  // const {
+  //   token: { colorBgContainer }
+  // } = theme.useToken()
+  console.log('====== layout =======')
   return (
     <Layout className={prefixCls}>
       <SideBar collapsed={collapsed} />
