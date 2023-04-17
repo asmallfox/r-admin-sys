@@ -1,101 +1,36 @@
 import '../styles/index.scss'
 
 import { useDesign } from '@/hooks/web/useDesign'
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useCallback,
-  useState
-} from 'react'
+import { useEffect, useRef, useState, useContext, createContext } from 'react'
+
+import Thumb from './Thumb'
+import { ScrollBarContext, ScrollBarContextType } from './scrollbarContext'
 
 interface PropsType {
   children?: JSX.Element
+  maxHeight?: string
+  minSize?: number
 }
-
 function ScrollBar(props: PropsType) {
-  const { children } = props
+  const { children, minSize = 20 } = props
   const { prefixCls } = useDesign('scroll')
 
   const wrapRef = useRef<HTMLDivElement>(null)
   const thumbRef = useRef<HTMLDivElement>(null)
+  const [scale, setScale] = useState(1)
+  const value: ScrollBarContextType = { wrapElement: wrapRef }
 
-  const [wrapHeight, setWrapHeight] = useState(0)
-
-  const thumbStyle = {
-    transform: 'translateY(0px)'
-  }
-
-  let currentDown = false
-  let thumbState = 0
-
-  let wrapElement: DOMRect
-
-  const mouseDownHandler = (e: React.MouseEvent) => {
-    currentDown = true
-    window.getSelection()?.removeAllRanges()
-    handleMouseEvent(e)
-
-    thumbState = wrapElement.top + e.nativeEvent.offsetY
-  }
-
-  const handleMouseEvent = (e: React.MouseEvent) => {
-    e.nativeEvent.stopImmediatePropagation()
-    document.addEventListener('mousemove', mouseMoveHandler)
-    document.addEventListener('mouseup', mouseUpHandler)
-  }
-
-  const mouseMoveHandler = (e: MouseEvent) => {
-    const scrollTop = e.pageY - thumbState
-    const thumbElement = thumbRef.current
-    if (thumbElement) {
-      if (
-        scrollTop >= 0 &&
-        scrollTop <= wrapElement.height - thumbElement.offsetHeight
-      ) {
-        setThumbStyle(scrollTop)
-        const wrapElement = wrapRef.current
-        wrapRef.current.scrollTop =
-          (wrapElement.scrollHeight / wrapElement.offsetHeight) * scrollTop
-      }
-    }
-  }
-  const mouseUpHandler = (e: MouseEvent) => {
-    if (currentDown) {
-      currentDown = false
-      thumbState = 0
-      document.removeEventListener('mousemove', mouseMoveHandler)
-    }
-  }
+  const [thumbSize, setThumbSize] = useState('0')
+  const [thumbMove, setThumbMove] = useState('0')
 
   const handleScroll = (e) => {
-    const { scrollTop, offsetHeight, scrollHeight } = e.target
-    const move =
-      scrollTop /
-      ((scrollHeight - offsetHeight) /
-        (offsetHeight - thumbRef.current?.offsetHeight))
-    setThumbStyle(move)
+    const scrollTop = e.target.scrollTop
+    setThumbMove(((scrollTop * 100) / wrapRef.current.offsetHeight) * scale)
   }
-
-  const setThumbStyle = (move: number) => {
-    if (thumbRef.current) {
-      thumbRef.current.style.transform = `translateY(${move}px)`
-    }
-  }
-
-  useEffect(() => {
-    wrapElement = wrapRef.current?.getBoundingClientRect() as DOMRect
-    if (thumbRef.current && wrapRef.current) {
-      thumbRef.current.style.height = `${
-        (wrapRef.current.offsetHeight / wrapRef.current.scrollHeight) *
-        wrapRef.current.offsetHeight
-      }px`
-    }
-  }, [])
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver(() => {
-      console.log('========')
+      update()
     })
     if (wrapRef.current) {
       resizeObserver.observe(wrapRef.current)
@@ -103,20 +38,31 @@ function ScrollBar(props: PropsType) {
     return () => resizeObserver.disconnect()
   }, [])
 
+  const update = () => {
+    if (wrapRef.current) {
+      const offsetHeight = wrapRef.current.offsetHeight
+      const scrollHeight = wrapRef.current.scrollHeight
+
+      const originalHeight = offsetHeight ** 2 / scrollHeight
+      const height = Math.max(originalHeight, minSize)
+
+      const bl =
+        originalHeight /
+        (offsetHeight - originalHeight) /
+        (height / (offsetHeight - height))
+      setScale(bl)
+      setThumbSize(`${height}px`)
+    }
+  }
+
   return (
     <div className={prefixCls}>
-      <div
-        className={`${prefixCls}-wrap`}
-        ref={wrapRef}
-        onScroll={handleScroll}
-      >
+      <div className={`${prefixCls}-wrap`} ref={wrapRef} onScroll={handleScroll}>
         {children}
       </div>
-      <div
-        ref={thumbRef}
-        className={`${prefixCls}-thumb`}
-        onMouseDown={mouseDownHandler}
-      ></div>
+      <ScrollBarContext.Provider value={value}>
+        <Thumb scrollEvent={handleScroll} size={thumbSize} move={thumbMove} />
+      </ScrollBarContext.Provider>
     </div>
   )
 }

@@ -18,9 +18,9 @@ const Analysis = () => {
 
   return (
     <div className={prefixCls}>
-      <GrowCard loading={loading} />
+      {/* <GrowCard loading={loading} />
       <SiteAnalysis loading={loading} />
-      <Detail loading={loading} />
+      <Detail loading={loading} /> */}
     </div>
   )
 }

@@ -14,7 +14,6 @@ function AppLayout() {
   // const {
   //   token: { colorBgContainer }
   // } = theme.useToken()
-  console.log('====== layout =======')
   return (
     <Layout className={prefixCls}>
       <SideBar collapsed={collapsed} />
