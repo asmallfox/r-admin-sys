@@ -1,3 +1,4 @@
+import type { EChartOption } from '@/components/Echart'
 import { EChart } from '@/components/Echart'
 import { useDesign } from '@/hooks/web/useDesign'
 import './style/index.scss'
@@ -13,6 +14,23 @@ const NotFount = () => {
     }
     // formattingFn={formattingFn}
     return <CountUp end={value} separator="," />
+  }
+
+  const personOption: EChartOption = {
+    series: [
+      {
+        type: 'pie',
+        radius: ['45%', '70%'],
+        labelLine: {
+          length: 30
+        },
+        color: ['#00ffff', '#c424ff'],
+        data: [
+          { name: '男', value: 80 },
+          { name: '女', value: 123 }
+        ]
+      }
+    ]
   }
 
   return (
@@ -38,6 +56,7 @@ const NotFount = () => {
                 }
               />
             </span>
+            <EChart option={personOption}></EChart>
           </div>
           <div className="flex flex-col items-center flex-1">
             <span>远视力检查人数</span>
