@@ -21,8 +21,8 @@ export function renderThumb({
   bar?: any
 }): CSSProperties {
   const style = {
-    [bar.size]: size,
-    transform: `translate${bar.move}(${move}%)`
+    [bar.size]: `${size}px`,
+    transform: `translate${bar.move}(${move}px)`
   }
   return style
 }

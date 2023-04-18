@@ -1,8 +1,8 @@
-import { Card, Tag, Statistic } from 'antd'
+import type { CSSProperties } from 'react'
 import CountUp from 'react-countup'
+import { Card, Tag, Statistic } from 'antd'
 import { Icon } from '@/components/Icon'
 import { growCardList } from '../data'
-import { CSSProperties } from 'react'
 
 function GrowCard(props: { loading?: boolean }) {
   const { loading } = props

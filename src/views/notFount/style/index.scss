@@ -1,0 +1,35 @@
+$prefix-cls: '#{$namespace}-echart';
+
+.#{$prefix-cls} {
+  width: 100vw;
+  height: 100vh;
+  background-color: #011548;
+  color: #fff;
+
+  &-nav {
+    background-color: rgb(6, 28, 82);
+    height: 60px;
+    &_title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+
+  &-person {
+    background-color: rgb(6, 28, 82);
+    height: 164px;
+    width: 33%;
+    .title {
+      text-align: center;
+      line-height: 40px;
+      font-weight: bold;
+    }
+
+    .count {
+      .ant-statistic {
+        line-height: 1;
+        padding: 0 10px;
+      }
+    }
+  }
+}

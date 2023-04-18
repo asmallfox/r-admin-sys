@@ -1,7 +1,7 @@
 import '../styles/index.scss'
 
 import { useDesign } from '@/hooks/web/useDesign'
-import { useEffect, useRef, useState, useContext, createContext } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import Thumb from './Thumb'
 import { ScrollBarContext, ScrollBarContextType } from './scrollbarContext'
@@ -10,33 +10,29 @@ interface PropsType {
   children?: JSX.Element
   maxHeight?: string
   minSize?: number
+  always?: boolean
 }
 function ScrollBar(props: PropsType) {
-  const { children, minSize = 20 } = props
+  const { children, minSize = 20, always = false } = props
   const { prefixCls } = useDesign('scroll')
 
+  const scrollbarRef = useRef<HTMLDivElement>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
-  const thumbRef = useRef<HTMLDivElement>(null)
-  const [scale, setScale] = useState(1)
-  const value: ScrollBarContextType = { wrapElement: wrapRef }
-
-  const [thumbSize, setThumbSize] = useState('0')
-  const [thumbMove, setThumbMove] = useState('0')
-
-  const handleScroll = (e) => {
-    const scrollTop = e.target.scrollTop
-    setThumbMove(((scrollTop * 100) / wrapRef.current.offsetHeight) * scale)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const value: ScrollBarContextType = {
+    scrollbarElement: scrollbarRef,
+    wrapElement: wrapRef
   }
 
-  useEffect(() => {
-    const resizeObserver = new ResizeObserver(() => {
-      update()
-    })
-    if (wrapRef.current) {
-      resizeObserver.observe(wrapRef.current)
+  const [thumbSize, setThumbSize] = useState(0)
+  const [thumbMove, setThumbMove] = useState(0)
+  const [ratioY, setRatioY] = useState(1)
+
+  const handleScroll = () => {
+    if (wrapRef?.current) {
+      setThumbMove(wrapRef.current.scrollTop * ratioY)
     }
-    return () => resizeObserver.disconnect()
-  }, [])
+  }
 
   const update = () => {
     if (wrapRef.current) {
@@ -46,22 +42,43 @@ function ScrollBar(props: PropsType) {
       const originalHeight = offsetHeight ** 2 / scrollHeight
       const height = Math.max(originalHeight, minSize)
 
-      const bl =
-        originalHeight /
-        (offsetHeight - originalHeight) /
-        (height / (offsetHeight - height))
-      setScale(bl)
-      setThumbSize(`${height}px`)
+      const percY = (offsetHeight - height) / (scrollHeight - offsetHeight)
+      setRatioY(percY)
+      setThumbSize(height < offsetHeight ? height : 0)
     }
   }
 
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(() => {
+      window.requestAnimationFrame(() => {
+        handleScroll()
+        update()
+      })
+    })
+    if (wrapRef.current && contentRef.current) {
+      resizeObserver.observe(wrapRef.current)
+      resizeObserver.observe(contentRef.current)
+    }
+    return () => resizeObserver.disconnect()
+  }, [])
+
   return (
-    <div className={prefixCls}>
-      <div className={`${prefixCls}-wrap`} ref={wrapRef} onScroll={handleScroll}>
-        {children}
+    <div className={prefixCls} ref={scrollbarRef}>
+      <div
+        className={`${prefixCls}-wrap`}
+        ref={wrapRef}
+        onScroll={handleScroll}
+      >
+        <div ref={contentRef}>{children}</div>
       </div>
       <ScrollBarContext.Provider value={value}>
-        <Thumb scrollEvent={handleScroll} size={thumbSize} move={thumbMove} />
+        <Thumb
+          scrollEvent={handleScroll}
+          size={thumbSize}
+          move={thumbMove}
+          ratio={ratioY}
+          always={always}
+        />
       </ScrollBarContext.Provider>
     </div>
   )

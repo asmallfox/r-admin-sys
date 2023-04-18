@@ -71,7 +71,7 @@ export function LayoutMenu(props: { collapsed: boolean }) {
   return (
     <div className={prefixCls}>
       <Menu
-        theme="light"
+        theme="dark"
         mode="inline"
         items={menus}
         selectedKeys={selectKey}
