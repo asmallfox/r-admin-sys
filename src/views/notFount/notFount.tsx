@@ -7,9 +7,12 @@ import { useDesign } from '@/hooks/web/useDesign'
 import './style/index.scss'
 import { Statistic, Select, Progress } from 'antd'
 import CountUp from 'react-countup'
+import { useEffect, useRef } from 'react'
 
 const NotFount = () => {
   const { prefixCls } = useDesign('echart')
+
+  const instance = useRef<HTMLElement>()
 
   const formatter = (value: number) => {
     const formattingFn = (val: number) => {
@@ -127,6 +130,17 @@ const NotFount = () => {
       }
     ]
   }
+
+
+  useEffect(() => {
+    setInterval(() => {
+      if (instance?.current) {
+        instance.current.dispatchAction({
+          type: 'mychart'
+        })
+      }
+    }, 1000)
+  }, [])
 
   return (
     <div className={`${prefixCls} p-2`}>
@@ -253,6 +267,8 @@ const NotFount = () => {
               option={proportionLowVisionOption}
               height="220px"
               width="100%"
+              ref={instance}
+              name="mychart"
             />
           </div>
         </div>

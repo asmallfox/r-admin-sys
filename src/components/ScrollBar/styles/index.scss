@@ -15,15 +15,17 @@ $prefix-cls: #{$namespace}-scroll;
     cursor: pointer;
     position: absolute;
     // background-color: rgba(0, 0, 0, 0.2);
-    background-color: rgba(255, 255, 255, 0.2);
+    // background-color: rgba(255, 255, 255, 0.2);
+    background-color: #c9cacb;
     border-radius: 6px;
-    right: 0;
+    right: 1px;
     top: 0;
     width: 8px;
     z-index: 999;
     &:hover {
-      background-color: rgba(255, 255, 255, 0.4);
+      // background-color: rgba(255, 255, 255, 0.4);
       // background-color: rgba(0, 0, 0, 0.3);
+      background-color: #b0b1b1;
     }
 
     &_visible {

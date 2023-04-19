@@ -2,15 +2,12 @@ import type { EChartOption } from './types'
 
 import * as echarts from 'echarts'
 import { useEffect, useRef } from 'react'
+import { defaultOption } from './config/initEcharts'
 
 interface PropsType {
   width?: string
   height?: string
   option: EChartOption
-}
-
-const defaultOption = {
-  grid: { left: '1%', right: '1%', top: '2%', bottom: 0, containLabel: true }
 }
 
 const RESIZE = 'resize'
@@ -40,9 +37,10 @@ const EChart = (props: PropsType) => {
 
   useEffect(() => {
     if (charOption) {
-      setTimeout(() => {
-        initEChart()
-      }, 200)
+      // setTimeout(() => {
+      //   initEChart()
+      // }, 200)
+      initEChart()
     }
   }, [charOption])
 

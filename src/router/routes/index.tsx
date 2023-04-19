@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom'
 import { PageEnum } from '@/enums/pageEnum'
 
 import Login from '@/views/login/login'
+import LargeScreen from '@/views/layout/echart/largeScreen/largeScreen'
 
 import { NOT_FOUNT_ROUTE } from './basic'
 import AppLayout from '@/views/layout/layout'
@@ -38,4 +39,12 @@ export const LoginRoute: RouterRaws = {
     title: '登录'
   }
 }
-export const basicRoutes = [LoginRoute, ...RootRoute, ...routeModuleList, NOT_FOUNT_ROUTE]
+
+export const LargeScreenRoute: RouterRaws = {
+  path: '/large-screen',
+  element: <LargeScreen />,
+  meta: {
+    title: '可视化大屏'
+  }
+}
+export const basicRoutes = [LargeScreenRoute, LoginRoute, ...RootRoute, ...routeModuleList, NOT_FOUNT_ROUTE]
