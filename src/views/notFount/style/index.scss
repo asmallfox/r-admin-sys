@@ -17,8 +17,8 @@ $prefix-cls: '#{$namespace}-echart';
 
   &-person {
     background-color: rgb(6, 28, 82);
-    height: 164px;
-    width: 33%;
+    height: 256px;
+    width: 34.5%;
     .title {
       text-align: center;
       line-height: 40px;
@@ -29,6 +29,30 @@ $prefix-cls: '#{$namespace}-echart';
       .ant-statistic {
         line-height: 1;
       }
+    }
+  }
+
+  &-proportion {
+    width: 30%;
+    background-color: rgb(6, 28, 82);
+    height: 256px;
+    .title {
+      text-align: center;
+      font-weight: bold;
+    }
+    .count {
+      .ant-statistic {
+        line-height: 1;
+      }
+    }
+  }
+  .ant-select-selector {
+    background-color: #011548 !important;
+    border-color: #011548 !important;
+    color: #fff !important;
+    .ant-select-selection-placeholder {
+      color: #fff;
+      opacity: 0.6;
     }
   }
 }

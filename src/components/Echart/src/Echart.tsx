@@ -3,7 +3,6 @@ import type { EChartOption } from './types'
 import * as echarts from 'echarts'
 import { useEffect, useRef } from 'react'
 
-
 interface PropsType {
   width?: string
   height?: string
@@ -17,7 +16,7 @@ const defaultOption = {
 const RESIZE = 'resize'
 
 const EChart = (props: PropsType) => {
-  const { option: charOption } = props
+  const { option: charOption, width = '100%', height = '280px' } = props
 
   const chartRef = useRef<HTMLDivElement>(null)
 
@@ -54,6 +53,6 @@ const EChart = (props: PropsType) => {
     }
   })
 
-  return <div ref={chartRef} style={{ width: '100%', height: '280px' }} />
+  return <div ref={chartRef} style={{ width, height }} />
 }
 export default EChart
