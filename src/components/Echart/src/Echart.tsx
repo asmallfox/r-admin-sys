@@ -1,19 +1,21 @@
+import type React from 'react'
 import type { EChartOption } from './types'
 
 import * as echarts from 'echarts'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
 import { defaultOption } from './config/initEcharts'
 
 interface PropsType {
   width?: string
   height?: string
   option: EChartOption
+  id?: string
 }
 
 const RESIZE = 'resize'
 
-const EChart = (props: PropsType) => {
-  const { option: charOption, width = '100%', height = '280px' } = props
+const EChart = (props: PropsType, ref?: React.Ref<HTMLElement>) => {
+  const { option: charOption, width = '100%', height = '280px', id } = props
 
   const chartRef = useRef<HTMLDivElement>(null)
 
@@ -29,17 +31,30 @@ const EChart = (props: PropsType) => {
     }
   }
 
+  type DispatchEvent =
+    | boolean
+    | { silent?: boolean; flush?: boolean | undefined }
+
+  useImperativeHandle(
+    ref,
+    (): any => ({
+      dispatchEvent: (payload: echarts.Payload, opt?: DispatchEvent): void => {
+        chartInstance.dispatchAction(payload, opt)
+      },
+      on: (key: string, handler: () => void) => {
+        chartInstance.on(key, handler)
+      }
+    }),
+    []
+  )
+
   const handleResize = () => {
     if (chartInstance) {
       chartInstance.resize()
     }
   }
-
   useEffect(() => {
     if (charOption) {
-      // setTimeout(() => {
-      //   initEChart()
-      // }, 200)
       initEChart()
     }
   }, [charOption])
@@ -49,8 +64,9 @@ const EChart = (props: PropsType) => {
     return () => {
       window.removeEventListener(RESIZE, handleResize)
     }
-  })
+  }, [])
 
-  return <div ref={chartRef} style={{ width, height }} />
+  return <div ref={chartRef} style={{ width, height }} id={id} />
 }
-export default EChart
+
+export default forwardRef(EChart)

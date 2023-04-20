@@ -1,8 +1,9 @@
 import { useDesign } from '@/hooks/web/useDesign'
 
 import LargerScreenHeader from './components/LargerScreenHeader'
-import CountCard from './components/countCard'
-import ProportionCard from './components/proportionCard'
+import CountCard from './components/CountCard'
+import ProportionCard from './components/ProportionCard'
+import DataStatistics from './components/DataStatistics'
 
 import './style/index.scss'
 
@@ -15,7 +16,9 @@ const LargeScreen = () => {
       <div className="flex justify-between">
         <CountCard />
         <ProportionCard />
-        <div className={`${prefixCls}-person`}></div>
+        <div className={`${prefixCls}-person`}>
+          <DataStatistics></DataStatistics>
+        </div>
       </div>
     </div>
   )

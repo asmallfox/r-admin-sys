@@ -131,7 +131,6 @@ const NotFount = () => {
     ]
   }
 
-
   useEffect(() => {
     setInterval(() => {
       if (instance?.current) {
@@ -223,41 +222,51 @@ const NotFount = () => {
         <div className={`${prefixCls}-proportion p-3 flex`}>
           <div className="flex-1">
             <span className="title">视力低下率</span>
-            <div className="count flex items-center mt-3 pl-4">
-              <Statistic
-                valueStyle={{
-                  color: '#03dfd5',
-                  fontFamily: 'aiweishi',
-                  fontSize: '48px',
-                  backgroundColor: '#011548'
-                }}
-                value={1231330}
-                formatter={(val: number | string) =>
-                  formatter(Number(val) ?? 0)
-                }
-              />
-              <span>人</span>
-            </div>
-            <div className="mt-6 pl-4">
-              <div className="mb-4">
-                <div
-                  className="flex justify-between px-2"
-                  style={{ fontSize: '14px' }}
-                >
-                  <span>男</span>
-                  <span>123</span>
-                </div>
-                <Progress percent={10} showInfo={false} trailColor="#ebeef5" />
+            <div className="px-3">
+              <div className="count flex items-center my-3">
+                <Statistic
+                  valueStyle={{
+                    color: '#03dfd5',
+                    fontFamily: 'aiweishi',
+                    fontSize: '48px',
+                    backgroundColor: '#011548'
+                  }}
+                  value={1231330}
+                  formatter={(val: number | string) =>
+                    formatter(Number(val) ?? 0)
+                  }
+                />
+                <span>人</span>
               </div>
-              <div>
-                <div
-                  className="flex justify-between px-2"
-                  style={{ fontSize: '14px' }}
-                >
-                  <span>女</span>
-                  <span>123</span>
+              <div className="">
+                <div className="mb-4">
+                  <div
+                    className="flex justify-between px-2"
+                    style={{ fontSize: '14px' }}
+                  >
+                    <span>男</span>
+                    <span>123</span>
+                  </div>
+                  <Progress
+                    percent={10}
+                    showInfo={false}
+                    trailColor="#ebeef5"
+                  />
                 </div>
-                <Progress percent={60} showInfo={false} trailColor="#ebeef5" />
+                <div>
+                  <div
+                    className="flex justify-between px-2"
+                    style={{ fontSize: '14px' }}
+                  >
+                    <span>女</span>
+                    <span>123</span>
+                  </div>
+                  <Progress
+                    percent={60}
+                    showInfo={false}
+                    trailColor="#ebeef5"
+                  />
+                </div>
               </div>
             </div>
           </div>
