@@ -13,12 +13,13 @@ const LargeScreen = () => {
   return (
     <div className={`${prefixCls} p-2`}>
       <LargerScreenHeader />
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-2">
         <CountCard />
         <ProportionCard />
-        <div className={`${prefixCls}-person`}>
-          <DataStatistics></DataStatistics>
-        </div>
+        <DataStatistics />
+      </div>
+      <div>
+        <span>地图</span>
       </div>
     </div>
   )

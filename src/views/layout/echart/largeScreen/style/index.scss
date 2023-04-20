@@ -45,6 +45,22 @@ $prefix-cls: '#{$namespace}-large-screen';
       }
     }
   }
+  &-statistics {
+    background-color: rgb(6, 28, 82);
+    height: 256px;
+    width: 36%;
+    .title {
+      text-align: center;
+      line-height: 40px;
+      font-weight: bold;
+    }
+
+    .count {
+      .ant-statistic {
+        line-height: 1;
+      }
+    }
+  }
   .ant-select-selector {
     background-color: #011548 !important;
     border-color: #011548 !important;
