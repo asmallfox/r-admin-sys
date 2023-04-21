@@ -18,7 +18,7 @@ const LargeScreen = () => {
         <ProportionCard />
         <DataStatistics />
       </div>
-      <div>
+      <div className='large-screen-map'>
         <span>地图</span>
       </div>
     </div>
