@@ -1,13 +1,14 @@
 import { Progress } from 'antd'
 
 import { useDesign } from '@/hooks/web/useDesign'
+import type { CSSProperties } from 'react'
 import { EChart } from '@/components/Echart'
 import Counting from './Counting'
 
 import { proportionLowVisionOption } from '../data'
 import { useEffect, useRef } from 'react'
 
-function ProportionCard() {
+function ProportionCard(props: { style?: CSSProperties }) {
   const { prefixCls } = useDesign('large-screen-proportion')
 
   const echartInstance = useRef<HTMLElement>(null)
@@ -56,7 +57,7 @@ function ProportionCard() {
   }, [])
 
   return (
-    <div className={`${prefixCls} p-3 flex box-border`}>
+    <div className={`${prefixCls} p-3 flex box-border`} style={props.style}>
       <div className="basis-1/2 flex flex-col justify-between">
         <span className="title">视力低下率</span>
         <div className="count flex items-center mt-3 pl-4">

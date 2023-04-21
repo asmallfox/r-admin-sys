@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { Select } from 'antd'
 
 import { useDesign } from '@/hooks/web/useDesign'
@@ -9,11 +10,14 @@ const options = [
   { value: 'disabled', label: 'Disabled', disabled: true }
 ]
 
-function LargerScreenHeader() {
+function LargerScreenHeader(props: { style?: CSSProperties }) {
   const { prefixCls } = useDesign('large-screen-header')
 
   return (
-    <div className={`${prefixCls} flex items-center px-3 mb-2`}>
+    <div
+      className={`${prefixCls} flex items-center px-3 mb-2`}
+      style={props.style}
+    >
       <span className={`${prefixCls}-nav_title`}>筛查系统--筛查统计中心</span>
       <div className="flex justify-around flex-1">
         <Select
