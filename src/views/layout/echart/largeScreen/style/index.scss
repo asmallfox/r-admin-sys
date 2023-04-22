@@ -16,43 +16,25 @@ $prefix-cls: '#{$namespace}-large-screen';
   }
 
   &-person {
+    width: 100%;
+    height: 100%;
     background-color: rgb(6, 28, 82);
     .title {
       text-align: center;
       line-height: 40px;
       font-weight: bold;
-    }
-
-    .count {
-      .ant-statistic {
-        line-height: 1;
-      }
     }
   }
 
   &-proportion {
+    width: 100%;
+    height: 100%;
     background-color: rgb(6, 28, 82);
-    .count {
-      .ant-statistic {
-        line-height: 1;
-      }
-    }
   }
   &-statistics {
-    // width: 100%;
-    // height: 100%;
+    width: 100%;
+    height: 100%;
     background-color: rgb(6, 28, 82);
-    .title {
-      text-align: center;
-      line-height: 40px;
-      font-weight: bold;
-    }
-
-    .count {
-      .ant-statistic {
-        line-height: 1;
-      }
-    }
   }
 
   .map {
@@ -74,5 +56,9 @@ $prefix-cls: '#{$namespace}-large-screen';
       color: #fff;
       opacity: 0.6;
     }
+  }
+
+  .ant-statistic {
+    line-height: 1;
   }
 }

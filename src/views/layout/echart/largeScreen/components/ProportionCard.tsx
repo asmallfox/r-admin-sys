@@ -58,23 +58,25 @@ function ProportionCard(props: { style?: CSSProperties }) {
 
   return (
     <div className={`${prefixCls} p-3 flex`} style={props.style}>
-      <div className=" flex-col justify-between" style={{ width: '50%' }}>
+      <div className='flex flex-col' style={{ width: '50%' }}>
         <span className="font-bold">理科占比率</span>
-        <div className="px-3">
+        <div className=" mt-6 flex-1 px-3 flex flex-col justify-between ">
           <Counting value={2022130} />
           <div>
-            <div className="flex justify-between px-2">
-              <span>男</span>
-              <span>30%</span>
+            <div className='mb-2'>
+              <div className="flex justify-between px-2 text-sm">
+                <span>男</span>
+                <span>30%</span>
+              </div>
+              <Progress percent={30} trailColor="#ebeef5" showInfo={false} />
             </div>
-            <Progress percent={30} trailColor="#ebeef5" showInfo={false} />
-          </div>
-          <div>
-            <div className="flex justify-between px-2">
-              <span>女</span>
-              <span>75%</span>
+            <div>
+              <div className="flex justify-between px-2 text-sm">
+                <span>女</span>
+                <span>75%</span>
+              </div>
+              <Progress percent={75} trailColor="#ebeef5" showInfo={false} />
             </div>
-            <Progress percent={75} trailColor="#ebeef5" showInfo={false} />
           </div>
         </div>
       </div>
