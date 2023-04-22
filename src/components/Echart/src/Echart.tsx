@@ -2,20 +2,29 @@ import type React from 'react'
 import type { EChartOption } from './types'
 
 import * as echarts from 'echarts'
-import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
+import {
+  useEffect,
+  useRef,
+  useImperativeHandle,
+  forwardRef,
+  CSSProperties
+} from 'react'
 import { defaultOption } from './config/initEcharts'
 
 interface PropsType {
-  width?: string
-  height?: string
-  option: EChartOption
   id?: string
+  option: EChartOption
+  style?: CSSProperties
 }
+
+type DispatchEvent = boolean | { silent?: boolean; flush?: boolean | undefined }
 
 const RESIZE = 'resize'
 
+const defaultStyle = { height: '280px', width: '100%' }
+
 const EChart = (props: PropsType, ref?: React.Ref<HTMLElement>) => {
-  const { option: charOption, width = '100%', height = '280px', id } = props
+  const { id, option: charOption, style = defaultStyle } = props
 
   const chartRef = useRef<HTMLDivElement>(null)
 
@@ -30,10 +39,6 @@ const EChart = (props: PropsType, ref?: React.Ref<HTMLElement>) => {
       })
     }
   }
-
-  type DispatchEvent =
-    | boolean
-    | { silent?: boolean; flush?: boolean | undefined }
 
   useImperativeHandle(
     ref,
@@ -53,6 +58,7 @@ const EChart = (props: PropsType, ref?: React.Ref<HTMLElement>) => {
       chartInstance.resize()
     }
   }
+
   useEffect(() => {
     if (charOption) {
       initEChart()
@@ -66,7 +72,7 @@ const EChart = (props: PropsType, ref?: React.Ref<HTMLElement>) => {
     }
   }, [])
 
-  return <div ref={chartRef} style={{ width, height }} id={id} />
+  return <div ref={chartRef} style={style} id={id} />
 }
 
 export default forwardRef(EChart)

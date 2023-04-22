@@ -1,10 +1,11 @@
+import type { CSSProperties } from 'react'
 import { EChart } from '@/components/Echart'
 import Counting from './Counting'
 import { useDesign } from '@/hooks/web/useDesign'
 
 import { personOption } from '../data'
 
-function CountCard() {
+function CountCard(props: { style?: CSSProperties }) {
   const { prefixCls } = useDesign('large-screen-person')
 
   const list = [
@@ -26,7 +27,10 @@ function CountCard() {
   ]
 
   return (
-    <div className={`${prefixCls} flex justify-between p-2`}>
+    <div
+      className={`${prefixCls} flex justify-between p-2`}
+      style={props.style}
+    >
       {list.map((item, index) => {
         return (
           <div

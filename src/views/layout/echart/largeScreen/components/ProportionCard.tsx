@@ -1,13 +1,14 @@
 import { Progress } from 'antd'
 
 import { useDesign } from '@/hooks/web/useDesign'
+import type { CSSProperties } from 'react'
 import { EChart } from '@/components/Echart'
 import Counting from './Counting'
 
 import { proportionLowVisionOption } from '../data'
 import { useEffect, useRef } from 'react'
 
-function ProportionCard() {
+function ProportionCard(props: { style?: CSSProperties }) {
   const { prefixCls } = useDesign('large-screen-proportion')
 
   const echartInstance = useRef<HTMLElement>(null)
@@ -56,43 +57,32 @@ function ProportionCard() {
   }, [])
 
   return (
-    <div className={`${prefixCls} p-3 flex box-border`}>
-      <div className="basis-1/2 flex flex-col justify-between">
-        <span className="title">视力低下率</span>
-        <div className="count flex items-center mt-3 pl-4">
-          <Counting value={1231330} />
-          <span className="pl-1">人</span>
-        </div>
-        <div className="mt-6 px-4">
-          <div className="mb-4">
-            <div
-              className="flex justify-between px-2"
-              style={{ fontSize: '14px' }}
-            >
+    <div className={`${prefixCls} p-3 flex`} style={props.style}>
+      <div className=" flex-col justify-between" style={{ width: '50%' }}>
+        <span className="font-bold">理科占比率</span>
+        <div className="px-3">
+          <Counting value={2022130} />
+          <div>
+            <div className="flex justify-between px-2">
               <span>男</span>
-              <span>20%</span>
+              <span>30%</span>
             </div>
-            <Progress percent={10} showInfo={false} trailColor="#ebeef5" />
+            <Progress percent={30} trailColor="#ebeef5" showInfo={false} />
           </div>
           <div>
-            <div
-              className="flex justify-between px-2"
-              style={{ fontSize: '14px' }}
-            >
+            <div className="flex justify-between px-2">
               <span>女</span>
-              <span>60%</span>
+              <span>75%</span>
             </div>
-            <Progress percent={60} showInfo={false} trailColor="#ebeef5" />
+            <Progress percent={75} trailColor="#ebeef5" showInfo={false} />
           </div>
         </div>
       </div>
-      <div className="basis-1/2 flex flex-col justify-between">
-        <span className="title">视力低下率占比</span>
+      <div className="flex" style={{ width: '50%' }}>
         <EChart
-          option={proportionLowVisionOption}
-          width="100%"
-          id="proportion"
           ref={echartInstance}
+          option={proportionLowVisionOption}
+          style={{ height: '100%', width: '100%' }}
         />
       </div>
     </div>

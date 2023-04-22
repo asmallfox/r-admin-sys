@@ -4,8 +4,7 @@ export const defaultOption: echarts.EChartsOption = {
   grid: {
     left: '1%',
     right: '1%',
-    top: '2%',
-    bottom: 0,
+    bottom: '1%',
     containLabel: true
   }
 }
