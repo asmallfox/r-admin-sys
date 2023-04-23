@@ -9,6 +9,7 @@ interface PropsType {
   move: number
   ratio: number
   always: boolean
+  color?: string
   scrollEvent?: (e: Event) => void
 }
 
@@ -22,6 +23,14 @@ function Thumb(props: PropsType) {
   const { prefixCls } = useDesign('scroll-thumb')
   const scrollbar = useContext(ScrollBarContext)
   const [visible, setVisible] = useState(false)
+
+  const barStyle = !props.color ? {} : {
+    color: props.color,
+    backgroundColor: props.color,
+    ':hover': {
+      backgroundColor: '#fff'
+    }
+  }
 
   const mouseDownHandler = (e: React.MouseEvent) => {
     setCurrentDown(true)
@@ -95,7 +104,7 @@ function Thumb(props: PropsType) {
           : prefixCls + '_hidden'
       }`}
       onMouseDown={mouseDownHandler}
-      style={thumbStyle}
+      style={{ ...thumbStyle, ...barStyle }}
     ></div>
   )
 }

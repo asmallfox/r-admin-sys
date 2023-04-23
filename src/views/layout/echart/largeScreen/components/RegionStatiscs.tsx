@@ -8,15 +8,15 @@ import {
   chinaMapOutline
 } from '../json/map'
 
-echarts.registerMap('chinaMap', chinaMap)
-echarts.registerMap('chinaMapOutline', chinaMapOutline)
+echarts.registerMap('chinaMap', (chinaMap as any))
+echarts.registerMap('chinaMapOutline', (chinaMapOutline as any))
 
-const convertData = function (data) {
-  var res = []
-  for (var i = 0; i < data.length; i++) {
-    var dataItem = data[i]
-    var fromCoord = chinaGeoCoordMap[dataItem[0].name]
-    var toCoord = [121.4648, 31.2891]
+const convertData = (data: any) => {
+  const res = []
+  for (let i = 0; i < data.length; i++) {
+    const dataItem = data[i]
+    const fromCoord = (chinaGeoCoordMap as any)[dataItem[0].name]
+    const toCoord = [121.4648, 31.2891]
     if (fromCoord && toCoord) {
       res.push([
         {
@@ -69,7 +69,7 @@ const series = [
     }
   }
 ]
-;[['上海', chinaDatas]].forEach(function (item, i) {
+;[['上海', chinaDatas]].forEach((item) => {
   series.push(
     {
       type: 'lines',
@@ -116,7 +116,7 @@ const series = [
         }
       },
       symbol: 'circle',
-      symbolSize: function (val) {
+      symbolSize: (val: any) => {
         return 5 + val[2] * 5 //圆环大小
       },
       itemStyle: {
@@ -125,10 +125,12 @@ const series = [
           color: '#34c6bb'
         }
       },
-      data: item[1].map(function (dataItem) {
+      data: (item[1] as unknown as []).map((dataItem: any) => {
         return {
           name: dataItem[0].name,
-          value: chinaGeoCoordMap[dataItem[0].name].concat([dataItem[0].value])
+          value: (chinaGeoCoordMap as any)[dataItem[0].name].concat([
+            dataItem[0].value
+          ])
         }
       })
     }
@@ -136,11 +138,11 @@ const series = [
 })
 
 const option = {
-  backgroundColor: 'rgb(6, 28, 82)',
+  // backgroundColor: 'rgb(6, 28, 82)',
+  color: ['#34c6bb'],
   tooltip: {
     trigger: 'item'
   },
-  color: ['#34c6bb'],
   geo: {
     silent: true,
     map: 'chinaMapOutline',

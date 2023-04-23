@@ -89,7 +89,7 @@ export function getBreadcrumb(path: string) {
             title: React.createElement(
               Link,
               { to: child.redirect ?? getRouteAllPath(find, child.key) },
-              child.title
+              child.title ?? child.meta.title
             ),
             key: child.key
           }))

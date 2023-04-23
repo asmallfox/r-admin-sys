@@ -1,1 +1,3 @@
-@import "./var/index.scss";
+@use './var';
+
+$namespace: 'lege';

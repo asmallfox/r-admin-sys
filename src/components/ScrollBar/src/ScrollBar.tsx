@@ -1,19 +1,20 @@
 import '../styles/index.scss'
 
 import { useDesign } from '@/hooks/web/useDesign'
-import { useEffect, useRef, useState } from 'react'
+import { CSSProperties, useEffect, useRef, useState } from 'react'
 
 import Thumb from './Thumb'
 import { ScrollBarContext, ScrollBarContextType } from './scrollbarContext'
 
 interface PropsType {
   children?: JSX.Element
-  maxHeight?: string
   minSize?: number
   always?: boolean
+  style?: CSSProperties,
+  color?: string
 }
 function ScrollBar(props: PropsType) {
-  const { children, minSize = 20, always = false } = props
+  const { children, minSize = 20, always = false, style } = props
   const { prefixCls } = useDesign('scroll')
 
   const scrollbarRef = useRef<HTMLDivElement>(null)
@@ -63,7 +64,7 @@ function ScrollBar(props: PropsType) {
   }, [])
 
   return (
-    <div className={prefixCls} ref={scrollbarRef}>
+    <div className={prefixCls} ref={scrollbarRef} style={style}>
       <div
         className={`${prefixCls}-wrap`}
         ref={wrapRef}
@@ -78,6 +79,7 @@ function ScrollBar(props: PropsType) {
           move={thumbMove}
           ratio={ratioY}
           always={always}
+          color={props.color}
         />
       </ScrollBarContext.Provider>
     </div>

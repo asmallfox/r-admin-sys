@@ -1,3 +1,9 @@
+@use "sass:color";
+
+@mixin barColor($color) {
+  background: scale-color($color, $lightness: +15%);
+}
+
 $prefix-cls: #{$namespace}-scroll;
 
 .#{$prefix-cls} {
@@ -14,9 +20,8 @@ $prefix-cls: #{$namespace}-scroll;
   &-thumb {
     cursor: pointer;
     position: absolute;
-    // background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.2);
     // background-color: rgba(255, 255, 255, 0.2);
-    background-color: #c9cacb;
     border-radius: 6px;
     right: 1px;
     top: 0;
@@ -24,8 +29,8 @@ $prefix-cls: #{$namespace}-scroll;
     z-index: 999;
     &:hover {
       // background-color: rgba(255, 255, 255, 0.4);
-      // background-color: rgba(0, 0, 0, 0.3);
-      background-color: #b0b1b1;
+      background-color: rgba(0, 0, 0, 0.3);
+      // background-color: #b0b1b1;
     }
 
     &_visible {

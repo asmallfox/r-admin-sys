@@ -33,7 +33,8 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
       preprocessorOptions: {
         scss: {
           // 全局引入变量，给导入的路径最后加上 ;
-          additionalData: `@import '@/design/index.scss';`
+          additionalData: `@use '@/design/index.scss' as *;`
+          // additionalData: `@import '@/design/index.scss';`
         }
       }
     },
