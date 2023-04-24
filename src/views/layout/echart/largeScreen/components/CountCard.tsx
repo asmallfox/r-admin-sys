@@ -42,7 +42,7 @@ function CountCard(props: { style?: CSSProperties }) {
             <div className="count mb-3 flex justify-center">
               <Counting value={item.count} />
             </div>
-            <EChart option={item.option} width="100%" />
+            <EChart option={item.option} />
           </div>
         )
       })}

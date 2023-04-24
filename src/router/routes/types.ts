@@ -1,7 +1,14 @@
 import type { NonIndexRouteObject } from 'react-router-dom'
 import type { MenuProps } from 'antd'
 
-export type MenuItem = MenuProps['items']
+export type ItemType = Required<MenuProps>['items']
+export interface MenuItem extends ItemType {
+  label: React.ReactNode | string
+  key: React.Key
+  icon?: React.ReactNode
+  redirect?: string
+  children?: MenuItem[]
+}
 
 export interface Meta {
   title?: string

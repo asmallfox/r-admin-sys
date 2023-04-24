@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom'
 
 import { isString } from '@/utils/is'
 import { asyncRoutes } from '@/router/routes'
-import { ItemType } from 'antd/es/breadcrumb/Breadcrumb'
 
 export function pathSnippets(pathname: string): string[] {
   return pathname.split('/').filter((i) => i)
@@ -20,15 +19,39 @@ export function transformRouteToMenu(routes: RouterRaws[] = []) {
     (item) => item?.meta?.sortIndex ?? 0
   )
 
-  const getFormatMenu = (formatMenu: any[]) => {
-    for (const item of formatMenu) {
-      item.label = item?.meta?.title
-      // item.title = item?.meta?.title
-      item.icon = item?.meta?.icon
-      item.key = pathSnippets(item.path)[0]
-      if (item?.children?.length) {
+  const getItem = (
+    label: React.ReactNode,
+    key?: React.Key | null,
+    icon?: React.ReactNode,
+    redirect?: string,
+    children?: MenuItem[]
+  ): MenuItem => {
+    return {
+      key,
+      icon,
+      children,
+      redirect,
+      label
+    } as MenuItem
+  }
+
+  const getFormatMenu = (formatMenu: RouterRaws[]) => {
+    for (let i = 0; i < formatMenu.length; i++) {
+      const item = formatMenu[i]
+      if (item.children?.length) {
         getFormatMenu(item.children)
       }
+      const label = item?.meta?.title
+      const path = pathSnippets(item.path as string)[0]
+      const icon = item?.meta?.icon
+      const redirect = item.redirect
+      formatMenu[i] = getItem(
+        label,
+        path,
+        icon,
+        redirect,
+        item.children as MenuItem[]
+      )
     }
   }
   getFormatMenu(cloneRouteList)
@@ -39,13 +62,13 @@ export function transformRouteToMenu(routes: RouterRaws[] = []) {
 export function getRouteMapItem(path: string): RouterRaws {
   const routePaths = pathSnippets(path)
   const menuList = getMenus()
-  const getRouteItem = (menus: MenuItem[], paths: string[]): ItemType => {
-    let find = menus.find((item) => item?.key === paths[0])
+  const getRouteItem = (menus: MenuItem[], paths: string[]): MenuItem => {
+    let findMenu = menus.find((item) => item.key === paths[0])
     paths.shift()
     if (paths.length > 0) {
-      find = getRouteItem((find as any)?.children ?? [], paths)
+      findMenu = getRouteItem(findMenu?.children ?? [], paths)
     }
-    return find
+    return findMenu as MenuItem
   }
   const routeItem = getRouteItem(menuList, routePaths)
   return {
@@ -69,31 +92,47 @@ export function getMenus() {
   return transformRouteToMenu(asyncRoutes)
 }
 
+interface Breadcrumb {
+  title: React.ReactNode | string
+  key: React.Key
+  path?: string
+  menu?: {
+    items: Breadcrumb[]
+  }
+}
+
 // 获取面包屑
 export function getBreadcrumb(path: string) {
   const routes = getMenus()
   const paths = pathSnippets(path)
-  const find = cloneDeep([routes.find((route) => route?.key === paths[0])])
-  const flattenMenu = (menus: any, result = []) => {
+  const findRoute = cloneDeep([
+    routes.find((route) => route?.key === paths[0])
+  ]) as MenuItem[]
+  const flattenMenu = (menus: MenuItem[], result: Breadcrumb[] = []) => {
     for (const item of menus) {
-      const breadItem = {
-        title: item?.label,
-        key: item?.key
+      const breadItem: Breadcrumb = {
+        title: item.label,
+        key: item.key
       }
-      if (isString(item?.redirect)) {
+      if (item.redirect) {
         breadItem.path = item.redirect
       }
       if (item.children && item.children.length > 0) {
-        breadItem.menu = {
+        const menu = {
           items: item.children.map((child) => ({
             title: React.createElement(
               Link,
-              { to: child.redirect ?? getRouteAllPath(find, child.key) },
-              child.title ?? child.meta.title
+              {
+                to:
+                  child.redirect ??
+                  getRouteAllPath(findRoute, child.key as string)
+              },
+              child.label
             ),
             key: child.key
           }))
         }
+        Object.assign(breadItem, { menu })
         result = result.concat([breadItem, ...flattenMenu(item.children)])
       } else {
         result.push(breadItem)
@@ -102,23 +141,23 @@ export function getBreadcrumb(path: string) {
     return result
   }
 
-  const filterResult = flattenMenu(find).filter((item) =>
-    paths.includes(item.key)
+  const filterResult = flattenMenu(findRoute).filter((item) =>
+    paths.includes(item.key as string)
   )
   return filterResult
 }
 
 /* 获取路由路径 */
-export function getRoutePaths(menus: any[], path = '', paths = []): string[] {
+export function getRoutePaths(menus: MenuItem[], path = '', paths: string[] = []): string[] {
   for (let i = 0; i < menus.length; i++) {
     const item = menus[i]
-    if (item.path === path) {
-      paths.push(item.path)
+    if ((item as any).path === path) {
+      paths.push(path)
       return paths
-    } else if (item?.children?.length) {
+    } else if (item.children?.length) {
       const res = getRoutePaths(item.children, path, paths)
       if (res?.length) {
-        paths.unshift(item.path)
+        paths.unshift((item as any).path)
         return paths
       }
     }
@@ -134,7 +173,7 @@ export function joinPath(paths: string[] | string) {
   return `/${path}`
 }
 
-export function getRouteAllPath(menus: any[], path = '') {
+export function getRouteAllPath(menus: MenuItem[], path = '') {
   const allPath = getRoutePaths(menus, path)
   const getPath = joinPath(allPath)
   return getPath

@@ -2,6 +2,7 @@ import type React from 'react'
 import type { EChartOption } from './types'
 
 import * as echarts from 'echarts'
+
 import {
   useEffect,
   useRef,
@@ -43,7 +44,7 @@ const EChart = (props: PropsType, ref?: React.Ref<HTMLElement>) => {
   useImperativeHandle(
     ref,
     (): any => ({
-      dispatchEvent: (payload: echarts.Payload, opt?: DispatchEvent): void => {
+      dispatchAction: (payload: echarts.Payload, opt?: DispatchEvent): void => {
         chartInstance.dispatchAction(payload, opt)
       },
       on: (key: string, handler: () => void) => {

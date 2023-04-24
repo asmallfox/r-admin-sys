@@ -1,3 +1,7 @@
+import type {
+  EChartOption,
+  DefaultLabelFormatterCallbackParams
+} from '@/components/Echart'
 import { EChart } from '@/components/Echart'
 import * as echarts from 'echarts'
 
@@ -8,8 +12,8 @@ import {
   chinaMapOutline
 } from '../json/map'
 
-echarts.registerMap('chinaMap', (chinaMap as any))
-echarts.registerMap('chinaMapOutline', (chinaMapOutline as any))
+echarts.registerMap('chinaMap', chinaMap as any)
+echarts.registerMap('chinaMapOutline', chinaMapOutline as any)
 
 const convertData = (data: any) => {
   const res = []
@@ -37,13 +41,11 @@ const series = [
     type: 'map',
     zoom: 1.2,
     label: {
-      normal: {
-        show: false,
-        textStyle: {
-          color: '#fff'
-        }
-      },
-      emphasis: {
+      show: false,
+      color: '#fff'
+    },
+    emphasis: {
+      label: {
         textStyle: {
           color: '#fff'
         }
@@ -55,11 +57,9 @@ const series = [
     },
     roam: false,
     itemStyle: {
-      normal: {
-        areaColor: 'transparent',
-        borderColor: 'rgba(0,255,255,.1)',
-        borderWidth: 1
-      },
+      areaColor: 'transparent',
+      borderColor: 'rgba(0,255,255,.1)',
+      borderWidth: 1,
       emphasis: {
         areaColor: 'rgba(0,255,255,.1)',
         textStyle: {
@@ -73,6 +73,7 @@ const series = [
   series.push(
     {
       type: 'lines',
+      // @ts-ignore
       zlevel: 2,
       effect: {
         show: true,
@@ -82,11 +83,9 @@ const series = [
         symbolSize: 5 //图标大小
       },
       lineStyle: {
-        normal: {
-          width: 1, //尾迹线条宽度
-          opacity: 1, //尾迹线条透明度
-          curveness: 0.3 //尾迹线条曲直度
-        }
+        width: 1, //尾迹线条宽度
+        opacity: 1, //尾迹线条透明度
+        curveness: 0.3 //尾迹线条曲直度
       },
       data: convertData(item[1])
     },
@@ -101,16 +100,14 @@ const series = [
         scale: 4 //波纹圆环最大限制，值越大波纹越大
       },
       label: {
-        normal: {
-          show: false,
-          position: 'right', //显示位置
-          offset: [5, 0], //偏移设置
-          formatter: function (params) {
-            //圆环显示文字
-            return params.data.name
-          },
-          fontSize: 13
+        show: false,
+        position: 'right', //显示位置
+        offset: [5, 0], //偏移设置
+        formatter: (params: any) => {
+          //圆环显示文字
+          return params.data.name
         },
+        fontSize: 13,
         emphasis: {
           show: true
         }
@@ -120,10 +117,8 @@ const series = [
         return 5 + val[2] * 5 //圆环大小
       },
       itemStyle: {
-        normal: {
-          show: false,
-          color: '#34c6bb'
-        }
+        show: false,
+        color: '#34c6bb'
       },
       data: (item[1] as unknown as []).map((dataItem: any) => {
         return {
@@ -137,8 +132,7 @@ const series = [
   )
 })
 
-const option = {
-  // backgroundColor: 'rgb(6, 28, 82)',
+const option: EChartOption = {
   color: ['#34c6bb'],
   tooltip: {
     trigger: 'item'
@@ -149,43 +143,31 @@ const option = {
     zoom: 0.8,
     top: '0%',
     label: {
-      normal: {
-        show: false,
-        textStyle: {
-          color: '#fff'
-        }
-      },
-      emphasis: {
-        textStyle: {
-          color: '#fff'
-        }
+      show: false,
+      color: '#fff'
+    },
+    emphasis: {
+      label: {
+        color: '#fff'
       }
     },
-
     roam: false,
     itemStyle: {
-      normal: {
-        areaColor: 'rgba(0,255,255,.02)',
-        borderColor: '#00ffff',
-        borderWidth: 1.5,
-        shadowColor: '#00ffff',
-        shadowOffsetX: 0,
-        shadowOffsetY: 4,
-        shadowBlur: 10
-      },
-      emphasis: {
-        areaColor: 'transparent', //悬浮背景
-        textStyle: {
-          color: '#fff'
-        }
-      }
+      areaColor: 'rgba(0,255,255,.02)',
+      borderColor: '#00ffff',
+      borderWidth: 1.5,
+      shadowColor: '#00ffff',
+      shadowOffsetX: 0,
+      shadowOffsetY: 4,
+      shadowBlur: 10
     }
   },
-  series
+  // @ts-ignore
+  series: series
 }
 
-function RegionStatiscs() {
+function RegionStatistic() {
   return <EChart option={option} style={{ width: '100%', height: '100%' }} />
 }
 
-export default RegionStatiscs
+export default RegionStatistic

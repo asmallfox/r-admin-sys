@@ -1,5 +1,7 @@
 import { Progress } from 'antd'
 
+import * as echarts from 'echarts'
+
 import { useDesign } from '@/hooks/web/useDesign'
 import type { CSSProperties } from 'react'
 import { EChart } from '@/components/Echart'
@@ -14,56 +16,56 @@ function ProportionCard(props: { style?: CSSProperties }) {
   const echartInstance = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    if (proportionLowVisionOption?.series?.length) {
-      let index = 0
-      const echartIntervalFn = () => {
-        echartInstance?.current?.dispatchEvent({
-          type: 'downplay',
-          seriesId: 'proportion'
-        })
-        echartInstance?.current?.dispatchEvent({
-          type: 'highlight',
-          seriesId: 'proportion',
-          dataIndex: [index]
-        })
-        index++
-        if (index >= proportionLowVisionOption?.series[0].data.length) {
-          index = 0
-        }
+    let index = 0
+    const instance = echartInstance.current as unknown as echarts.EChartsType
+    const echartIntervalFn = () => {
+      instance.dispatchAction({
+        type: 'downplay',
+        seriesId: 'proportion'
+      })
+      instance.dispatchAction({
+        type: 'highlight',
+        seriesId: 'proportion',
+        dataIndex: [index]
+      })
+      index++
+      // @ts-ignore
+      if (index >= (proportionLowVisionOption.series?.data.length ?? 0)) {
+        index = 0
       }
-      let interval = setInterval(echartIntervalFn, 1500)
-
-      echartInstance?.current?.on('mouseover', (e) => {
-        clearInterval(interval)
-        echartInstance?.current?.dispatchEvent({
-          type: 'downplay',
-          seriesId: 'proportion'
-        })
-        echartInstance?.current?.dispatchEvent({
-          type: 'highlight',
-          seriesId: 'proportion',
-          dataIndex: [e.dataIndex]
-        })
-      })
-      echartInstance?.current?.on('mouseout', (e) => {
-        echartInstance?.current?.dispatchEvent({
-          type: 'downplay',
-          seriesId: 'proportion'
-        })
-        index = e.dataIndex
-        interval = setInterval(echartIntervalFn, 1500)
-      })
     }
+    let interval = setInterval(echartIntervalFn, 1500)
+
+    instance.on('mouseover', (e: any) => {
+      clearInterval(interval)
+      instance.dispatchAction({
+        type: 'downplay',
+        seriesId: 'proportion'
+      })
+      instance.dispatchAction({
+        type: 'highlight',
+        seriesId: 'proportion',
+        dataIndex: [e.dataIndex]
+      })
+    })
+    instance.on('mouseout', (e: any) => {
+      instance.dispatchAction({
+        type: 'downplay',
+        seriesId: 'proportion'
+      })
+      index = e.dataIndex
+      interval = setInterval(echartIntervalFn, 1500)
+    })
   }, [])
 
   return (
     <div className={`${prefixCls} p-3 flex`} style={props.style}>
-      <div className='flex flex-col' style={{ width: '50%' }}>
+      <div className="flex flex-col" style={{ width: '50%' }}>
         <span className="font-bold">理科占比率</span>
         <div className=" mt-6 flex-1 px-3 flex flex-col justify-between ">
           <Counting value={2022130} />
           <div>
-            <div className='mb-2'>
+            <div className="mb-2">
               <div className="flex justify-between px-2 text-sm">
                 <span>男</span>
                 <span>30%</span>

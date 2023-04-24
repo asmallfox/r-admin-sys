@@ -25,7 +25,7 @@ export function SideBar(props: { collapsed: boolean }) {
       </div>
 
       <div style={{ height: 'calc(100% - 48px)' }}>
-        <ScrollBar always color="red">
+        <ScrollBar always>
           <LayoutMenu collapsed={collapsed} />
         </ScrollBar>
       </div>

@@ -13,7 +13,7 @@ const modules = import.meta.glob('./modules/**/*.tsx', { eager: true })
 const routeModuleList: RouterRaws[] = []
 
 Object.keys(modules).forEach(key => {
-  const module = modules[key].default
+  const module = (modules[key] as any).default
   const mod = Array.isArray(module) ? [...module] : [module]
   routeModuleList.push(...mod)
 })

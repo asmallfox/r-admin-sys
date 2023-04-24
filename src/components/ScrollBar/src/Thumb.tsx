@@ -1,8 +1,10 @@
 import type { CSSProperties } from 'react'
 import { useRef, useContext, useState, useEffect } from 'react'
 import { useDesign } from '@/hooks/web/useDesign'
-import { ScrollBarContext } from './scrollbarContext'
+import { ScrollBarContext } from './config/scrollbarContext'
 import { renderThumb } from './util'
+
+import { BAR_OPTION } from './config/bar'
 
 interface PropsType {
   size: number
@@ -15,22 +17,28 @@ interface PropsType {
 
 function Thumb(props: PropsType) {
   const { always = false } = props
-  const thumbRef = useRef<HTMLDivElement>(null)
-  const [thumbStyle, setThumbStyle] = useState<CSSProperties>()
-  const thumbState: Partial<Record<'X' | 'Y', number>> = {}
-  const [currentDown, setCurrentDown] = useState(false)
 
   const { prefixCls } = useDesign('scroll-thumb')
   const scrollbar = useContext(ScrollBarContext)
+
+  const thumbRef = useRef<HTMLDivElement>(null)
+  const [thumbStyle, setThumbStyle] = useState<CSSProperties>()
+  const [currentDown, setCurrentDown] = useState(false)
   const [visible, setVisible] = useState(false)
 
-  const barStyle = !props.color ? {} : {
-    color: props.color,
-    backgroundColor: props.color,
-    ':hover': {
-      backgroundColor: '#fff'
-    }
-  }
+  const thumbState: Partial<Record<'offsetX' | 'offsetY', number>> = {}
+
+  const bar = BAR_OPTION['vertical']
+
+  const barStyle = !props.color
+    ? {}
+    : {
+        color: props.color,
+        backgroundColor: props.color,
+        ':hover': {
+          backgroundColor: '#fff'
+        }
+      }
 
   const mouseDownHandler = (e: React.MouseEvent) => {
     setCurrentDown(true)
@@ -38,9 +46,10 @@ function Thumb(props: PropsType) {
     window.getSelection()?.removeAllRanges()
     initListener(e)
 
-    thumbState.Y =
-      e.nativeEvent.offsetY +
-      (scrollbar.wrapElement?.current?.getBoundingClientRect().top ?? 0)
+    thumbState[bar.offsetDir] =
+      e.nativeEvent[bar.offsetDir] +
+      (scrollbar.wrapElement?.current?.getBoundingClientRect()[bar.position] ??
+        0)
   }
 
   const initListener = (e: React.MouseEvent) => {
@@ -51,15 +60,15 @@ function Thumb(props: PropsType) {
   }
 
   const mouseMoveHandler = (e: MouseEvent) => {
-    const handleOffset = e.clientY - thumbState.Y
+    const handleOffset = e[bar.client] - (thumbState[bar.offsetDir] ?? 0)
     if (scrollbar?.wrapElement?.current) {
-      scrollbar.wrapElement.current.scrollTop = handleOffset / props.ratio
+      scrollbar.wrapElement.current[bar.scrollDir] = handleOffset / props.ratio
     }
   }
 
   const mouseUpHandler = () => {
     setCurrentDown(false)
-    thumbState.Y = 0
+    thumbState[bar.offsetDir] = 0
     document.removeEventListener('mousemove', mouseMoveHandler)
   }
 

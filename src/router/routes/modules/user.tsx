@@ -5,7 +5,7 @@ import { UserOutlined, AuditOutlined } from '@ant-design/icons'
 import User from '@/views/layout/user/user'
 import SysAdmin from '@/views/layout/user/sysAdmin'
 
-export const UserLayout: RouterRaws = [
+export const UserLayout: RouterRaws[] = [
   {
     path: '/user',
     element: <Navigate to="super-admin" />,

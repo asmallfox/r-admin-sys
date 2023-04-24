@@ -34,8 +34,8 @@ export class VAxios {
   }
 
   request<T = any>(
-    config: AxiosRequestConfig
-    // options?: RequestOptions
+    config: AxiosRequestConfig,
+    options?: RequestOptions
   ): Promise<T> {
     return new Promise((resolve, reject) => {
       this.axiosInstance

@@ -62,8 +62,7 @@ export const personOption: EChartOption = {
       type: 'pie',
       radius: [30, 34],
       color: ['#00FFFF', '#C424FF'],
-      clockWise: false,
-      hoverAnimation: false,
+      clockwise: false,
       label: {
         color: '#ddd',
         formatter: (params: DefaultLabelFormatterCallbackParams) => {

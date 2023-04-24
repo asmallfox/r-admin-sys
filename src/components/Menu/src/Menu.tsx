@@ -10,6 +10,9 @@ import { useDesign } from '@/hooks/web/useDesign'
 import { getRouteMapItem, getMenus, pathSnippets } from '@/router/menu'
 import { setTags } from '@/store/modules/menu'
 import './style/index.scss'
+import { MenuItem } from '@/router/routes/types'
+
+type itemType = MenuProps['items']
 
 export function LayoutMenu(props: { collapsed: boolean }) {
   const { prefixCls } = useDesign('menu')
@@ -20,9 +23,11 @@ export function LayoutMenu(props: { collapsed: boolean }) {
   const pathSplits = pathSnippets(location.pathname)
   const [selectKey, setSelectKey] = useState(pathSplits.slice(-1))
   const [openKeys, setOpenKeys] = useState(pathSplits)
+
   const menus = getMenus()
-  const getOpenKeys = (menus, key: string, result: string[] = []) => {
-    const existsCurrentMenu = menus.find((item) => item!.key === key)
+
+  const getOpenKeys = (menus: MenuItem[], key: string, result: string[] = []) => {
+    const existsCurrentMenu = menus.find((item) => item.key === key)
     if (existsCurrentMenu) {
       result.push(key)
     } else {
@@ -32,7 +37,7 @@ export function LayoutMenu(props: { collapsed: boolean }) {
           const res = getOpenKeys(children, key, result)
           if (res.length > 0) {
             result.push(...res)
-            result.push(path)
+            result.push(path as string)
             return [...new Set(result)]
           }
         }
@@ -73,7 +78,7 @@ export function LayoutMenu(props: { collapsed: boolean }) {
       <Menu
         theme="dark"
         mode="inline"
-        items={menus}
+        items={menus as itemType}
         selectedKeys={selectKey}
         openKeys={openKeys}
         onOpenChange={onOpenChange}

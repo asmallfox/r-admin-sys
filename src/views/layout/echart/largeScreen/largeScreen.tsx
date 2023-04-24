@@ -5,7 +5,7 @@ import CountCard from './components/CountCard'
 import ProportionCard from './components/ProportionCard'
 import DataStatistics from './components/DataStatistics'
 import PersonFinished from './components/PersonFinished'
-import RegionStatiscs from './components/RegionStatiscs'
+import RegionStatistic from './components/RegionStatistic'
 import _ from 'lodash'
 
 import { rankingOption, dataStatistics } from './data'
@@ -32,7 +32,7 @@ const LargeScreen = () => {
       </div>
       <div className={`flex-1 flex justify-between`}>
         <div className="map">
-          <RegionStatiscs />
+          <RegionStatistic />
         </div>
         <div className="flex flex-col justify-between" style={{ width: '27%' }}>
           <div className="flex-1 mb-2">

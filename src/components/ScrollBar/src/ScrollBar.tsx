@@ -4,7 +4,7 @@ import { useDesign } from '@/hooks/web/useDesign'
 import { CSSProperties, useEffect, useRef, useState } from 'react'
 
 import Thumb from './Thumb'
-import { ScrollBarContext, ScrollBarContextType } from './scrollbarContext'
+import { ScrollBarContext, ScrollBarContextType } from './config/scrollbarContext'
 
 interface PropsType {
   children?: JSX.Element

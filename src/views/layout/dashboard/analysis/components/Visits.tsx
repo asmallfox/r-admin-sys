@@ -1,19 +1,20 @@
+import type { EChartOption } from '@/components/Echart'
+
+
 import { EChart } from '@/components/Echart'
 
 function Visits() {
-  const option = {
+  const option: EChartOption = {
     tooltip: {
       trigger: 'axis',
       axisPointer: {
         type: 'line'
       }
     },
-    xAxis: [
-      {
-        type: 'category',
-        data: new Array(12).fill(0).map((_, index) => `${index + 1}月`)
-      }
-    ],
+    xAxis: {
+      type: 'category',
+      data: new Array(12).fill(0).map((_, index) => `${index + 1}月`)
+    },
     yAxis: {
       type: 'value'
     },
@@ -21,8 +22,7 @@ function Visits() {
       {
         type: 'bar',
         color: '#37a3db',
-        data: [
-          200, 300, 100, 500, 50, 79, 675, 399, 234, 800, 1200, 200]
+        data: [200, 300, 100, 500, 50, 79, 675, 399, 234, 800, 1200, 200]
       }
     ]
   }
