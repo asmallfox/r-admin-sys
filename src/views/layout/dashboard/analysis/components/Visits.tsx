@@ -1,6 +1,5 @@
 import type { EChartOption } from '@/components/Echart'
 
-
 import { EChart } from '@/components/Echart'
 
 function Visits() {
@@ -10,6 +9,13 @@ function Visits() {
       axisPointer: {
         type: 'line'
       }
+    },
+    grid: {
+      left: 0,
+      right: '1%',
+      bottom: '1%',
+      top: '3%',
+      containLabel: true
     },
     xAxis: {
       type: 'category',

@@ -9,6 +9,13 @@ function TrafficTrend() {
         type: 'line'
       }
     },
+    grid: {
+      left: 0,
+      right: '1%',
+      bottom: '1%',
+      top: '3%',
+      containLabel: true
+    },
     xAxis: [
       {
         type: 'category',

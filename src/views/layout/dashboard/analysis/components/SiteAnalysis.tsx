@@ -26,7 +26,6 @@ function SiteAnalysis(props: { loading?: boolean }) {
   const [activeTabKey, setActiveTabKey] = useState('trafficTrend')
 
   const onTabChange = (key: string) => {
-    console.log(key)
     setActiveTabKey(key)
   }
   return (

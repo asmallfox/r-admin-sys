@@ -126,12 +126,12 @@ const data: DataType[] = [
             { value: 274, name: '化妆品' },
             { value: 400, name: '家居' }
           ].sort(function (a, b) {
-            return a.value - b.value;
+            return a.value - b.value
           }),
           roseType: 'radius',
           animationType: 'scale',
           animationEasing: 'exponentialInOut',
-          animationDuration: () => Math.random()*100
+          animationDuration: () => Math.random() * 100
         }
       ]
     }
