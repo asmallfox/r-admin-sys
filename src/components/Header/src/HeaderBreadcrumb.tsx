@@ -27,7 +27,6 @@ function HeaderBreadcrumb(props: Props) {
       e?.preventDefault()
       if (menu?.items?.length) {
         if (location.pathname === path) return
-        console.log(route.path)
         navigate(route.path)
       }
     }

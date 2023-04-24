@@ -59,7 +59,7 @@ export function transformRouteToMenu(routes: RouterRaws[] = []) {
 }
 
 /* 获取路由信息 */
-export function getRouteMapItem(path: string): RouterRaws {
+export function getRouteMapItem(path: string): MenuItem {
   const routePaths = pathSnippets(path)
   const menuList = getMenus()
   const getRouteItem = (menus: MenuItem[], paths: string[]): MenuItem => {
@@ -120,6 +120,8 @@ export function getBreadcrumb(path: string) {
       if (item.children && item.children.length > 0) {
         const menu = {
           items: item.children.map((child) => ({
+            // title:
+            //   child.redirect ?? getRouteAllPath(findRoute, child.key as string),
             title: React.createElement(
               Link,
               {
@@ -148,16 +150,20 @@ export function getBreadcrumb(path: string) {
 }
 
 /* 获取路由路径 */
-export function getRoutePaths(menus: MenuItem[], path = '', paths: string[] = []): string[] {
+export function getRoutePaths(
+  menus: MenuItem[],
+  path = '',
+  paths: string[] = []
+): string[] {
   for (let i = 0; i < menus.length; i++) {
     const item = menus[i]
-    if ((item as any).path === path) {
+    if (item.key === path) {
       paths.push(path)
       return paths
     } else if (item.children?.length) {
       const res = getRoutePaths(item.children, path, paths)
       if (res?.length) {
-        paths.unshift((item as any).path)
+        paths.unshift(item.key as string)
         return paths
       }
     }

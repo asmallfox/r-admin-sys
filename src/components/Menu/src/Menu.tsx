@@ -67,7 +67,7 @@ export function LayoutMenu(props: { collapsed: boolean }) {
     if (!routeMapItem?.children?.length) {
       dispatch(
         setTags({
-          label: routeMapItem?.meta?.title,
+          label: routeMapItem.label,
           path: routeMapItem.path
         })
       )

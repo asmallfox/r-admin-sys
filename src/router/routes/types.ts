@@ -7,6 +7,7 @@ export interface MenuItem extends ItemType {
   key: React.Key
   icon?: React.ReactNode
   redirect?: string
+  path?: string
   children?: MenuItem[]
 }
 

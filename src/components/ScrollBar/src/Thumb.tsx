@@ -2,9 +2,8 @@ import type { CSSProperties } from 'react'
 import { useRef, useContext, useState, useEffect } from 'react'
 import { useDesign } from '@/hooks/web/useDesign'
 import { ScrollBarContext } from './config/scrollbarContext'
-import { renderThumb } from './util'
-
-import { BAR_OPTION } from './config/bar'
+import { renderThumb, BAR_OPTION } from './util'
+import { TinyColor } from '@ctrl/tinycolor'
 
 interface PropsType {
   size: number
@@ -25,20 +24,38 @@ function Thumb(props: PropsType) {
   const [thumbStyle, setThumbStyle] = useState<CSSProperties>()
   const [currentDown, setCurrentDown] = useState(false)
   const [visible, setVisible] = useState(false)
-
   const thumbState: Partial<Record<'offsetX' | 'offsetY', number>> = {}
-
   const bar = BAR_OPTION['vertical']
 
-  const barStyle = !props.color
-    ? {}
-    : {
-        color: props.color,
-        backgroundColor: props.color,
-        ':hover': {
-          backgroundColor: '#fff'
+  const color = new TinyColor(props.color)
+
+  const [barStyle, setBarStyle] = useState<CSSProperties>(
+    color.isValid
+      ? {
+          backgroundColor: color.toRgbString()
         }
+      : {}
+  )
+
+  const customThumbAttrs = () => {
+    if (props.color && !color.isValid) {
+      throw new Error('Invalid color')
+    }
+    return {
+      onMouseEnter: () => {
+        setBarStyle({
+          ...barStyle,
+          backgroundColor: color.tint(50).toString()
+        })
+      },
+      onMouseLeave: () => {
+        setBarStyle({
+          ...barStyle,
+          backgroundColor: color.toRgbString()
+        })
       }
+    }
+  }
 
   const mouseDownHandler = (e: React.MouseEvent) => {
     setCurrentDown(true)
@@ -114,6 +131,7 @@ function Thumb(props: PropsType) {
       }`}
       onMouseDown={mouseDownHandler}
       style={{ ...thumbStyle, ...barStyle }}
+      {...customThumbAttrs()}
     ></div>
   )
 }
