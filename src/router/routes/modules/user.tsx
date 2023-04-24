@@ -3,7 +3,7 @@ import type { RouterRaws } from '../types'
 import { Navigate } from 'react-router-dom'
 import { UserOutlined, AuditOutlined } from '@ant-design/icons'
 import User from '@/views/layout/user/user'
-import SysAdmin from '@/views/layout/user/sysAdmin'
+import SysAdmin from '@/views/layout/user/sysAdmin/sysAdmin'
 
 export const UserLayout: RouterRaws[] = [
   {
