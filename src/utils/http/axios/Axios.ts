@@ -71,4 +71,10 @@ export class VAxios {
   ): Promise<T> {
     return this.request<T>({ ...config, method: 'PUT' }, options)
   }
+  delete<T = any>(
+    config: AxiosRequestConfig,
+    options?: RequestOptions
+  ): Promise<T> {
+    return this.request<T>({ ...config, method: 'DELETE' }, options)
+  }
 }

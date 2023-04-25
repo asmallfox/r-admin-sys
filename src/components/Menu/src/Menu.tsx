@@ -65,6 +65,7 @@ export function LayoutMenu(props: { collapsed: boolean }) {
     }
     const routeMapItem = getRouteMapItem(location.pathname)
     if (!routeMapItem?.children?.length) {
+      console.log('===', routeMapItem)
       dispatch(
         setTags({
           label: routeMapItem.label,

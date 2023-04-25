@@ -3,6 +3,7 @@ import { defHttp } from '@/utils/http/axios'
 enum Api {
   Login = '/login',
   UserList = '/user-list',
+  DeleteUserById = 'delete-user-by-id'
 }
 
 export interface LoginParams {
@@ -21,5 +22,12 @@ export function getUserList(params?: any) {
   return defHttp.get({
     url: Api.UserList,
     params
+  })
+}
+
+export function deleteUserById(params: { id: string | number }) {
+  return defHttp.delete({
+    url: Api.DeleteUserById,
+    data: params
   })
 }

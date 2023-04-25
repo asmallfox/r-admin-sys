@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom'
 import { UserOutlined, AuditOutlined } from '@ant-design/icons'
 import User from '@/views/layout/user/user'
 import SysAdmin from '@/views/layout/user/sysAdmin/sysAdmin'
+import UserDetail from '@/views/layout/user/userDetail/userDetail'
 
 export const UserLayout: RouterRaws[] = [
   {
@@ -71,6 +72,16 @@ export const UserLayout: RouterRaws[] = [
           },
           { path: 'consumer-2', element: <User />, meta: { title: 'test2' } }
         ]
+      },
+      //
+      {
+        path: 'user-detail/:id',
+        element: <UserDetail />,
+        meta: {
+          title: '用户详情',
+          icon: <UserOutlined />,
+          menuHidden: true
+        }
       }
     ]
   }

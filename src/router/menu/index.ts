@@ -12,7 +12,7 @@ export function pathSnippets(pathname: string): string[] {
 }
 
 /* 路由转换menu */
-export function transformRouteToMenu(routes: RouterRaws[] = []) {
+export function transformRouteToMenu(routes: RouterRaws[]) {
   let cloneRouteList = cloneDeep(routes)
   cloneRouteList = sortBy(
     filterHiddenMenu(cloneRouteList),
@@ -62,6 +62,7 @@ export function transformRouteToMenu(routes: RouterRaws[] = []) {
 export function getRouteMapItem(path: string): MenuItem {
   const routePaths = pathSnippets(path)
   const menuList = getMenus()
+  console.log(menuList)
   const getRouteItem = (menus: MenuItem[], paths: string[]): MenuItem => {
     let findMenu = menus.find((item) => item.key === paths[0])
     paths.shift()
