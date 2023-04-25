@@ -284,7 +284,6 @@ function SysAdmin() {
         <div className="flex justify-between items-center">
           <Form
             className="flex w-full justify-between"
-            style={{background: 'pink'}}
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 18 }}
           >
@@ -300,6 +299,8 @@ function SysAdmin() {
             </Form.Item>
           </Form>
         </div>
+        <Divider />
+
         <Table
           loading={loading}
           columns={columns}

@@ -12,10 +12,10 @@ export function pathSnippets(pathname: string): string[] {
 }
 
 /* 路由转换menu */
-export function transformRouteToMenu(routes: RouterRaws[]) {
+export function transformRouteToMenu(routes: RouterRaws[], needFilter = true) {
   let cloneRouteList = cloneDeep(routes)
   cloneRouteList = sortBy(
-    filterHiddenMenu(cloneRouteList),
+    needFilter ? filterHiddenMenu(cloneRouteList) : cloneRouteList,
     (item) => item?.meta?.sortIndex ?? 0
   )
 
@@ -61,8 +61,7 @@ export function transformRouteToMenu(routes: RouterRaws[]) {
 /* 获取路由信息 */
 export function getRouteMapItem(path: string): MenuItem {
   const routePaths = pathSnippets(path)
-  const menuList = getMenus()
-  console.log(menuList)
+  const menuList = getMenus(false)
   const getRouteItem = (menus: MenuItem[], paths: string[]): MenuItem => {
     let findMenu = menus.find((item) => item.key === paths[0])
     paths.shift()
@@ -89,8 +88,8 @@ export function filterHiddenMenu(menus: RouterRaws[]): RouterRaws[] {
   return result
 }
 /* 获取menus */
-export function getMenus() {
-  return transformRouteToMenu(asyncRoutes)
+export function getMenus(needFilter = true) {
+  return transformRouteToMenu(asyncRoutes, needFilter)
 }
 
 interface Breadcrumb {
@@ -104,7 +103,7 @@ interface Breadcrumb {
 
 // 获取面包屑
 export function getBreadcrumb(path: string) {
-  const routes = getMenus()
+  const routes = getMenus(false)
   const paths = pathSnippets(path)
   const findRoute = cloneDeep([
     routes.find((route) => route?.key === paths[0])
@@ -121,8 +120,6 @@ export function getBreadcrumb(path: string) {
       if (item.children && item.children.length > 0) {
         const menu = {
           items: item.children.map((child) => ({
-            // title:
-            //   child.redirect ?? getRouteAllPath(findRoute, child.key as string),
             title: React.createElement(
               Link,
               {

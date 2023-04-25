@@ -64,8 +64,8 @@ export function LayoutMenu(props: { collapsed: boolean }) {
       setSelectKey(pathSplits.slice(-1))
     }
     const routeMapItem = getRouteMapItem(location.pathname)
+    console.log(routeMapItem)
     if (!routeMapItem?.children?.length) {
-      console.log('===', routeMapItem)
       dispatch(
         setTags({
           label: routeMapItem.label,
