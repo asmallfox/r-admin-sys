@@ -8,6 +8,7 @@ export interface MenuItem extends ItemType {
   icon?: React.ReactNode
   redirect?: string
   path?: string
+  active_menu?: string
   children?: MenuItem[]
 }
 
@@ -16,6 +17,7 @@ export interface Meta {
   icon?: JSX.Element
   sortIndex?: number
   menuHidden?: boolean
+  active_menu?: string
 }
 
 export interface RouterRaws extends Omit<NonIndexRouteObject, 'children'> {

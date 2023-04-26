@@ -30,6 +30,16 @@ export const UserLayout: RouterRaws = {
           }
         },
         {
+          path: 'super-admin_detail/:id',
+          element: <UserDetail />,
+          meta: {
+            title: '用户详情',
+            icon: <UserOutlined />,
+            menuHidden: true,
+            active_menu: '/user/administrator/super-admin'
+          }
+        },
+        {
           path: 'site-admin',
           element: <User />,
           meta: {
@@ -56,16 +66,16 @@ export const UserLayout: RouterRaws = {
         },
         { path: 'consumer-2', element: <User />, meta: { title: 'test2' } }
       ]
-    },
-    {
-      path: 'user-detail/:id',
-      element: <UserDetail />,
-      meta: {
-        title: '用户详情',
-        icon: <UserOutlined />,
-        menuHidden: true
-      }
     }
+    // {
+    //   path: 'user-detail/:id',
+    //   element: <UserDetail />,
+    //   meta: {
+    //     title: '用户详情',
+    //     icon: <UserOutlined />,
+    //     menuHidden: true
+    //   }
+    // }
   ]
 }
 

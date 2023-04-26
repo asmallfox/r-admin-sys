@@ -147,7 +147,7 @@ function SysAdmin() {
   })
 
   const handleDetail = (row: DataType) => {
-    navigate(`/user/user-detail/${row.id}`)
+    navigate(`/user/administrator/super-admin_detail/${row.id}`)
   }
   const handleEdit = (row: DataType) => {}
   const handleDelete = async (row: DataType) => {

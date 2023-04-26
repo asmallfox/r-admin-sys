@@ -36,8 +36,7 @@ export function LayoutMenu(props: { collapsed: boolean }) {
         if (children && children.length > 0) {
           const res = getOpenKeys(children, key, result)
           if (res.length > 0) {
-            result.push(...res)
-            result.push(path as string)
+            result.push(...res, path as string)
             return [...new Set(result)]
           }
         }

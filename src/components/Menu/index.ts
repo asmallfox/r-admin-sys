@@ -1,3 +1,3 @@
-import LayoutMenu from './src/Menu'
+import LayoutMenu from './src/LayoutMenu'
 
 export { LayoutMenu }

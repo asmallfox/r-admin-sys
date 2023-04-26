@@ -7,6 +7,15 @@ import { Link } from 'react-router-dom'
 import { isString } from '@/utils/is'
 import { asyncRoutes } from '@/router/routes'
 
+interface Breadcrumb {
+  title: React.ReactNode | string
+  key: React.Key
+  path?: string
+  menu?: {
+    items: Breadcrumb[]
+  }
+}
+
 export function pathSnippets(pathname: string): string[] {
   return pathname.split('/').filter((i) => i)
 }
@@ -24,6 +33,7 @@ export function transformRouteToMenu(routes: RouterRaws[], needFilter = true) {
     key?: React.Key | null,
     icon?: React.ReactNode,
     redirect?: string,
+    activeMenu?: string,
     children?: MenuItem[]
   ): MenuItem => {
     return {
@@ -31,7 +41,8 @@ export function transformRouteToMenu(routes: RouterRaws[], needFilter = true) {
       icon,
       children,
       redirect,
-      label
+      active_menu: activeMenu,
+      label,
     } as MenuItem
   }
 
@@ -41,17 +52,15 @@ export function transformRouteToMenu(routes: RouterRaws[], needFilter = true) {
       if (item.children?.length) {
         getFormatMenu(item.children)
       }
-      const label = item?.meta?.title
-      const path = pathSnippets(item.path as string)[0]
-      const icon = item?.meta?.icon
+      const label = item.meta?.title
+      const icon = item.meta?.icon
+      const activeMenu = item.meta?.active_menu
       const redirect = item.redirect
-      formatMenu[i] = getItem(
-        label,
-        path,
-        icon,
-        redirect,
-        item.children as MenuItem[]
-      )
+      const children = item.children?.length
+      ? (item.children as MenuItem[])
+      : undefined
+      const path = pathSnippets(item.path as string)[0]
+      formatMenu[i] = getItem(label, path, icon, redirect, activeMenu, children)
     }
   }
   getFormatMenu(cloneRouteList)
@@ -66,7 +75,7 @@ export function getRouteMapItem(path: string): MenuItem {
     let findMenu = menus.find((item) => item.key === paths[0])
     paths.shift()
     if (paths.length > 0) {
-      findMenu = getRouteItem(findMenu?.children ?? [], paths)
+      findMenu = getRouteItem(findMenu?.children ?? [], paths) ?? findMenu
     }
     return findMenu as MenuItem
   }
@@ -92,18 +101,9 @@ export function getMenus(needFilter = true) {
   return transformRouteToMenu(asyncRoutes, needFilter)
 }
 
-interface Breadcrumb {
-  title: React.ReactNode | string
-  key: React.Key
-  path?: string
-  menu?: {
-    items: Breadcrumb[]
-  }
-}
-
 // 获取面包屑
 export function getBreadcrumb(path: string) {
-  const routes = getMenus(false)
+  const routes = getMenus()
   const paths = pathSnippets(path)
   const findRoute = cloneDeep([
     routes.find((route) => route?.key === paths[0])
