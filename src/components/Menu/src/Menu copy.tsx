@@ -1,32 +1,63 @@
 import type { MenuProps } from 'antd'
-import { joinPath } from '@/router/menu'
-
-import { useState, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import type { MenuItem } from '@/router/routes/types'
 import { Menu } from 'antd'
-
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDesign } from '@/hooks/web/useDesign'
-import { getRouteMapItem, getMenus, pathSnippets } from '@/router/menu'
+
+import {
+  getMenus,
+  joinPath,
+  getRouteMapItem,
+  pathSnippets
+} from '@/router/menu'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { setTags } from '@/store/modules/menu'
-import './style/index.scss'
-import { MenuItem } from '@/router/routes/types'
 
-type itemType = MenuProps['items']
+function LayoutMenu() {
+  const { prefixCls } = useDesign('layout-menu')
 
-export function LayoutMenu(props: { collapsed: boolean }) {
-  const { prefixCls } = useDesign('menu')
-  const navigate = useNavigate()
   const dispatch = useDispatch()
-  const location = useLocation()
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
 
-  const pathSplits = pathSnippets(location.pathname)
-  const [selectKey, setSelectKey] = useState(pathSplits.slice(-1))
-  const [openKeys, setOpenKeys] = useState(pathSplits)
+  const menuItems = getMenus()
 
-  const menus = getMenus()
+  const paths = pathname.split('/')
+  const currentPath = paths.slice(-1)
+  const [selectedKey, setSelectedKey] = useState<string[]>(currentPath)
+  const [openKey, setOpenKey] = useState<string[]>(paths)
 
-  const getOpenKeys = (menus: MenuItem[], key: string, result: string[] = []) => {
+  const menuSelect: MenuProps['onSelect'] = ({
+    key,
+    keyPath,
+    selectedKeys
+  }) => {
+    const path = joinPath(keyPath.reverse())
+    // setSelectedKey(selectedKeys)
+    setOpenKey(keyPath.filter((v) => key !== v))
+    const curMenuItem = getRouteMapItem(pathname)
+    if (!curMenuItem?.children?.length) {
+      dispatch(
+        setTags({
+          label: curMenuItem.label,
+          path: curMenuItem.path
+        })
+      )
+    }
+    navigate(path)
+  }
+
+  const menuOpenChange: MenuProps['onOpenChange'] = (keys) => {
+    const latestOpenKey = keys.find((key) => openKey.indexOf(key) === -1)
+    setOpenKey(latestOpenKey ? getOpenKeys(menuItems, latestOpenKey) : [])
+  }
+
+  const getOpenKeys = (
+    menus: MenuItem[],
+    key: string,
+    result: string[] = []
+  ) => {
     const existsCurrentMenu = menus.find((item) => item.key === key)
     if (existsCurrentMenu) {
       result.push(key)
@@ -44,45 +75,24 @@ export function LayoutMenu(props: { collapsed: boolean }) {
     }
     return result
   }
-  const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
-    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
-    setOpenKeys(latestOpenKey ? getOpenKeys(menus, latestOpenKey) : [])
-  }
-
-  const onSelect: MenuProps['onSelect'] = (evt) => {
-    const { key, keyPath } = evt
-    const keys = keyPath.filter((path) => key !== path)
-    const routePath = joinPath(keyPath.reverse())
-    setOpenKeys(keys)
-    navigate(routePath)
-  }
 
   useEffect(() => {
-    setOpenKeys(pathSplits)
-    if (selectKey[0] !== pathSplits.at(-1)) {
-      setSelectKey(pathSplits.slice(-1))
-    }
-    const routeMapItem = getRouteMapItem(location.pathname)
-    console.log(routeMapItem)
-    if (!routeMapItem?.children?.length) {
-      dispatch(
-        setTags({
-          label: routeMapItem.label,
-          path: routeMapItem.path
-        })
-      )
-    }
-  }, [props, location])
+    console.log('useEffect 触发')
+    setSelectedKey(currentPath)
+  }, [pathname])
+  console.log('页面重新渲染')
+
   return (
     <div className={prefixCls}>
       <Menu
         theme="dark"
         mode="inline"
-        items={menus as itemType}
-        selectedKeys={selectKey}
-        openKeys={openKeys}
-        onOpenChange={onOpenChange}
-        onSelect={onSelect}
+        inlineIndent={12}
+        items={menuItems}
+        openKeys={openKey}
+        selectedKeys={selectedKey}
+        onSelect={menuSelect}
+        onOpenChange={menuOpenChange}
       />
     </div>
   )
