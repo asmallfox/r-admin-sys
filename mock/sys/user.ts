@@ -1,4 +1,3 @@
-import { isNumber } from 'lodash'
 import { MockMethod } from 'vite-plugin-mock'
 
 const userType = [1, 2, 3, 4]
@@ -162,10 +161,19 @@ export default [
     url: '/basic-api/user-list',
     method: 'get',
     response: ({ query }) => {
-      const { page = 1, pageSize = 20000 } = query
+      // desc 降序、asc 升序
+      const { page = 1, pageSize = 10, order = 'asc' } = query
       const start = (page - 1) * pageSize
       const end = start + Number(pageSize)
-      const result = userList.slice(start, end)
+      let result = userList.slice(start, end)
+      result = result.sort((i1, i2) => {
+        if (order === 'asc') {
+          return i1.createTime - i2.createTime
+        } else if (order === 'desc') {
+          return i2.createTime - i1.createTime
+        }
+        return 0
+      })
       return {
         code: 200,
         data: {
@@ -197,6 +205,45 @@ export default [
             message: 'Delete by id failed'
           },
           type: 'error'
+        }
+      }
+    }
+  },
+  {
+    url: '/basic-api/add-user',
+    method: 'post',
+    response: ({ body }) => {
+      const { username, nickname, role, description } = body
+      const existUser = userList.some((item) => item.username === username)
+      if (!username || !nickname || !role) {
+        return {
+          code: 404,
+          data: {
+            message: 'Please input all fields'
+          },
+          type: 'error'
+        }
+      } else if (existUser) {
+        return {
+          code: 404,
+          data: {
+            message: 'user already exists'
+          },
+          type: 'error'
+        }
+      }
+      userList.push({
+        id: userList.length + 1,
+        username,
+        nickname,
+        role,
+        description,
+        createTime: Date.now()
+      })
+      return {
+        code: 200,
+        data: {
+          message: 'Add user successfully'
         }
       }
     }

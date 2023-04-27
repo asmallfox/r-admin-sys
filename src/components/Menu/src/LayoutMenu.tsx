@@ -2,7 +2,7 @@ import type { MenuProps } from 'antd'
 import { joinPath } from '@/router/menu'
 
 import { useState, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { Menu } from 'antd'
 
@@ -19,10 +19,11 @@ export function LayoutMenu(props: { collapsed: boolean }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const location = useLocation()
+  const routeParams = useParams()
 
   const pathSplits = pathSnippets(location.pathname)
-  const [selectKey, setSelectKey] = useState(pathSplits.slice(-1))
-  const [openKeys, setOpenKeys] = useState(pathSplits)
+  const [selectKey, setSelectKey] = useState<string[]>([])
+  const [openKeys, setOpenKeys] = useState<string[]>([])
 
   const menus = getMenus()
 
@@ -53,38 +54,36 @@ export function LayoutMenu(props: { collapsed: boolean }) {
     setOpenKeys(latestOpenKey ? getOpenKeys(menus, latestOpenKey) : [])
   }
 
-  const onSelect: MenuProps['onSelect'] = (evt) => {
-    const { key, keyPath } = evt
-    const keys = keyPath.filter((path) => key !== path)
+  const onSelect: MenuProps['onSelect'] = ({ keyPath }) => {
     const routePath = joinPath(keyPath.reverse())
-    // setOpenKeys(keys)
     navigate(routePath)
   }
 
   useEffect(() => {
     const curMenuItem = getRouteMapItem(location.pathname)
-    console.log(curMenuItem)
     if (!curMenuItem?.children?.length) {
+      const label = Object.keys(routeParams).length
+        ? `${curMenuItem.label}：${routeParams.id}`
+        : curMenuItem.label
       dispatch(
         setTags({
-          label: curMenuItem.label,
+          label,
           path: curMenuItem.path
         })
       )
     }
     setOpenKeys(pathSplits)
     const curSelectKeys = curMenuItem.active_menu
-      ? pathSnippets(curMenuItem.active_menu)
+      ? pathSnippets(curMenuItem.active_menu).slice(-1)
       : pathSplits.slice(-1)
-    if (selectKey[0] !== pathSplits.at(-1)) {
-      setSelectKey(curSelectKeys)
-    }
+    setSelectKey(curSelectKeys)
   }, [props, location])
   return (
     <div className={prefixCls}>
       <Menu
         theme="dark"
         mode="inline"
+        inlineIndent={12}
         items={menus as itemType}
         selectedKeys={selectKey}
         openKeys={openKeys}

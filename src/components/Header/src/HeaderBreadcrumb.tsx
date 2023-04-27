@@ -1,3 +1,4 @@
+import type { IBreadcrumb } from '@/router/menu'
 import React, { useEffect, useState } from 'react'
 import { Breadcrumb } from 'antd'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
@@ -12,14 +13,13 @@ interface Props {
 }
 
 function HeaderBreadcrumb(props: Props) {
+  const { collapsed, setCollapsed } = props
+
   const { prefixCls } = useDesign('header-bread')
   const location = useLocation()
   const navigate = useNavigate()
-  const { collapsed, setCollapsed } = props
 
-  const breadcrumbs = getBreadcrumb(location.pathname)
-
-  const [breadcrumbItems, setBreadcrumbItems] = useState(breadcrumbs)
+  const [breadcrumbItems, setBreadcrumbItems] = useState<IBreadcrumb[]>([])
 
   const handleItemRender = (route: any) => {
     const { menu, path, title } = route
@@ -34,7 +34,8 @@ function HeaderBreadcrumb(props: Props) {
   }
 
   useEffect(() => {
-    setBreadcrumbItems(getBreadcrumb(location.pathname))
+    const breadcrumbs = getBreadcrumb(location.pathname)
+    setBreadcrumbItems(breadcrumbs)
   }, [location])
 
   return (

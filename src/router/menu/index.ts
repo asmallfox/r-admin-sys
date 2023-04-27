@@ -7,12 +7,12 @@ import { Link } from 'react-router-dom'
 import { isString } from '@/utils/is'
 import { asyncRoutes } from '@/router/routes'
 
-interface Breadcrumb {
+export interface IBreadcrumb {
   title: React.ReactNode | string
   key: React.Key
   path?: string
   menu?: {
-    items: Breadcrumb[]
+    items: IBreadcrumb[]
   }
 }
 
@@ -42,7 +42,7 @@ export function transformRouteToMenu(routes: RouterRaws[], needFilter = true) {
       children,
       redirect,
       active_menu: activeMenu,
-      label,
+      label
     } as MenuItem
   }
 
@@ -57,8 +57,8 @@ export function transformRouteToMenu(routes: RouterRaws[], needFilter = true) {
       const activeMenu = item.meta?.active_menu
       const redirect = item.redirect
       const children = item.children?.length
-      ? (item.children as MenuItem[])
-      : undefined
+        ? (item.children as MenuItem[])
+        : undefined
       const path = pathSnippets(item.path as string)[0]
       formatMenu[i] = getItem(label, path, icon, redirect, activeMenu, children)
     }
@@ -103,14 +103,18 @@ export function getMenus(needFilter = true) {
 
 // 获取面包屑
 export function getBreadcrumb(path: string) {
-  const routes = getMenus()
-  const paths = pathSnippets(path)
+  const routesMapMenu = getMenus(false)
+  const { active_menu, key: curKey } = getRouteMapItem(path)
+  const paths = pathSnippets(active_menu ? active_menu : path)
+  if (active_menu) {
+    paths.push(curKey as string)
+  }
   const findRoute = cloneDeep([
-    routes.find((route) => route?.key === paths[0])
+    routesMapMenu.find((route) => route?.key === paths[0])
   ]) as MenuItem[]
-  const flattenMenu = (menus: MenuItem[], result: Breadcrumb[] = []) => {
+  const flattenMenu = (menus: MenuItem[], result: IBreadcrumb[] = []) => {
     for (const item of menus) {
-      const breadItem: Breadcrumb = {
+      const breadItem: IBreadcrumb = {
         title: item.label,
         key: item.key
       }
@@ -140,11 +144,9 @@ export function getBreadcrumb(path: string) {
     }
     return result
   }
-
-  const filterResult = flattenMenu(findRoute).filter((item) =>
-    paths.includes(item.key as string)
-  )
-  return filterResult
+  const menuData = flattenMenu(findRoute)
+  const breads = menuData.filter((item) => paths.includes(item.key as string))
+  return breads
 }
 
 /* 获取路由路径 */

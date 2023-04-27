@@ -80,7 +80,6 @@ function LayoutMenu() {
     console.log('useEffect 触发')
     setSelectedKey(currentPath)
   }, [pathname])
-  console.log('页面重新渲染')
 
   return (
     <div className={prefixCls}>

@@ -9,7 +9,8 @@ import {
   Divider,
   Modal,
   Form,
-  Input
+  Input,
+  Select
 } from 'antd'
 import {
   ExclamationCircleOutlined,
@@ -19,7 +20,7 @@ import {
 } from '@ant-design/icons'
 import dayjs from 'dayjs'
 
-import { getUserList, deleteUserById } from '@/api'
+import { getUserListApi, deleteUserByIdApi, addUserApi } from '@/api'
 import { useMessage } from '@/hooks/web/useMessage'
 import PopconfirmButton from './components/PopconfirmButton'
 import { useNavigate } from 'react-router-dom'
@@ -155,7 +156,7 @@ function SysAdmin() {
       const requestParams = {
         id: row.id
       }
-      await deleteUserById(requestParams)
+      await deleteUserByIdApi(requestParams)
       await getUserListRequest()
       notification.success({
         message: '删除成功'
@@ -169,12 +170,13 @@ function SysAdmin() {
   }
 
   const getUserListRequest = async () => {
-    setLoading(true)
     try {
+      setLoading(true)
       const requestParams = {
-        ...paginationData
+        ...paginationData,
+        order: 'desc'
       }
-      const { data: res } = await getUserList(requestParams)
+      const { data: res } = await getUserListApi(requestParams)
       if (res.rows) {
         setUserList(res.rows)
         setTotal(res.total)
@@ -197,8 +199,21 @@ function SysAdmin() {
     await getUserListRequest()
   }
 
-  const handleAdd = () => {
-    setOpenAddModal(true)
+  const handleAdd = async () => {
+    try {
+      const formData = await form.validateFields()
+      await addUserApi(formData)
+      await getUserListRequest()
+      setOpenAddModal(false)
+      notification.success({
+        message: '用户添加成功'
+      })
+    } catch (error) {
+      console.error(error)
+      notification.error({
+        message: error.data.message
+      })
+    }
   }
 
   const TableHeader = () => {
@@ -206,7 +221,7 @@ function SysAdmin() {
       <div className="flex justify-between items-center">
         <span className="text-base">账号列表</span>
         <div className="flex items-center">
-          <Button type="primary" onClick={() => handleAdd()}>
+          <Button type="primary" onClick={() => setOpenAddModal(true)}>
             新增账号
           </Button>
           <Divider type="vertical" />
@@ -243,6 +258,25 @@ function SysAdmin() {
   }
   const [form] = Form.useForm()
 
+  const roleOption = [
+    {
+      value: '1',
+      label: '管理员'
+    },
+    {
+      value: '2',
+      label: '开发'
+    },
+    {
+      value: '3',
+      label: '运维'
+    },
+    {
+      value: '4',
+      label: '产品'
+    }
+  ]
+
   useEffect(() => {
     getUserListRequest()
   }, [paginationData])
@@ -257,10 +291,15 @@ function SysAdmin() {
           </div>
         }
         open={openAddModal}
-        onOk={() => setOpenAddModal(false)}
+        onOk={handleAdd}
         onCancel={() => setOpenAddModal(false)}
       >
-        <Form labelAlign="right" labelCol={{ span: 4 }} form={form}>
+        <Form
+          labelAlign="right"
+          labelCol={{ span: 4 }}
+          form={form}
+          name="subForm"
+        >
           <Form.Item
             label="用户名"
             tooltip="该字段用于登录"
@@ -270,7 +309,7 @@ function SysAdmin() {
             <Input placeholder="请输入" />
           </Form.Item>
           <Form.Item label="角色" name="role" rules={rules.role}>
-            <Input placeholder="请选择" />
+            <Select options={roleOption} placeholder="请选择" />
           </Form.Item>
           <Form.Item label="昵称" name="nickname" rules={rules.nickname}>
             <Input placeholder="请输入" />
@@ -282,19 +321,17 @@ function SysAdmin() {
       </Modal>
       <Card>
         <div className="flex justify-between items-center">
-          <Form
-            className="flex w-full justify-between"
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 18 }}
-          >
+          <Form layout="inline">
             <Form.Item label="用户名">
-              <Input></Input>
+              <Input />
             </Form.Item>
             <Form.Item label="昵称">
-              <Input></Input>
+              <Input />
             </Form.Item>
             <Form.Item>
-              <Button>查询</Button>
+              <Button type="primary" className="mr-3">
+                查询
+              </Button>
               <Button>重置</Button>
             </Form.Item>
           </Form>
