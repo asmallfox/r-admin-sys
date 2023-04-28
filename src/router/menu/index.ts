@@ -1,10 +1,11 @@
 import type { RouterRaws, MenuItem } from '@/router/routes/types'
 
-import { sortBy, cloneDeep } from 'lodash'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { sortBy, cloneDeep } from 'lodash'
 
-import { isString } from '@/utils/is'
+
+import { isString, isNil } from '@/utils/is'
 import { asyncRoutes } from '@/router/routes'
 
 export interface IBreadcrumb {
@@ -122,8 +123,9 @@ export function getBreadcrumb(path: string) {
         breadItem.path = item.redirect
       }
       if (item.children && item.children.length > 0) {
+        const children = item.children.filter(item => isNil(item.active_menu))
         const menu = {
-          items: item.children.map((child) => ({
+          items: children.map((child) => ({
             title: React.createElement(
               Link,
               {

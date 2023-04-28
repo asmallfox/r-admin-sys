@@ -1,4 +1,5 @@
 import { MockMethod } from 'vite-plugin-mock'
+import _, { filter } from 'lodash'
 
 const userType = [1, 2, 3, 4]
 
@@ -16,7 +17,7 @@ const userList = [
     username: 'smallfox',
     nickname: '小狐幽',
     role: userType[1],
-    createTime: 1514714800000,
+    createTime: 1682643537823,
     description: '开发人员'
   },
   {
@@ -161,12 +162,16 @@ export default [
     url: '/basic-api/user-list',
     method: 'get',
     response: ({ query }) => {
+      const {
+        page = 1,
+        pageSize = 10,
+        order = 'asc',
+        username,
+        nickname
+      } = query
+
       // desc 降序、asc 升序
-      const { page = 1, pageSize = 10, order = 'asc' } = query
-      const start = (page - 1) * pageSize
-      const end = start + Number(pageSize)
-      let result = userList.slice(start, end)
-      result = result.sort((i1, i2) => {
+      let result = _.cloneDeep(userList).sort((i1, i2) => {
         if (order === 'asc') {
           return i1.createTime - i2.createTime
         } else if (order === 'desc') {
@@ -174,10 +179,32 @@ export default [
         }
         return 0
       })
+      if (username || nickname) {
+        result = result.filter((item) => {
+          if (username !== undefined && nickname !== undefined) {
+            return (
+              item.username.indexOf(username) > -1 &&
+              item.nickname.indexOf(nickname) > -1
+            )
+          }
+          return (
+            item.username.indexOf(username) > -1 ||
+            item.nickname.indexOf(nickname) > -1
+          )
+        })
+      }
+
+      const start = (page - 1) * pageSize
+      const end = start + Number(pageSize)
+      result = result.slice(start, end)
       return {
         code: 200,
         data: {
-          rows: result,
+          rows: result.map((item) => ({
+            ...item,
+            id: item.id.toString(),
+            role: item.role.toString()
+          })),
           total: userList.length
         }
       }
@@ -244,6 +271,34 @@ export default [
         code: 200,
         data: {
           message: 'Add user successfully'
+        }
+      }
+    }
+  },
+  {
+    url: '/basic-api/update-user-by-id/:id',
+    method: 'put',
+    response: ({ body, query }) => {
+      const { id } = query
+      const index = userList.findIndex((item) => item.id === Number(id))
+      if (index !== -1) {
+        userList[index] = {
+          ...userList[index],
+          ...body
+        }
+      } else {
+        return {
+          code: 404,
+          data: {
+            message: 'Invalid id'
+          },
+          type: 'error'
+        }
+      }
+      return {
+        code: 200,
+        data: {
+          message: 'Update user successfully'
         }
       }
     }

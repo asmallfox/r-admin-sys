@@ -4,7 +4,8 @@ enum Api {
   Login = '/login',
   UserList = '/user-list',
   DeleteUserById = 'delete-user-by-id',
-  AddUser = '/add-user'
+  AddUser = '/add-user',
+  UpdateUser = `/update-user-by-id/{id}`
 }
 
 export interface LoginParams {
@@ -36,6 +37,13 @@ export function deleteUserByIdApi(params: { id: string | number }) {
 export function addUserApi(data: any) {
   return defHttp.post({
     url: Api.AddUser,
+    data
+  })
+}
+
+export function updateUserApi(data: any) {
+  return defHttp.put({
+    url: Api.UpdateUser,
     data
   })
 }

@@ -24,15 +24,14 @@ export function LayoutHeader(props: Props) {
       className={prefixCls}
       style={{ padding: 0, background: colorBgContainer }}
     >
-      <div className="flex justify-between items-center flex-nowrap" style={{ height: '48px', width: '100%' }}>
+      <div
+        className="flex justify-between items-center flex-nowrap"
+        style={{ height: '48px', width: '100%' }}
+      >
         <HeaderBreadcrumb collapsed={collapsed} setCollapsed={setCollapsed} />
         <HeaderMenu />
       </div>
-      <div>
-        <Divider style={{ margin: 0 }} />
-        <HeaderTag />
-        <Divider style={{ margin: 0 }} />
-      </div>
+      <HeaderTag />
     </Layout.Header>
   )
 }

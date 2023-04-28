@@ -10,7 +10,8 @@ import {
   Modal,
   Form,
   Input,
-  Select
+  Select,
+  Spin
 } from 'antd'
 import {
   ExclamationCircleOutlined,
@@ -20,7 +21,12 @@ import {
 } from '@ant-design/icons'
 import dayjs from 'dayjs'
 
-import { getUserListApi, deleteUserByIdApi, addUserApi } from '@/api'
+import {
+  getUserListApi,
+  deleteUserByIdApi,
+  addUserApi,
+  updateUserApi
+} from '@/api'
 import { useMessage } from '@/hooks/web/useMessage'
 import PopconfirmButton from './components/PopconfirmButton'
 import { useNavigate } from 'react-router-dom'
@@ -37,19 +43,19 @@ interface DataType {
 }
 
 const ROLE_OPTION = {
-  1: {
+  '1': {
     title: '管理员',
     color: 'magenta'
   },
-  2: {
+  '2': {
     title: '开发',
     color: 'orange'
   },
-  3: {
+  '3': {
     title: '运维',
     color: 'green'
   },
-  4: {
+  '4': {
     title: '产品',
     color: 'blue'
   }
@@ -116,7 +122,7 @@ function SysAdmin() {
             <Tooltip title="编辑用户资料">
               <Button
                 type="link"
-                onClick={() => handleEdit(row)}
+                onClick={() => handleOpenEditor(row)}
                 icon={<FormOutlined />}
               />
             </Tooltip>
@@ -141,6 +147,11 @@ function SysAdmin() {
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
   const [openAddModal, setOpenAddModal] = useState(false)
+  const [openEditModal, setOpenEditModal] = useState(false)
+
+  const [addForm] = Form.useForm()
+  const [editForm] = Form.useForm()
+  const [searchForm] = Form.useForm()
 
   const [paginationData, setPaginationData] = useState({
     page: 1,
@@ -150,7 +161,7 @@ function SysAdmin() {
   const handleDetail = (row: DataType) => {
     navigate(`/user/administrator/super-admin_detail/${row.id}`)
   }
-  const handleEdit = (row: DataType) => {}
+
   const handleDelete = async (row: DataType) => {
     try {
       const requestParams = {
@@ -169,13 +180,48 @@ function SysAdmin() {
     }
   }
 
+  const handleEdit = async () => {
+    try {
+      const values = await editForm.validateFields()
+      await updateUserApi({
+        ...values,
+        id: editForm.getFieldValue('id')
+      })
+      await getUserListRequest()
+      setOpenEditModal(false)
+      notification.success({
+        message: '编辑成功'
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleOpenEditor = (row: DataType) => {
+    editForm.setFieldsValue({
+      id: row.id,
+      username: row.username,
+      nickname: row.nickname,
+      role: row.role,
+      description: row.description
+    })
+    setOpenEditModal(true)
+  }
+
   const getUserListRequest = async () => {
     try {
       setLoading(true)
-      const requestParams = {
+      const requestParams: any = {
         ...paginationData,
         order: 'desc'
       }
+      const searchData = searchForm.getFieldsValue()
+      for (const key in searchData) {
+        if (searchData[key] !== '') {
+          requestParams[key] = searchData[key]
+        }
+      }
+
       const { data: res } = await getUserListApi(requestParams)
       if (res.rows) {
         setUserList(res.rows)
@@ -188,9 +234,9 @@ function SysAdmin() {
     }
   }
 
-  const paginationChange = (pagination: TablePaginationConfig) => {
+  const paginationChange = async (pagination: TablePaginationConfig) => {
     setPaginationData({
-      page: pagination.current ?? 0,
+      page: pagination.current ?? 1,
       pageSize: pagination.pageSize ?? 10
     })
   }
@@ -201,7 +247,7 @@ function SysAdmin() {
 
   const handleAdd = async () => {
     try {
-      const formData = await form.validateFields()
+      const formData = await addForm.validateFields()
       await addUserApi(formData)
       await getUserListRequest()
       setOpenAddModal(false)
@@ -214,6 +260,11 @@ function SysAdmin() {
         message: error.data.message
       })
     }
+  }
+
+  const onSearchReset = async () => {
+    searchForm.resetFields(['username', 'nickname'])
+    paginationChange({ current: 1, pageSize: 10 } as TablePaginationConfig)
   }
 
   const TableHeader = () => {
@@ -256,7 +307,6 @@ function SysAdmin() {
       }
     ]
   }
-  const [form] = Form.useForm()
 
   const roleOption = [
     {
@@ -297,7 +347,43 @@ function SysAdmin() {
         <Form
           labelAlign="right"
           labelCol={{ span: 4 }}
-          form={form}
+          form={addForm}
+          name="subForm"
+        >
+          <Form.Item
+            label="用户名"
+            tooltip="该字段用于登录"
+            name="username"
+            rules={rules.username}
+          >
+            <Input placeholder="请输入" />
+          </Form.Item>
+          <Form.Item label="角色" name="role" rules={rules.role}>
+            <Select options={roleOption} placeholder="请选择" />
+          </Form.Item>
+          <Form.Item label="昵称" name="nickname" rules={rules.nickname}>
+            <Input placeholder="请输入" />
+          </Form.Item>
+          <Form.Item label="备注" name="description">
+            <Input placeholder="请输入" />
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Modal
+        title={
+          <div>
+            <span>修改用户信息</span>
+            <Divider />
+          </div>
+        }
+        open={openEditModal}
+        onOk={handleEdit}
+        onCancel={() => setOpenEditModal(false)}
+      >
+        <Form
+          labelAlign="right"
+          labelCol={{ span: 4 }}
+          form={editForm}
           name="subForm"
         >
           <Form.Item
@@ -321,18 +407,22 @@ function SysAdmin() {
       </Modal>
       <Card>
         <div className="flex justify-between items-center">
-          <Form layout="inline">
-            <Form.Item label="用户名">
+          <Form layout="inline" form={searchForm}>
+            <Form.Item label="用户名" name="username">
               <Input />
             </Form.Item>
-            <Form.Item label="昵称">
+            <Form.Item label="昵称" name="nickname">
               <Input />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" className="mr-3">
+              <Button
+                type="primary"
+                className="mr-3"
+                onClick={getUserListRequest}
+              >
                 查询
               </Button>
-              <Button>重置</Button>
+              <Button onClick={onSearchReset}>重置</Button>
             </Form.Item>
           </Form>
         </div>
@@ -349,8 +439,8 @@ function SysAdmin() {
             total: total,
             showTotal: (total) => `共 ${total} 条数据`,
             pageSizeOptions: [5, 10, 20, 50, 100, 500],
-            defaultCurrent: paginationData.page,
-            defaultPageSize: paginationData.pageSize,
+            current: paginationData.page,
+            pageSize: paginationData.pageSize,
             showQuickJumper: true,
             showSizeChanger: true,
             position: ['bottomRight']
