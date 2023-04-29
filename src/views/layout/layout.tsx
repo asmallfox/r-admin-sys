@@ -21,11 +21,11 @@ function AppLayout() {
       <SideBar collapsed={collapsed} />
       <Layout className={`${prefixCls}-site`} style={{ background: '#f0f2f5' }}>
         <LayoutHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-        {/* <Layout.Content className="flex-auto">
+        <Layout.Content className="flex-auto">
           <ScrollBar always>
             <Outlet />
           </ScrollBar>
-        </Layout.Content> */}
+        </Layout.Content>
       </Layout>
     </Layout>
   )

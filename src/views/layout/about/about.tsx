@@ -32,10 +32,14 @@ function About() {
           的后台解决方案，目标是为中大型项目开发,提供现成的开箱解决方案及丰富的示例,原则上不会限制任何代码用于商用。
         </span>
       </div>
-      <Card>
-        <div>{DescribeList(dependencies)}</div>
-        <div>{DescribeList(devDependencies)}</div>
-      </Card>
+      <div>
+        <Card className="mb-3">
+          <div>{DescribeList(dependencies)}</div>
+        </Card>
+        <Card>
+          <div>{DescribeList(devDependencies)}</div>
+        </Card>
+      </div>
     </PageContainer>
   )
 }

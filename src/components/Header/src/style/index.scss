@@ -3,6 +3,9 @@ $prefix-cls: #{$namespace}-header;
 $tag-color-active: '#0960db';
 
 .#{$prefix-cls} {
+  background-color: #fff;
+  height: auto;
+  padding-bottom: 1px;
   &-bread {
     height: 48px;
     & .trigger {
@@ -32,22 +35,25 @@ $tag-color-active: '#0960db';
 
   &-tag {
     height: 32px;
-    line-height: 32px;
-    padding-top: 2px;
-    background-color: #fff;
-    box-sizing: border-box;
-    display: flex;
     white-space: nowrap;
     border-bottom: 1px solid #d9d9d9;
-    box-sizing: border-box;
-    &-item {
+    &-wrapper {
       height: 30px;
-      line-height: 26px;
+      padding-top: 2px;
+      border-top: 1px solid #e5e7eb;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    &-item {
+      height: 100%;
       font-size: 12px;
       background-color: #fff;
+      display: flex;
+      align-items: center;
       &__action {
         color: #fff;
         background-color: #{$tag-color-active};
+        border-color: #{$tag-color-active};
+        box-sizing: border-box;
       }
       &:hover {
         cursor: pointer;

@@ -35,23 +35,25 @@ function HeaderTag() {
     setTagList(menuSelectList)
   }, [menuSelectList])
   return (
-    <div className={`${prefixCls} px-2`}>
-      {tagList.map((item, index) => {
-        const clsName = getClass(
-          pathname === item.path ? `${prefixCls}-item__action` : ''
-        )
-        return (
-          <Tag
-            className={clsName}
-            key={item.path}
-            closable={index !== 0}
-            onClick={() => navigate(item.path)}
-            onClose={() => oncloseTag(item)}
-          >
-            {item.label}
-          </Tag>
-        )
-      })}
+    <div className={`${prefixCls}`}>
+      <div className={`${prefixCls}-wrapper px-2 flex items-center`}>
+        {tagList.map((item, index) => {
+          const clsName = getClass(
+            pathname === item.path ? `${prefixCls}-item__action` : ''
+          )
+          return (
+            <Tag
+              className={clsName}
+              key={item.path}
+              closable={index !== 0}
+              onClick={() => navigate(item.path)}
+              onClose={() => oncloseTag(item)}
+            >
+              {item.label}
+            </Tag>
+          )
+        })}
+      </div>
     </div>
   )
 }

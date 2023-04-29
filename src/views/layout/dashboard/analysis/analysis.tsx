@@ -5,6 +5,8 @@ import GrowCard from './components/GrowCard'
 import SiteAnalysis from './components/SiteAnalysis'
 import Detail from './components/DetailRadar'
 
+import { PageContainer } from '@/components/PageContainer'
+
 import './style/index.scss'
 
 const Analysis = () => {
@@ -17,11 +19,13 @@ const Analysis = () => {
   }, 1500)
 
   return (
-    <div className={prefixCls}>
-      <GrowCard loading={loading} />
-      <SiteAnalysis loading={loading} />
-      <Detail loading={loading} />
-    </div>
+    <PageContainer>
+      <div className={prefixCls}>
+        <GrowCard loading={loading} />
+        <SiteAnalysis loading={loading} />
+        <Detail loading={loading} />
+      </div>
+    </PageContainer>
   )
 }
 

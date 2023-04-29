@@ -10,8 +10,7 @@ import {
   Modal,
   Form,
   Input,
-  Select,
-  Spin
+  Select
 } from 'antd'
 import {
   ExclamationCircleOutlined,
@@ -20,6 +19,7 @@ import {
   RedoOutlined
 } from '@ant-design/icons'
 import dayjs from 'dayjs'
+import { PageContainer, headerKey } from '@/components/PageContainer'
 
 import {
   getUserListApi,
@@ -332,7 +332,7 @@ function SysAdmin() {
   }, [paginationData])
 
   return (
-    <div>
+    <div className="p-4">
       <Modal
         title={
           <div>

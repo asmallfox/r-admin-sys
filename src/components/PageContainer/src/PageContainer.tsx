@@ -12,13 +12,22 @@ function PageContainer(props: PageContainerProps) {
       return key !== headerKey ? 'p-4' : ''
     }
     if (Array.isArray(children)) {
-      return children.map((item, index) => {
-        return (
-          <div key={index} className={getClassName(item.key)}>
-            {item}
-          </div>
-        )
-      })
+      const headerElement = children.find((el) => el.key === headerKey)
+      const otherElement = children.find((el) => el.key !== headerKey)
+      console.log(headerElement, otherElement)
+      return (
+        <>
+          {headerElement && headerElement}
+          <div className="p-4">{otherElement}</div>
+        </>
+      )
+      // return children.map((item, index) => {
+      //   return (
+      //     <div key={index} className={getClassName(item.key)}>
+      //       {item}
+      //     </div>
+      //   )
+      // })
     } else {
       return <div className={getClassName()}>{children}</div>
     }
