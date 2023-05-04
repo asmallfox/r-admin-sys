@@ -41,20 +41,22 @@ function Thumb(props: PropsType) {
     if (props.color && !color.isValid) {
       throw new Error('Invalid color')
     }
-    return {
-      onMouseEnter: () => {
-        setBarStyle({
-          ...barStyle,
-          backgroundColor: color.tint(50).toString()
-        })
-      },
-      onMouseLeave: () => {
-        setBarStyle({
-          ...barStyle,
-          backgroundColor: color.toRgbString()
-        })
-      }
-    }
+    return props.color
+      ? {
+          onMouseEnter: () => {
+            setBarStyle({
+              ...barStyle,
+              backgroundColor: color.tint(50).toString()
+            })
+          },
+          onMouseLeave: () => {
+            setBarStyle({
+              ...barStyle,
+              backgroundColor: color.toRgbString()
+            })
+          }
+        }
+      : {}
   }
 
   const mouseDownHandler = (e: React.MouseEvent) => {

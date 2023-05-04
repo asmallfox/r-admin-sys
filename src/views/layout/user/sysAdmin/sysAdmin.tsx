@@ -33,6 +33,8 @@ import { useNavigate } from 'react-router-dom'
 
 import './style/index.scss'
 
+import { TableContainer } from '@/components/Table'
+
 interface DataType {
   id: number | string
   username: string
@@ -406,6 +408,7 @@ function SysAdmin() {
         </Form>
       </Modal>
       <Card>
+        <TableContainer api={getUserListApi} columns={columns} />
         <div className="flex justify-between items-center">
           <Form layout="inline" form={searchForm}>
             <Form.Item label="用户名" name="username">
