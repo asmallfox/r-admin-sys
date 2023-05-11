@@ -5,7 +5,8 @@ import { isFunction } from 'lodash'
 
 interface SearchProps {
   onSearch: (rgms?: any) => void
-  onReset?: () => void
+  onReset?: () => void,
+  searchItems?: any[]
 }
 
 export default function Search(props: SearchProps) {

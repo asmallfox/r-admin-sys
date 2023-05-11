@@ -19,13 +19,11 @@ const Analysis = () => {
   }, 1500)
 
   return (
-    <PageContainer>
-      <div className={prefixCls}>
-        <GrowCard loading={loading} />
-        <SiteAnalysis loading={loading} />
-        <Detail loading={loading} />
-      </div>
-    </PageContainer>
+    <div className={`${prefixCls} p-4`}>
+      <GrowCard loading={loading} />
+      <SiteAnalysis loading={loading} />
+      <Detail loading={loading} />
+    </div>
   )
 }
 

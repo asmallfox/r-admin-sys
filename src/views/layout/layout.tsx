@@ -6,7 +6,6 @@ import { SideBar } from '@/components/SideBar'
 import { LayoutHeader } from '@/components/Header'
 import { useDesign } from '@/hooks/web/useDesign'
 import { ScrollBar } from '@/components/ScrollBar'
-import { PageContainer } from '@/components/PageContainer'
 
 import './style/layout.scss'
 
@@ -21,7 +20,7 @@ function AppLayout() {
       <SideBar collapsed={collapsed} />
       <Layout className={`${prefixCls}-site`} style={{ background: '#f0f2f5' }}>
         <LayoutHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-        <Layout.Content className="flex-auto">
+        <Layout.Content className="flex-auto h-full">
           <ScrollBar always>
             <Outlet />
           </ScrollBar>

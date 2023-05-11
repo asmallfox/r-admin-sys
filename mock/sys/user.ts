@@ -216,7 +216,7 @@ export default [
     method: 'delete',
     response: ({ body }) => {
       try {
-        const index = userList.findIndex((item) => item.id === body.id)
+        const index = userList.findIndex((item) => item.id === Number(body.id))
         if (index === -1) throw new Error('Invalid id')
         userList.splice(index, 1)
         return {

@@ -70,7 +70,7 @@ function ScrollBar(props: PropsType) {
         ref={wrapRef}
         onScroll={handleScroll}
       >
-        <div ref={contentRef}>{children}</div>
+        <div className="h-full min-h-full box-border" ref={contentRef}>{children}</div>
       </div>
       <ScrollBarContext.Provider value={value}>
         <Thumb

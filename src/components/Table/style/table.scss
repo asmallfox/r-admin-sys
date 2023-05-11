@@ -1,0 +1,27 @@
+$prefix-cls: '#{$namespace}-table';
+
+.#{$prefix-cls} {
+  .ant-table-wrapper,
+  .ant-spin-nested-loading {
+    height: 100%;
+  }
+  .ant-spin-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    .ant-table {
+      flex: 1;
+      ::-webkit-scrollbar {
+        width: 6px;
+        background-color: #f2f2f2;
+        &-thumb {
+          border-radius: 8px;
+          background-color: #c1c1c1;
+        }
+      }
+      // &.ant-table-pagination.ant-pagination {
+      //   margin: 10px 0 0;
+      // }
+    }
+  }
+}

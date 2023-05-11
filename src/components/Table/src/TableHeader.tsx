@@ -10,6 +10,9 @@ interface TableHeaderProps {
 export default function TableHeader(props: TableHeaderProps) {
   const { refresh, addEvent } = props
   const handleRefresh = async () => {
+    
+    window.getSelection()?.removeAllRanges()
+
     isFunction(refresh) && refresh()
   }
 

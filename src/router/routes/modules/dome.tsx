@@ -2,6 +2,7 @@ import type { RouterRaws } from '../types'
 
 import { DeploymentUnitOutlined } from '@ant-design/icons'
 import TodoList from '@/views/layout/demo/todo-list'
+import PrintDemo from '@/views/layout/demo/print-dome'
 
 export const DemoLayout: RouterRaws = {
   path: '/demo',
@@ -17,6 +18,13 @@ export const DemoLayout: RouterRaws = {
       element: <TodoList />,
       meta: {
         title: 'todoList'
+      }
+    },
+    {
+      path: 'print-dome',
+      element: <PrintDemo />,
+      meta: {
+        title: 'PrintDome'
       }
     }
   ]
