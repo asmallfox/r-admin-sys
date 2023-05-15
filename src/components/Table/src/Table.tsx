@@ -1,6 +1,6 @@
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useId } from 'react'
 import { Table, Button, Tooltip, Divider } from 'antd'
 import { DeleteOutlined, FormOutlined } from '@ant-design/icons'
 import { cloneDeep } from 'lodash'
@@ -17,44 +17,49 @@ import '../style/table.scss'
 
 type TColumnsType<T = any> = ColumnsType<T>
 type Api = string | (<T = any>(rgms: T) => Promise<T>)
+
 interface TableProps {
-  pagination?: boolean
-  data?: any
-  addFormItems?: any[]
-  config: {
+  data?: Record<string, unknown>[]
+  columns?: TColumnsType
+  pagination?: boolean | object
+  config?: {
     list: {
-      api?: Api
+      api: Api
       columns: TColumnsType
     }
     create?: {
-      api?: Api
-      formItems?: any[]
+      api: Api
+      formItems: any[]
       rules?: Record<string, unknown>
     }
     delete?: {
-      api?: Api
+      api: Api
     }
     update?: {
-      api?: Api
-      formItems?: any[]
+      api: Api
+      formItems: any[]
       rules?: Record<string, unknown>
     }
     search?: {
-      formItems?: any[]
+      formItems: any[]
     }
   }
 }
 
 export default function TableContainer(props: TableProps) {
   const { prefixCls } = useDesign('table')
-  const { config } = props
+  const { config, columns, data, pagination } = props
 
-  const [columns, setColumns] = useState(cloneDeep(config.list.columns))
+  const [columnsData, setColumnsData] = useState(
+    cloneDeep(config?.list.columns || columns)
+  )
 
   const { notification } = useMessage()
 
   const [loading, setLoading] = useState(false)
-  const [dataSource, setDataSource] = useState()
+  const [dataSource, setDataSource] = useState<Record<string, unknown>[]>(
+    data ?? []
+  )
   const [total, setTotal] = useState(0)
   const [paginationData, setPaginationData] = useState({
     page: 1,
@@ -64,8 +69,6 @@ export default function TableContainer(props: TableProps) {
   const [openUpdateModal, setOpenUpdateModal] = useState(false)
 
   const [updateData, setUpdateData] = useState(() => ({}))
-
-  const [tableBodyHeight, setTableBodyHeight] = useState<string>()
 
   const paginationChange = async (pagination: TablePaginationConfig) => {
     setPaginationData({
@@ -82,8 +85,8 @@ export default function TableContainer(props: TableProps) {
         order: 'desc',
         ...params
       }
-      if (isFunction(config.list.api)) {
-        const { data: res } = (await config.list.api(requestParams)) as any
+      if (isFunction(config?.list.api)) {
+        const { data: res } = (await config?.list.api(requestParams)) as any
         setDataSource(res.rows)
         setTotal(res.total ?? res.rows.length)
       }
@@ -154,11 +157,15 @@ export default function TableContainer(props: TableProps) {
         x?: string | number
         y?: string | number
       }
+      size: 'large' | 'middle' | 'small'
+      bordered: boolean
     } = {
       scroll: {
-        x: 1500,
+        x: 'max-content',
         y: getTableBodyHeight()
-      }
+      },
+      size: 'small',
+      bordered: true
     }
 
     if (config?.create) {
@@ -195,11 +202,11 @@ export default function TableContainer(props: TableProps) {
     }
   }
 
-  function initConfig() {
-    const operate = (row?: any) => {
+  const initConfig = () => {
+    const operate = (row: any) => {
       return (
         <>
-          {config.update && (
+          {config?.update && (
             <>
               <Tooltip title="编辑用户资料">
                 <Button
@@ -211,7 +218,7 @@ export default function TableContainer(props: TableProps) {
               {config.delete && <Divider type="vertical" />}
             </>
           )}
-          {config.delete && (
+          {config?.delete && (
             <PopconfirmButton
               confirmTitle="是否确认删除"
               tipText="删除此账号"
@@ -225,85 +232,93 @@ export default function TableContainer(props: TableProps) {
       )
     }
     if (
-      (config.delete || config.update) &&
-      !columns.some((item) => item.title === '操作')
+      (config?.delete || config?.update) &&
+      !columnsData.some((item) => item.title === '操作')
     ) {
-      setColumns([
-        ...columns,
+      setColumnsData([
+        ...columnsData,
         {
           title: '操作',
           align: 'center',
           width: '160px',
+          fixed: 'right',
           render: (value, row) => operate(row)
         }
       ])
     }
+    if (!config?.list.api && props.data) {
+      setDataSource(props.data)
+    }
   }
 
-  function getTableBodyHeight() {
+  const getTableBodyHeight = () => {
     const tabTheadEl = document.querySelector('.ant-table-tbody')
-    // const paginationEl = document.querySelector('.ant-pagination')
-    const theadHeightBottom = tabTheadEl?.getBoundingClientRect().top ?? 0
+    const theadBottom = tabTheadEl?.getBoundingClientRect().top ?? 0
+    const height = theadBottom + 56
 
-    const height = theadHeightBottom  + 56
-
-    return `calc(100vh - ${height}px)`
+    return `calc(100vh - 1rem - ${height}px)`
   }
-  console.log('渲染')
   useEffect(() => {
     initConfig()
-    // setTableBodyHeight(getTableBodyHeight())
   }, [])
 
   useEffect(() => {
     request()
   }, [paginationData])
-
   return (
     <div
-      className={`${prefixCls} h-full bg-white px-2 pt-4 flex flex-col`}
-      style={{ borderRadius: '8px' }}
+      className={`${prefixCls} h-full bg-white p-2 flex flex-col overflow-hidden`}
+      style={{ borderRadius: '6px' }}
     >
-      <FormDialog
-        title="添加账号"
-        open={openAddModal}
-        onOk={addConfirm}
-        onCancel={addCancel}
-        formItems={config.create?.formItems}
-        rules={config.create?.rules}
-      />
-      <FormDialog
-        title="修改账号"
-        open={openUpdateModal}
-        onOk={updateConfirm}
-        onCancel={updateCancel}
-        formItems={config.update?.formItems}
-        rules={config.update?.rules}
-        defaultValue={updateData}
-      />
-      {config.search && (
-        <Search searchItems={config.search.formItems} onSearch={request} />
+      {config?.create && (
+        <FormDialog
+          title="添加账号"
+          open={openAddModal}
+          onOk={addConfirm}
+          onCancel={addCancel}
+          formItems={config.create.formItems}
+          rules={config.create?.rules}
+        />
+      )}
+      {config?.update && (
+        <FormDialog
+          title="修改账号"
+          open={openUpdateModal}
+          onOk={updateConfirm}
+          onCancel={updateCancel}
+          formItems={config.update.formItems}
+          rules={config.update?.rules}
+          defaultValue={updateData}
+        />
+      )}
+      {config?.search && (
+        <Search
+          searchItems={config.search.formItems}
+          onSearch={request}
+          className="mt-2 mb-4"
+        />
       )}
       <Table
         loading={loading}
-        columns={columns}
+        columns={columnsData}
         dataSource={dataSource}
         onChange={paginationChange}
-        rowKey="id"
-        size="small"
-        bordered
-        pagination={{
-          total: total,
-          showTotal: (total) => `共 ${total} 条数据`,
-          pageSizeOptions: [5, 10, 20, 50, 100, 500],
-          current: paginationData.page,
-          pageSize: paginationData.pageSize,
-          showQuickJumper: true,
-          showSizeChanger: true,
-          position: ['bottomRight']
+        rowKey={(record) => {
+          return record.id || useId()
         }}
+        pagination={
+          (pagination || !props.data) && {
+            total: total,
+            showTotal: (total) => `共 ${total} 条数据`,
+            pageSizeOptions: [5, 10, 20, 50, 100, 500],
+            current: paginationData.page,
+            pageSize: paginationData.pageSize,
+            showQuickJumper: true,
+            showSizeChanger: true,
+            position: ['bottomRight']
+          }
+        }
         {...tableAttrs()}
-        // scroll={{ y: tableBodyHeight }}
       />
     </div>
   )

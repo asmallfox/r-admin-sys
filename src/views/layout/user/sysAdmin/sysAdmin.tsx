@@ -3,7 +3,7 @@ import { Tag } from 'antd'
 import dayjs from 'dayjs'
 
 import { PageContainer } from '@/components/PageContainer'
-import { TableContainer } from '@/components/Table'
+import { TablePro } from '@/components/Table'
 
 import {
   getUserListApi,
@@ -180,7 +180,7 @@ function SysAdmin() {
 
   return (
     <PageContainer>
-      <TableContainer config={config} />
+      <TablePro config={config} />
     </PageContainer>
   )
 }

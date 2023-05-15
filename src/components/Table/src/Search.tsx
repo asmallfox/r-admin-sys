@@ -5,12 +5,13 @@ import { isFunction } from 'lodash'
 
 interface SearchProps {
   onSearch: (rgms?: any) => void
-  onReset?: () => void,
+  onReset?: () => void
   searchItems?: any[]
+  className?: string
 }
 
 export default function Search(props: SearchProps) {
-  const { onSearch, onReset } = props
+  const { onSearch, onReset, className } = props
   const [searchForm] = Form.useForm()
 
   function handleSearch() {
@@ -30,11 +31,10 @@ export default function Search(props: SearchProps) {
     searchForm.resetFields()
     isFunction(onSearch) && onSearch()
     isFunction(onReset) && onReset()
-
   }
 
   return (
-    <div className="flex justify-between items-center mb-4">
+    <div className={`${className} flex justify-between items-center`}>
       <Form layout="inline" form={searchForm}>
         <Form.Item label="用户名" name="username">
           <Input />

@@ -3,6 +3,7 @@ import type { RouterRaws } from '../types'
 import { UserOutlined, AuditOutlined } from '@ant-design/icons'
 import User from '@/views/layout/user/user'
 import SysAdmin from '@/views/layout/user/sysAdmin/sysAdmin'
+import Ordinary from '@/views/layout/user/ordinary/ordinary'
 import UserDetail from '@/views/layout/user/userDetail/userDetail'
 
 export const UserLayout: RouterRaws = {
@@ -15,45 +16,35 @@ export const UserLayout: RouterRaws = {
   },
   children: [
     {
-      path: 'administrator',
-      redirect: '/user/administrator/super-admin',
+      path: 'admin',
+      element: <SysAdmin />,
       meta: {
-        title: '管理员',
-        icon: <UserOutlined />
-      },
-      children: [
-        {
-          path: 'super-admin',
-          element: <SysAdmin />,
-          meta: {
-            title: '系统管理员'
-          }
-        },
-        {
-          path: 'super-admin_detail/:id',
-          element: <UserDetail />,
-          meta: {
-            title: '用户详情',
-            icon: <UserOutlined />,
-            menuHidden: true,
-            active_menu: '/user/administrator/super-admin'
-          }
-        },
-        {
-          path: 'site-admin',
-          element: <User />,
-          meta: {
-            title: '站点管理员'
-          }
-        }
-      ]
+        title: '系统管理员'
+      }
+    },
+    {
+      path: 'ordinary-user',
+      element: <Ordinary />,
+      meta: {
+        title: '普通用户'
+      }
+    },
+    {
+      path: 'admin_detail/:id',
+      element: <UserDetail />,
+      meta: {
+        title: '用户详情',
+        icon: <UserOutlined />,
+        menuHidden: true,
+        active_menu: '/user/administrator/super-admin'
+      }
     },
     {
       path: 'consumer',
       redirect: '/user/consumer/consumer-1',
       element: <User />,
       meta: {
-        title: '普通用户',
+        title: 'Test',
         icon: <UserOutlined />
       },
       children: [
@@ -67,15 +58,6 @@ export const UserLayout: RouterRaws = {
         { path: 'consumer-2', element: <User />, meta: { title: 'test2' } }
       ]
     }
-    // {
-    //   path: 'user-detail/:id',
-    //   element: <UserDetail />,
-    //   meta: {
-    //     title: '用户详情',
-    //     icon: <UserOutlined />,
-    //     menuHidden: true
-    //   }
-    // }
   ]
 }
 

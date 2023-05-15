@@ -1,5 +1,5 @@
-import TableContainer from "./src/Table";
+import TablePro from "./src/Table";
 
 export {
-  TableContainer
+  TablePro
 }

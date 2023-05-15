@@ -134,6 +134,17 @@ const userList = [
   }
 ]
 
+const ordinaryUsers = new Array(30).fill(0).map((_, index) => {
+  return {
+    id: index + 1,
+    username: `小狐幽${index + 1}`,
+    account: 'smallfox',
+    email: 'smallfox@gmail.com',
+    createTime: 1514764800000,
+    updateTime: 1514764800000
+  }
+})
+
 export default [
   // mock user login
   {
@@ -157,7 +168,7 @@ export default [
       }
     }
   },
-  // mock user list
+  // mock user list admin
   {
     url: '/basic-api/user-list',
     method: 'get',
@@ -210,7 +221,7 @@ export default [
       }
     }
   },
-  // mock user delete
+  // mock user delete admin
   {
     url: '/basic-api/delete-user-by-id',
     method: 'delete',
@@ -236,6 +247,7 @@ export default [
       }
     }
   },
+  // mock user add admin
   {
     url: '/basic-api/add-user',
     method: 'post',
@@ -275,6 +287,7 @@ export default [
       }
     }
   },
+  // mock user update admin
   {
     url: '/basic-api/update-user-by-id/:id',
     method: 'put',
@@ -299,6 +312,22 @@ export default [
         code: 200,
         data: {
           message: 'Update user successfully'
+        }
+      }
+    }
+  },
+  // mock user list 普通用户
+  {
+    url: '/basic-api/ordinary-user-list',
+    method: 'get',
+    response: (params) => {
+      console.log(params)
+
+      return {
+        code: 200,
+        data: {
+          rows: ordinaryUsers,
+          total: ordinaryUsers.length
         }
       }
     }

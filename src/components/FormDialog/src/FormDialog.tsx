@@ -16,12 +16,12 @@ interface FormItems {
 
 interface FormDialogProps {
   open: boolean
+  formItems: FormItems[]
   title?: string
   onOk?: Function
   onCancel?: Function
   rules?: Record<string, unknown>
-  formItems: FormItems[]
-  defaultValue: Record<string, unknown>
+  defaultValue?: Record<string, unknown>
 }
 
 export default function FormDialog(props: FormDialogProps) {

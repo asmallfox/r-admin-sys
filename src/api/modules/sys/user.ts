@@ -5,7 +5,9 @@ enum Api {
   UserList = '/user-list',
   DeleteUserById = 'delete-user-by-id',
   AddUser = '/add-user',
-  UpdateUser = `/update-user-by-id/{id}`
+  UpdateUser = `/update-user-by-id/{id}`,
+  // 普通用户
+  OrdinaryUserList = '/ordinary-user-list',
 }
 
 export interface LoginParams {
@@ -45,5 +47,12 @@ export function updateUserApi(data: any) {
   return defHttp.put({
     url: Api.UpdateUser,
     data
+  })
+}
+
+export function getOridnaryUserApi(params?: any) {
+  return defHttp.get({
+    url: Api.OrdinaryUserList,
+    params
   })
 }
