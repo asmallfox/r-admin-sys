@@ -49,6 +49,7 @@ export default function Ordinary() {
   useEffect(() => {
     getUserList()
   }, [])
+  console.log('ordinary')
   return (
     <PageContainer>
       <TablePro columns={columns} data={dataSource} />

@@ -4,9 +4,10 @@ import { useEffect, useState, useId } from 'react'
 import { Table, Button, Tooltip, Divider } from 'antd'
 import { DeleteOutlined, FormOutlined } from '@ant-design/icons'
 import { cloneDeep } from 'lodash'
+import axios from 'axios'
 
 import { useMessage } from '@/hooks/web/useMessage'
-import { isFunction } from '@/utils/is'
+import { isFunction, isString } from '@/utils/is'
 
 import Search from './Search'
 import TableHeader from './TableHeader'
@@ -51,7 +52,7 @@ export default function TableContainer(props: TableProps) {
   const { config, columns, data, pagination } = props
 
   const [columnsData, setColumnsData] = useState(
-    cloneDeep(config?.list.columns || columns)
+    config?.list.columns || columns || []
   )
 
   const { notification } = useMessage()
@@ -81,15 +82,22 @@ export default function TableContainer(props: TableProps) {
     try {
       setLoading(true)
       const requestParams = {
-        ...paginationData,
         order: 'desc',
+        ...paginationData,
         ...params
       }
-      if (isFunction(config?.list.api)) {
-        const { data: res } = (await config?.list.api(requestParams)) as any
-        setDataSource(res.rows)
-        setTotal(res.total ?? res.rows.length)
+      let res
+      if (isFunction(config?.list?.api)) {
+        const req = (await config?.list.api(requestParams)) as any
+        res = req.data.rows
+      } else {
+        const req = await axios.get(config?.list.api, {
+          params: requestParams
+        })
+        res = req.data.rows
       }
+      setDataSource(res.rows)
+      setTotal(res.total ?? res.rows.length)
     } catch (error) {
       console.error(error)
     } finally {
@@ -260,11 +268,14 @@ export default function TableContainer(props: TableProps) {
   }
   useEffect(() => {
     initConfig()
-  }, [])
+  }, [data])
 
   useEffect(() => {
-    request()
+    if (isFunction(config?.list.api)) {
+      request()
+    }
   }, [paginationData])
+  console.log('table', data)
   return (
     <div
       className={`${prefixCls} h-full bg-white p-2 flex flex-col overflow-hidden`}
