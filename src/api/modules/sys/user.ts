@@ -2,8 +2,9 @@ import { defHttp } from '@/utils/http/axios'
 
 enum Api {
   Login = '/login',
+  UserInfo = '/userinfo',
   UserList = '/user-list',
-  DeleteUserById = 'delete-user-by-id',
+  DeleteUserById = '/delete-user-by-id',
   AddUser = '/add-user',
   UpdateUser = `/update-user-by-id/{id}`,
   // 普通用户
@@ -15,10 +16,17 @@ export interface LoginParams {
   password: string
 }
 
-export function loginApi(params: LoginParams) {
+export function userInfoApi(params?: any) {
+  return defHttp.get({
+    url: Api.UserInfo,
+    params
+  })
+}
+
+export function loginApi(data: LoginParams) {
   return defHttp.post({
     url: Api.Login,
-    data: params
+    data
   })
 }
 

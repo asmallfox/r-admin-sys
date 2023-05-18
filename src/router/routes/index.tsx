@@ -9,6 +9,7 @@ import { NOT_FOUNT_ROUTE } from './basic'
 
 import { routeFactory } from '@/router/help/routeHelp'
 import AppLayout from '@/views/layout/layout'
+import AuthRouter from '@/views/auth/auth'
 
 const modules = import.meta.glob('./modules/**/*.tsx', { eager: true })
 const routeModules: RouterRaws[] = []
@@ -45,9 +46,19 @@ export const LargeScreenRoute: RouterRaws = {
     title: '可视化大屏'
   }
 }
+
+export const AuthRoute: RouterRaws = {
+  path: '/auth',
+  element: <AuthRouter />,
+  meta: {
+    title: '路由表'
+  }
+}
+
 export const basicRoutes = [
   LargeScreenRoute,
   LoginRoute,
+  AuthRoute,
   ...routeFactory(RootRoute),
   NOT_FOUNT_ROUTE
 ]

@@ -1,4 +1,5 @@
 import type { RouterRaws } from '../types'
+import { PermissionEnum } from '@/enums/menuEnum'
 
 import { UserOutlined, AuditOutlined } from '@ant-design/icons'
 import User from '@/views/layout/user/user'
@@ -19,7 +20,8 @@ export const UserLayout: RouterRaws = {
       path: 'admin',
       element: <SysAdmin />,
       meta: {
-        title: '系统管理员'
+        title: '系统管理员',
+        permission: [PermissionEnum.ADMIN]
       }
     },
     {

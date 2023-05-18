@@ -8,7 +8,6 @@ function userDetail() {
   const location = useLocation()
 
   const goBack = () => {
-    console.log()
     const menuItem = getRouteMapItem(location.pathname)
     navigate(menuItem.active_menu as string)
   }

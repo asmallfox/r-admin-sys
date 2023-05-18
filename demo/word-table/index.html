@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .box {
+      width: 300px;
+      height: 300px;
+      box-shadow: 0 0 6px 4px rgba(0, 0, 0, .3);
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>4</td>
+        </tr>
+        <tr>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>6</td>
+        </tr>
+        <tr>
+          <td>7</td>
+        </tr>
+        <tr>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>9</td>
+        </tr>
+        <tr>
+          <td>10</td>
+        </tr>
+        <tr>
+          <td>11</td>
+        </tr>
+        <tr>
+          <td>12</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+<script>
+  const data = [
+    {name: 'A', age: 30},
+    {name: 'B', age: 30},
+    {name: 'C', age: 30},
+    {name: 'D', age: 30},
+    {name: 'E', age: 30},
+  ]
+  function initPage() {
+    const element = document.querySelector('.box')
+    console.log(element)
+    const d = document.createElement('div')
+    d.innerHTML = '<div>div</div>'
+    console.log(d.style.width)
+  }
+  initPage()
+</script>
+</html>

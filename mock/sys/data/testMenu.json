@@ -1,0 +1,80 @@
+[
+  {
+    "title": "关于",
+    "path": "/about"
+  },
+  {
+    "title": "工作台",
+    "path": "/dashboard",
+    "children": [
+      {
+        "title": "表盘仪",
+        "path": "analysis"
+      },
+      {
+        "title": "统计",
+        "path": "workspace"
+      }
+    ]
+  },
+  {
+    "title": "Demo",
+    "path": "/demo",
+    "children": [
+      {
+        "title": "todoList",
+        "path": "todo-list"
+      },
+      {
+        "title": "PrintDome",
+        "path": "print-dome"
+      }
+    ]
+  },
+  {
+    "title": "echart",
+    "path": "/echart",
+    "children": [
+      {
+        "title": "可视化大屏",
+        "path": "large-screen"
+      }
+    ]
+  },
+  {
+    "title": "Three",
+    "path": "/three"
+  },
+  {
+    "title": "用户管理",
+    "path": "/user",
+    "children": [
+      {
+        "title": "系统管理员",
+        "path": "admin"
+      },
+      {
+        "title": "普通用户",
+        "path": "ordinary-user"
+      },
+      {
+        "title": "用户详情",
+        "path": "admin_detail/:id"
+      },
+      {
+        "title": "Test",
+        "path": "consumer",
+        "children": [
+          {
+            "title": "test1",
+            "path": "consumer-1"
+          },
+          {
+            "title": "test2",
+            "path": "consumer-2"
+          }
+        ]
+      }
+    ]
+  }
+]

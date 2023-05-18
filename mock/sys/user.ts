@@ -1,149 +1,7 @@
 import { MockMethod } from 'vite-plugin-mock'
-import _, { filter } from 'lodash'
-
-const userType = [1, 2, 3, 4]
-
-const userList = [
-  {
-    id: 1,
-    username: 'Tom',
-    nickname: '张三',
-    role: userType[0],
-    createTime: 1682385080446,
-    description: '是劳动法律精神独立房间'
-  },
-  {
-    id: 2,
-    username: 'smallfox',
-    nickname: '小狐幽',
-    role: userType[1],
-    createTime: 1682643537823,
-    description: '开发人员'
-  },
-  {
-    id: 3,
-    username: 'admin',
-    nickname: '管理人员1',
-    role: userType[1],
-    createTime: 1514569812000,
-    description: '系统管理员2'
-  },
-  {
-    id: 4,
-    username: 'asdf',
-    nickname: '王五',
-    role: userType[2],
-    createTime: 1514764800000,
-    description: '系统管理员3'
-  },
-  {
-    id: 5,
-    username: 'Tom',
-    nickname: '张三',
-    role: userType[0],
-    createTime: 1514764800000,
-    description: '系统管理员1'
-  },
-  {
-    id: 6,
-    username: 'smallfox',
-    nickname: '小狐幽',
-    role: userType[1],
-    createTime: 1514764800000,
-    description: '开发人员'
-  },
-  {
-    id: 7,
-    username: 'admin',
-    nickname: '管理人员1',
-    role: userType[1],
-    createTime: 1514764800000,
-    description: '系统管理员2'
-  },
-  {
-    id: 8,
-    username: 'asdf',
-    nickname: '王五',
-    role: userType[2],
-    createTime: 1514764800000,
-    description: '系统管理员3'
-  },
-  {
-    id: 9,
-    username: 'Tom',
-    nickname: '张三',
-    role: userType[0],
-    createTime: 1514764800000,
-    description: '系统管理员1'
-  },
-  {
-    id: 10,
-    username: 'smallfox',
-    nickname: '小狐幽',
-    role: userType[1],
-    createTime: 1514764800000,
-    description: '开发人员'
-  },
-  {
-    id: 11,
-    username: 'admin',
-    nickname: '管理人员1',
-    role: userType[1],
-    createTime: 1514764800000,
-    description: '系统管理员2'
-  },
-  {
-    id: 12,
-    username: 'asdf',
-    nickname: '王五',
-    role: userType[2],
-    createTime: 1514764800000,
-    description: '系统管理员3'
-  },
-  {
-    id: 13,
-    username: 'Tom',
-    nickname: '张三',
-    role: userType[0],
-    createTime: 1514764800000,
-    description: '系统管理员1'
-  },
-  {
-    id: 14,
-    username: 'smallfox',
-    nickname: '小狐幽',
-    role: userType[1],
-    createTime: 1514764800000,
-    description: '开发人员'
-  },
-  {
-    id: 15,
-    username: 'admin',
-    nickname: '管理人员1',
-    role: userType[1],
-    createTime: 1514764800000,
-    description: '系统管理员2'
-  },
-  {
-    id: 16,
-    username: 'asdf',
-    nickname: '王五',
-    role: userType[2],
-    createTime: 1514764800000,
-    description: '系统管理员3'
-  }
-]
-
-const ordinaryUsers = new Array(30).fill(0).map((_, index) => {
-  return {
-    id: index + 1,
-    username: `小狐幽${index + 1}`,
-    account: 'smallfox',
-    email: 'smallfox@gmail.com',
-    createTime: 1514764800000,
-    updateTime: 1514764800000
-  }
-})
+import _ from 'lodash'
+import { adminList, ordinaryUsers } from './data/userData'
+import { successResult, errorResult, RequestParams, getToken } from '../_util'
 
 export default [
   // mock user login
@@ -152,20 +10,38 @@ export default [
     method: 'post',
     response: ({ body }) => {
       const { username, password } = body
-      if (username === 'admin' && password === '123456') {
-        return {
-          code: 200,
-          data: {
-            token: 'user token by mock'
-          }
+      const findUser = adminList.find((item) => item.username === username)
+      if (findUser && findUser.password === password) {
+        const data = {
+          token: JSON.stringify({
+            username: username,
+            id: findUser.id,
+            permissions: findUser.permissions
+          }),
+          userInfo: findUser
         }
-      } else {
-        return {
-          code: 404,
-          message: 'error',
-          type: 'error'
+        return successResult(data)
+      }
+      return errorResult('Incorrect username ro password')
+    }
+  },
+  // mock userInfo
+  {
+    url: '/basic-api/userinfo',
+    method: 'get',
+    response: (request: RequestParams) => {
+      console.log(request)
+      const token = getToken(request.headers)
+      if (token) {
+        const { id, username } = JSON.parse(token)
+        const checkUser = adminList.find(
+          (item) => item.id === id && item.username === username
+        )
+        if (checkUser) {
+          return successResult(checkUser)
         }
       }
+      return errorResult()
     }
   },
   // mock user list admin
@@ -182,7 +58,7 @@ export default [
       } = query
 
       // desc 降序、asc 升序
-      let result = _.cloneDeep(userList).sort((i1, i2) => {
+      let result = _.cloneDeep(adminList).sort((i1, i2) => {
         if (order === 'asc') {
           return i1.createTime - i2.createTime
         } else if (order === 'desc') {
@@ -208,17 +84,15 @@ export default [
       const start = (page - 1) * pageSize
       const end = start + Number(pageSize)
       result = result.slice(start, end)
-      return {
-        code: 200,
-        data: {
-          rows: result.map((item) => ({
-            ...item,
-            id: item.id.toString(),
-            role: item.role.toString()
-          })),
-          total: userList.length
-        }
+      const data = {
+        rows: result.map((item) => ({
+          ...item,
+          id: item.id.toString(),
+          role: item.role.toString()
+        })),
+        total: adminList.length
       }
+      return successResult(data)
     }
   },
   // mock user delete admin
@@ -227,23 +101,12 @@ export default [
     method: 'delete',
     response: ({ body }) => {
       try {
-        const index = userList.findIndex((item) => item.id === Number(body.id))
+        const index = adminList.findIndex((item) => item.id === Number(body.id))
         if (index === -1) throw new Error('Invalid id')
-        userList.splice(index, 1)
-        return {
-          code: 200,
-          data: {
-            message: 'Delete by id successfully'
-          }
-        }
+        adminList.splice(index, 1)
+        return successResult(null, 'Delete by id successfully')
       } catch (error) {
-        return {
-          code: 404,
-          data: {
-            message: 'Delete by id failed'
-          },
-          type: 'error'
-        }
+        return errorResult(error.message)
       }
     }
   },
@@ -253,7 +116,7 @@ export default [
     method: 'post',
     response: ({ body }) => {
       const { username, nickname, role, description } = body
-      const existUser = userList.some((item) => item.username === username)
+      const existUser = adminList.some((item) => item.username === username)
       if (!username || !nickname || !role) {
         return {
           code: 404,
@@ -271,8 +134,8 @@ export default [
           type: 'error'
         }
       }
-      userList.push({
-        id: userList.length + 1,
+      adminList.push({
+        id: adminList.length + 1,
         username,
         nickname,
         role,
@@ -293,10 +156,10 @@ export default [
     method: 'put',
     response: ({ body, query }) => {
       const { id } = query
-      const index = userList.findIndex((item) => item.id === Number(id))
+      const index = adminList.findIndex((item) => item.id === Number(id))
       if (index !== -1) {
-        userList[index] = {
-          ...userList[index],
+        adminList[index] = {
+          ...adminList[index],
           ...body
         }
       } else {

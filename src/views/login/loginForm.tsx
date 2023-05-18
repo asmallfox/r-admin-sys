@@ -19,7 +19,7 @@ function LoginForm(props: {
     const { username, password, remember } = formData
     onLogin && onLogin(formData)
     if (remember) {
-      localCache.setItem(cacheEnum.USERINFO_KEY, {
+      localCache.setItem(cacheEnum.ACCOUNT_INFO_KEY, {
         username,
         password
       })
@@ -30,7 +30,7 @@ function LoginForm(props: {
     username: [{ required: true, message: 'Input your username!' }],
     password: [{ required: true, message: 'Input your password!' }]
   }
-  const localUserInfo = localCache.getItem(cacheEnum.USERINFO_KEY)
+  const localUserInfo = localCache.getItem(cacheEnum.ACCOUNT_INFO_KEY)
   const initUserInfo = {
     ...localUserInfo,
     remember: true

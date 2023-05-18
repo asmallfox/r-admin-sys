@@ -18,6 +18,8 @@ export interface Meta {
   sortIndex?: number
   menuHidden?: boolean
   active_menu?: string
+  authList?: string[]
+  permission?: string[]
 }
 
 export interface RouterRaws extends Omit<NonIndexRouteObject, 'children'> {

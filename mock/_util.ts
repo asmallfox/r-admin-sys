@@ -7,6 +7,30 @@ export function checkAuthorization(authorization: string) {
   return false
 }
 
+export interface RequestParams {
+  method: string
+  body: any
+  headers?: { authorization?: string }
+  query: any
+}
+
+export function successResult(data: any, message = 'Request Successful') {
+  return {
+    data,
+    message,
+    code: 200,
+    type: 'success'
+  }
+}
+
+export function errorResult(message = 'Request Error') {
+  return {
+    message,
+    code: 404,
+    type: 'error'
+  }
+}
+
 export function errorResponse(code: number, message = 'request error') {
   const errorRes = {
     message,
@@ -29,4 +53,9 @@ export function errorResponse(code: number, message = 'request error') {
   }
 
   return errorRes
+}
+
+// 获取Token
+export function getToken(headers) {
+  return headers?.authorization
 }
