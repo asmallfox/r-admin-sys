@@ -1,7 +1,7 @@
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
 
-import { useEffect, useState, useId } from 'react'
-import { Table, Button, Tooltip, Divider } from 'antd'
+import { useEffect, useState, useId, useRef, useMemo } from 'react'
+import { Table, Button, Tooltip, Divider, Pagination } from 'antd'
 import { DeleteOutlined, FormOutlined } from '@ant-design/icons'
 import { cloneDeep } from 'lodash'
 import axios from 'axios'
@@ -15,9 +15,10 @@ import { FormDialog } from '@/components/FormDialog'
 import { PopconfirmButton } from '@/components/PopconfirmButton'
 import { useDesign } from '@/hooks/web/useDesign'
 import '../style/table.scss'
+import TablePagination from './TablePagination'
 
 type TColumnsType<T = any> = ColumnsType<T>
-type Api = string | (<T = any>(rgms: T) => Promise<T>)
+type Api = string | (<T = any>(rgms?: T) => Promise<T>)
 
 interface TableProps {
   data?: Record<string, unknown>[]
@@ -51,55 +52,49 @@ export default function TableContainer(props: TableProps) {
   const { prefixCls } = useDesign('table')
   const { config, columns, data, pagination } = props
 
+  const paginationRef = useRef<HTMLDivElement>(null)
+
   const [columnsData, setColumnsData] = useState(
-    config?.list.columns || columns || []
+    () => config?.list.columns || columns || []
   )
 
   const { notification } = useMessage()
 
   const [loading, setLoading] = useState(false)
-  const [dataSource, setDataSource] = useState<Record<string, unknown>[]>(
-    data ?? []
-  )
-  const [total, setTotal] = useState(0)
-  const [paginationData, setPaginationData] = useState({
-    page: 1,
-    pageSize: 10
-  })
+
+  const [dataSource, setDataSource] = useState<Record<string, unknown>[]>()
+
+  const [total, setTotal] = useState<number>()
   const [openAddModal, setOpenAddModal] = useState(false)
   const [openUpdateModal, setOpenUpdateModal] = useState(false)
 
   const [updateData, setUpdateData] = useState(() => ({}))
 
-  const paginationChange = async (pagination: TablePaginationConfig) => {
-    setPaginationData({
-      page: pagination.current ?? 1,
-      pageSize: pagination.pageSize ?? 10
-    })
-  }
-
   async function request(params?: Record<string, unknown>) {
     try {
+      if (!config?.list.api) return
       setLoading(true)
+
       const requestParams = {
         order: 'desc',
-        ...paginationData,
         ...params
       }
+
       let res
-      if (isFunction(config?.list?.api)) {
-        const req = (await config?.list.api(requestParams)) as any
-        res = req.data.rows
+
+      if (isFunction(config.list.api)) {
+        res = (await config.list.api(requestParams)) as any
       } else {
-        const req = await axios.get(config?.list.api, {
+        res = await axios.get(config.list.api, {
           params: requestParams
         })
-        res = req.data.rows
       }
-      setDataSource(res.rows)
-      setTotal(res.total ?? res.rows.length)
-    } catch (error) {
-      console.error(error)
+      if (res.data) {
+        setDataSource(res.data.rows)
+        setTotal(res.data.total || 0)
+      }
+    } catch (err) {
+      console.error(err)
     } finally {
       setLoading(false)
     }
@@ -126,10 +121,6 @@ export default function TableContainer(props: TableProps) {
     }
   }
 
-  function addCancel() {
-    setOpenAddModal(false)
-  }
-
   async function updateConfirm(values: object, resetFields?: Function) {
     try {
       if (isFunction(config.update?.api)) {
@@ -154,41 +145,6 @@ export default function TableContainer(props: TableProps) {
       setOpenUpdateModal(false)
     }
   }
-  function updateCancel() {
-    setOpenUpdateModal(false)
-  }
-
-  const tableAttrs = () => {
-    const result: {
-      title?: JSX.Element | Function
-      scroll?: {
-        x?: string | number
-        y?: string | number
-      }
-      size: 'large' | 'middle' | 'small'
-      bordered: boolean
-    } = {
-      scroll: {
-        x: 'max-content',
-        y: getTableBodyHeight()
-      },
-      size: 'small',
-      bordered: true
-    }
-
-    if (config?.create) {
-      result['title'] = () => (
-        <TableHeader addEvent={() => setOpenAddModal(true)} refresh={request} />
-      )
-    }
-
-    return result
-  }
-
-  function handleOpenUpdate(row: any) {
-    setOpenUpdateModal(true)
-    setUpdateData(row)
-  }
 
   async function handleDelete(row: any) {
     try {
@@ -210,7 +166,8 @@ export default function TableContainer(props: TableProps) {
     }
   }
 
-  const initConfig = () => {
+  const initOperate = () => {
+    console.log('渲染')
     const operate = (row: any) => {
       return (
         <>
@@ -259,23 +216,49 @@ export default function TableContainer(props: TableProps) {
     }
   }
 
+  const tableAttrs = () => {
+    const result: {
+      title?: JSX.Element | Function
+      scroll?: {
+        x?: string | number
+        y?: string | number
+      }
+    } = {
+      scroll: {
+        x: 'max-content',
+        // y: getTableBodyHeight()
+      }
+    }
+
+    if (config?.create) {
+      result['title'] = () => (
+        <TableHeader addEvent={() => setOpenAddModal(true)} refresh={request} />
+      )
+    }
+
+    return result
+  }
+
+  function handleOpenUpdate(row: any) {
+    setOpenUpdateModal(true)
+    setUpdateData(row)
+  }
+
   const getTableBodyHeight = () => {
     const tabTheadEl = document.querySelector('.ant-table-tbody')
     const theadBottom = tabTheadEl?.getBoundingClientRect().top ?? 0
-    const height = theadBottom + 56
-
-    return `calc(100vh - 1rem - ${height}px)`
+    const paginationHeight = paginationRef.current?.offsetHeight ?? 0
+    const height = theadBottom + paginationHeight
+    console.log(height,  theadBottom, paginationHeight)
+    return `calc(100vh - ${height}px - 1rem)`
   }
-  useEffect(() => {
-    initConfig()
-  }, [data])
 
   useEffect(() => {
-    if (isFunction(config?.list.api)) {
-      request()
-    }
-  }, [paginationData])
-  console.log('table', data)
+    initOperate()
+    setDataSource(data)
+  }, [])
+
+  console.log('===', data)
   return (
     <div
       className={`${prefixCls} h-full bg-white p-2 flex flex-col overflow-hidden`}
@@ -286,7 +269,7 @@ export default function TableContainer(props: TableProps) {
           title="添加账号"
           open={openAddModal}
           onOk={addConfirm}
-          onCancel={addCancel}
+          onCancel={() => setOpenAddModal(false)}
           formItems={config.create.formItems}
           rules={config.create?.rules}
         />
@@ -296,7 +279,7 @@ export default function TableContainer(props: TableProps) {
           title="修改账号"
           open={openUpdateModal}
           onOk={updateConfirm}
-          onCancel={updateCancel}
+          onCancel={() => setOpenUpdateModal(false)}
           formItems={config.update.formItems}
           rules={config.update?.rules}
           defaultValue={updateData}
@@ -310,27 +293,24 @@ export default function TableContainer(props: TableProps) {
         />
       )}
       <Table
+        ref={paginationRef}
         loading={loading}
         columns={columnsData}
         dataSource={dataSource}
-        onChange={paginationChange}
-        rowKey={(record) => {
-          return record.id || useId()
-        }}
-        pagination={
-          (pagination || !props.data) && {
-            total: total,
-            showTotal: (total) => `共 ${total} 条数据`,
-            pageSizeOptions: [5, 10, 20, 50, 100, 500],
-            current: paginationData.page,
-            pageSize: paginationData.pageSize,
-            showQuickJumper: true,
-            showSizeChanger: true,
-            position: ['bottomRight']
-          }
-        }
+        rowKey={(record) => record.id || useId()}
+        pagination={false}
+        size="small"
+        bordered={true}
         {...tableAttrs()}
       />
+      {config?.list.api && (
+        <TablePagination
+          request={request}
+          total={total}
+          ref={paginationRef}
+          className="py-2"
+        />
+      )}
     </div>
   )
 }
