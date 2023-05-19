@@ -39,7 +39,6 @@ export const fetchLoginAfter = createAsyncThunk(
 
     const menuState = (getState() as RootState).menuReducer
     if (menuState.menuList.length > 0) {
-      console.log(menuState)
     } else {
       await dispatch(buildRouteThunk())
     }
@@ -77,7 +76,6 @@ export const userSlice = createSlice({
       localCache.setItem(cacheEnum.TOKEN_KEY, token)
     },
     setUserInfo(state, action) {
-      console.log(111)
       const { userInfo } = action.payload
       state.userInfo = userInfo
       localCache.setItem(cacheEnum.USER_INFO_KEY, userInfo)

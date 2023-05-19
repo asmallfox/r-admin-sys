@@ -167,7 +167,6 @@ export default function TableContainer(props: TableProps) {
   }
 
   const initOperate = () => {
-    console.log('渲染')
     const operate = (row: any) => {
       return (
         <>
@@ -249,7 +248,6 @@ export default function TableContainer(props: TableProps) {
     const theadBottom = tabTheadEl?.getBoundingClientRect().top ?? 0
     const paginationHeight = paginationRef.current?.offsetHeight ?? 0
     const height = theadBottom + paginationHeight
-    console.log(height,  theadBottom, paginationHeight)
     return `calc(100vh - ${height}px - 1rem)`
   }
 
@@ -258,7 +256,6 @@ export default function TableContainer(props: TableProps) {
     setDataSource(data)
   }, [])
 
-  console.log('===', data)
   return (
     <div
       className={`${prefixCls} h-full bg-white p-2 flex flex-col overflow-hidden`}

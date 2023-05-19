@@ -1,80 +1,124 @@
 [
   {
-    "title": "关于",
-    "path": "/about"
+    "label": "关于",
+    "icon": "",
+    "key": "/about",
+    "path": "about",
+    "sortIndex": 999
   },
   {
-    "title": "工作台",
-    "path": "/dashboard",
+    "label": "工作台",
     "children": [
       {
-        "title": "表盘仪",
+        "label": "表盘仪",
+        "icon": "",
+        "key": "analysis",
         "path": "analysis"
       },
       {
-        "title": "统计",
+        "label": "统计",
+        "icon": "",
+        "key": "workspace",
         "path": "workspace"
       }
-    ]
+    ],
+    "icon": "",
+    "redirect": "/dashboard/analysis",
+    "key": "/dashboard",
+    "path": "dashboard",
+    "sortIndex": 0
   },
   {
-    "title": "Demo",
-    "path": "/demo",
+    "label": "Demo",
     "children": [
       {
-        "title": "todoList",
+        "label": "todoList",
+        "icon": "",
+        "key": "todo-list",
         "path": "todo-list"
       },
       {
-        "title": "PrintDome",
+        "label": "PrintDome",
+        "icon": "",
+        "key": "print-dome",
         "path": "print-dome"
       }
-    ]
+    ],
+    "icon": "",
+    "redirect": "/demo/todo-list",
+    "key": "/demo",
+    "path": "demo",
+    "sortIndex": 3
   },
   {
-    "title": "echart",
-    "path": "/echart",
+    "label": "echart",
     "children": [
       {
-        "title": "可视化大屏",
+        "label": "可视化大屏",
+        "icon": "",
+        "key": "large-screen",
         "path": "large-screen"
       }
-    ]
+    ],
+    "icon": "",
+    "key": "/echart",
+    "path": "echart",
+    "sortIndex": 3
   },
   {
-    "title": "Three",
-    "path": "/three"
+    "label": "Three",
+    "icon": "",
+    "key": "/three",
+    "path": "three",
+    "sortIndex": 4
   },
   {
-    "title": "用户管理",
-    "path": "/user",
+    "label": "用户管理",
     "children": [
       {
-        "title": "系统管理员",
+        "label": "系统管理员",
+        "icon": "",
+        "key": "admin",
         "path": "admin"
       },
       {
-        "title": "普通用户",
+        "label": "普通用户",
+        "icon": "",
+        "key": "ordinary-user",
         "path": "ordinary-user"
       },
       {
-        "title": "用户详情",
-        "path": "admin_detail/:id"
+        "label": "用户详情",
+        "icon": "",
+        "key": "admin_detail/:id",
+        "path": "admin_detail"
       },
       {
-        "title": "Test",
-        "path": "consumer",
+        "label": "Test",
         "children": [
           {
-            "title": "test1",
+            "label": "test1",
+            "icon": "",
+            "key": "consumer-1",
             "path": "consumer-1"
           },
           {
-            "title": "test2",
+            "label": "test2",
+            "icon": "",
+            "key": "consumer-2",
             "path": "consumer-2"
           }
-        ]
+        ],
+        "icon": "",
+        "redirect": "/user/consumer/consumer-1",
+        "key": "consumer",
+        "path": "consumer"
       }
-    ]
+    ],
+    "icon": "",
+    "redirect": "/user/administrator/super-admin",
+    "key": "/user",
+    "path": "user",
+    "sortIndex": 1
   }
 ]

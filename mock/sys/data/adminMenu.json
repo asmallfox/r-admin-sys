@@ -1,53 +1,79 @@
 [
   {
-    "title": "关于",
-    "path": "/about"
+    "label": "关于",
+    "icon": "",
+    "key": "/about",
+    "path": "about",
+    "sort_index": 999
   },
   {
-    "title": "工作台",
-    "path": "/dashboard",
+    "label": "工作台",
     "children": [
       {
-        "title": "表盘仪",
+        "label": "表盘仪",
+        "icon": "",
+        "key": "analysis",
         "path": "analysis"
       },
       {
-        "title": "统计",
+        "label": "统计",
+        "icon": "",
+        "key": "workspace",
         "path": "workspace"
       }
-    ]
+    ],
+    "icon": "",
+    "redirect": "/dashboard/analysis",
+    "key": "/dashboard",
+    "path": "dashboard",
+    "sort_index": 0
   },
   {
-    "title": "Demo",
-    "path": "/demo",
+    "label": "Demo",
     "children": [
       {
-        "title": "todoList",
+        "label": "todoList",
+        "icon": "",
+        "key": "todo-list",
         "path": "todo-list"
       },
       {
-        "title": "PrintDome",
+        "label": "PrintDome",
+        "icon": "",
+        "key": "print-dome",
         "path": "print-dome"
       }
-    ]
+    ],
+    "icon": "",
+    "redirect": "/demo/todo-list",
+    "key": "/demo",
+    "path": "demo",
+    "sort_index": 3
   },
   {
-    "title": "echart",
-    "path": "/echart",
+    "label": "echart",
     "children": [
       {
-        "title": "可视化大屏",
+        "label": "可视化大屏",
+        "icon": "",
+        "key": "large-screen",
         "path": "large-screen"
       }
-    ]
+    ],
+    "icon": "",
+    "key": "/echart",
+    "path": "echart",
+    "sort_index": 3
   },
   {
-    "title": "Three",
-    "path": "/three"
+    "label": "Three",
+    "icon": "",
+    "key": "/three",
+    "path": "three",
+    "sort_index": 4
   },
   {
-    "title": "用户管理",
-    "path": "/user",
+    "label": "用户管理",
     "children": [
       {
         "path": "ordinary-user",
@@ -63,23 +89,38 @@
         }
       },
       {
-        "title": "用户详情",
-        "path": "admin_detail/:id"
+        "label": "用户详情",
+        "icon": "",
+        "active_menu": "/user/administrator/super-admin",
+        "key": "admin_detail/:id",
+        "path": "admin_detail"
       },
       {
-        "title": "Test",
-        "path": "consumer",
+        "label": "Test",
         "children": [
           {
-            "title": "test1",
+            "label": "test1",
+            "icon": "",
+            "key": "consumer-1",
             "path": "consumer-1"
           },
           {
-            "title": "test2",
+            "label": "test2",
+            "icon": "",
+            "key": "consumer-2",
             "path": "consumer-2"
           }
-        ]
+        ],
+        "icon": "",
+        "redirect": "/user/consumer/consumer-1",
+        "key": "consumer",
+        "path": "consumer"
       }
-    ]
+    ],
+    "icon": "",
+    "redirect": "/user/administrator/super-admin",
+    "key": "/user",
+    "path": "user",
+    "sort_index": 1
   }
 ]

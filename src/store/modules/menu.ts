@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getMenuListApi } from '@/api'
-
-import { basicRoutes } from '@/router/routes'
+import localCache from '@/utils/localStore'
+import { cacheEnum } from '@/enums/cacheEnum'
 
 export interface TagItem {
   label: string
@@ -16,20 +16,12 @@ export interface TagItem {
 //   tagList: [{ label: '表盘仪', path: '/dashboard/analysis' }]
 // }
 
-const initRoutes = () => {
-  
-}
-
 export const buildRouteThunk = createAsyncThunk(
   'menu/buildRoute',
   async (_, { dispatch }) => {
     const { data: menuList } = await getMenuListApi()
-    console.log(menuList)
 
     dispatch(setMenuList(menuList))
-
-
-    
     return 'menu'
   }
 )
@@ -38,7 +30,7 @@ export const menuSlice = createSlice({
   name: 'menu',
   initialState: {
     tagList: [{ label: '表盘仪', path: '/dashboard/analysis' }],
-    menuList: []
+    menuList: localCache.getItem(cacheEnum.MENU_LIST_KEY) || []
   },
   reducers: {
     setTags: (state, action) => {
@@ -56,6 +48,7 @@ export const menuSlice = createSlice({
     },
     setMenuList: (state, { payload }) => {
       state.menuList = payload
+      localCache.setItem(cacheEnum.MENU_LIST_KEY, payload)
     }
   }
 })

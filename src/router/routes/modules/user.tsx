@@ -38,7 +38,7 @@ export const UserLayout: RouterRaws = {
         title: '用户详情',
         icon: <UserOutlined />,
         menuHidden: true,
-        active_menu: '/user/administrator/super-admin'
+        activeMenu: '/user/administrator/super-admin'
       }
     },
     {

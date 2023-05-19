@@ -8,7 +8,7 @@ export interface MenuItem extends ItemType {
   icon?: React.ReactNode
   redirect?: string
   path?: string
-  active_menu?: string
+  activeMenu?: string
   children?: MenuItem[]
 }
 
@@ -17,7 +17,7 @@ export interface Meta {
   icon?: JSX.Element
   sortIndex?: number
   menuHidden?: boolean
-  active_menu?: string
+  activeMenu?: string
   authList?: string[]
   permission?: string[]
 }

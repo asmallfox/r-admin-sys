@@ -13,7 +13,6 @@ function About() {
   const projectInfo = {
     版本: '1.0.0'
   }
-  console.log(pkg)
   const DescribeList = (data: Record<string, string>, title?: string) => {
     const list = []
     for (const key in data) {

@@ -3,14 +3,16 @@ import { joinPath } from '@/router/menu'
 
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Menu } from 'antd'
 
 import { useDesign } from '@/hooks/web/useDesign'
-import { getRouteMapItem, getMenus, pathSnippets } from '@/router/menu'
+import { getRouteMapItem, pathSnippets } from '@/router/menu'
 import { setTags } from '@/store/modules/menu'
 import './style/index.scss'
 import { MenuItem } from '@/router/routes/types'
+import { RootState } from '@/store'
+import { sortBy } from 'lodash'
 
 type itemType = MenuProps['items']
 
@@ -25,8 +27,12 @@ export function LayoutMenu(props: { collapsed: boolean }) {
   const [selectKey, setSelectKey] = useState<string[]>([])
   const [openKeys, setOpenKeys] = useState<string[]>([])
 
-  const menus = getMenus()
-
+  const menus = sortBy(
+    useSelector((state: RootState) => state.menuReducer.menuList),
+    (item) => {
+      return item.sort_index ?? 0
+    }
+  )
   const getOpenKeys = (
     menus: MenuItem[],
     key: string,
@@ -78,6 +84,7 @@ export function LayoutMenu(props: { collapsed: boolean }) {
       : pathSplits.slice(-1)
     setSelectKey(curSelectKeys)
   }, [props, location])
+
   return (
     <div className={prefixCls}>
       <Menu
@@ -86,7 +93,6 @@ export function LayoutMenu(props: { collapsed: boolean }) {
         inlineIndent={12}
         items={menus as itemType}
         selectedKeys={selectKey}
-        openKeys={openKeys}
         onOpenChange={onOpenChange}
         onSelect={onSelect}
       />

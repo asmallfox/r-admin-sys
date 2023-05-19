@@ -30,7 +30,6 @@ export default [
     url: '/basic-api/userinfo',
     method: 'get',
     response: (request: RequestParams) => {
-      console.log(request)
       const token = getToken(request.headers)
       if (token) {
         const { id, username } = JSON.parse(token)

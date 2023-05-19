@@ -40,7 +40,6 @@ export default function Ordinary() {
   const getUserList = async () => {
     try {
       const { data: res } = await getOridnaryUserApi()
-      console.log(res)
       setDataSource(res.rows)
     } catch (error) {
       console.error(error)
