@@ -5,8 +5,6 @@ import testMenu from './data/testMenu.json'
 import { adminList } from './data/userData'
 import { PermissionEnum } from '../../src/enums/menuEnum'
 
-const menuList = []
-
 export default [
   {
     url: '/basic-api/getMenuList',
@@ -22,6 +20,7 @@ export default [
         )
         if (findUser) {
           let menu: Record<string, unknown>[] = []
+          console.log(findUser.permissions)
           switch(findUser.permissions) {
             case PermissionEnum.ADMIN:
               menu = adminMenu

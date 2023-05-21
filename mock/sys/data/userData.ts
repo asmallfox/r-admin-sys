@@ -23,10 +23,10 @@ export const adminList = [
   {
     id: 3,
     username: 'adminTest',
-    nickname: 'ceshi',
+    nickname: '测试',
     role: userType[1],
     createTime: 1514569812000,
-    description: '系统管理员2',
+    description: '测试',
     permissions: PermissionEnum.TEST,
     password: '123456',
   },

@@ -34,14 +34,10 @@ export const fetchUserLogin = createAsyncThunk(
 
 export const fetchLoginAfter = createAsyncThunk(
   'user/loginAfter',
-  async (_, { getState, dispatch }) => {
+  async (_, { dispatch }) => {
     const userInfo = await dispatch(fetchGetUserInfo())
 
-    const menuState = (getState() as RootState).menuReducer
-    if (menuState.menuList.length > 0) {
-    } else {
-      await dispatch(buildRouteThunk())
-    }
+    await dispatch(buildRouteThunk())
 
     return userInfo
   }
@@ -81,11 +77,6 @@ export const userSlice = createSlice({
       localCache.setItem(cacheEnum.USER_INFO_KEY, userInfo)
     }
   }
-  // extraReducers: (builder) => {
-  //   builder.addCase(fetchUserLogin.fulfilled, (state, action) => {
-  //     console.log(state, action)
-  //   })
-  // },
 })
 
 export const { setToken, setUserInfo } = userSlice.actions

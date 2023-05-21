@@ -1,4 +1,4 @@
-import { Layout, theme, Divider } from 'antd'
+import { Layout, theme } from 'antd'
 
 import { useDesign } from '@/hooks/web/useDesign'
 import HeaderTag from './HeaderTag'

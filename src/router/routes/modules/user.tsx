@@ -9,7 +9,7 @@ import UserDetail from '@/views/layout/user/userDetail/userDetail'
 
 export const UserLayout: RouterRaws = {
   path: '/user',
-  redirect: '/user/administrator/super-admin',
+  redirect: '/user/admin',
   meta: {
     title: '用户管理',
     icon: <AuditOutlined />,

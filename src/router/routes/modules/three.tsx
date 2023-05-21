@@ -10,7 +10,8 @@ export const Dashboard: RouterRaws = {
   meta: {
     title: 'Three',
     icon: <RadarChartOutlined />,
-    sortIndex: 4
+    sortIndex: 4,
+    permission: ['TEST']
   }
 }
 

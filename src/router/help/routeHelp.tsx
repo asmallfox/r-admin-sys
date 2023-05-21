@@ -1,6 +1,6 @@
 import type { RouterRaws } from '@/router/routes/types'
 
-import { cloneDeep } from 'lodash'
+import { cloneDeep, filter } from 'lodash'
 import { Navigate } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 
@@ -51,7 +51,7 @@ export const dynamicRoutes = (menuList: any[]) => {
     result: any[] = []
   ) => {
     routes.forEach((route) => {
-      const checkRoute = configRoutes.find((item) => item.path === route.key);
+      const checkRoute = configRoutes.find((item) => item.path === route.path)
       if (checkRoute) {
         const routeItem = { ...checkRoute, children: [] }
         if (checkRoute.children?.length > 0) {
@@ -69,6 +69,22 @@ export const dynamicRoutes = (menuList: any[]) => {
     return result
   }
   return filterRoute(menuList, asyncRoutes)
+}
+
+export function filterPermission(routes: RouterRaws[], permission: string) {
+  const checkPermission = (item: RouterRaws, permission: string) =>
+    !item.meta?.permission ||
+    item.meta.permission.includes(permission as string)
+
+  const result = routes.filter((route) => {
+    const isPass = checkPermission(route, permission)
+    if (isPass && route.children?.length) {
+      route.children = route.children.filter(child => checkPermission(child, permission))
+    }
+    return isPass
+  })
+
+  return result
 }
 
 export { routeModules }

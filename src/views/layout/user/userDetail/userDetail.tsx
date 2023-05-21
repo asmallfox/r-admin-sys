@@ -1,7 +1,7 @@
 import { Button } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { getRouteMapItem } from '@/router/menu'
+import { getRouteMapItem } from '@/router/help/menuHelp'
 
 function userDetail() {
   const navigate = useNavigate()
