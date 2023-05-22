@@ -1,19 +1,27 @@
 import { useEffect, useState } from 'react'
 import { useRoutes } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import { cloneDeep } from 'lodash'
 
-import type { RootState } from '@/store'
 import { basicRoutes, RootRoute } from './routes'
 import { routeFactory, dynamicRoutes } from './help/routeHelp'
 import { PageEnum } from '@/enums/pageEnum'
+import { useAppSelector, useAppDispatch } from '@/hooks/web/useApp'
+import { buildRouteThunk } from '@/store/modules/menu'
 
 export default function RouterElement() {
   const [routes, setRoutes] = useState(basicRoutes)
 
-  const menuList = useSelector((state: RootState) => state.menuReducer.menuList)
+  const dispatch = useAppDispatch()
+  const menuList = useAppSelector((state) => state.menuReducer.menuList)
+
+  async function routerGuard() {
+    await dispatch(buildRouteThunk())
+  }
 
   useEffect(() => {
+    if (menuList.length === 0) {
+      routerGuard()
+    }
     const dyRoutes = dynamicRoutes(menuList)
     if (dyRoutes?.length) {
       const rootRoute = cloneDeep(RootRoute)

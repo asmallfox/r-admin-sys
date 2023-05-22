@@ -122,6 +122,7 @@ export function getRouteMapItem(path: string, menuList: MenuItems): MenuItem {
   }
   
   const routeItem = getMenuItem(menuList, routePaths)
+  
   return {
     ...routeItem,
     path
@@ -166,7 +167,6 @@ export function getRouteAllPath(menus: MenuItem[], path = '') {
 
 // 获取面包屑
 export function getBreadcrumb(path: string, menuList: MenuItems) {
-  console.log(menuList)
   if (!menuList) return []
 
   const { active_menu, key: curKey } = getRouteMapItem(path, menuList)
@@ -191,7 +191,7 @@ export function getBreadcrumb(path: string, menuList: MenuItems) {
       }
 
       if (item.children?.length) {
-        const children = item.children.filter((item) => !isNil(item.active_menu))
+        const children = item.children.filter((item) => isNil(item.active_menu))
 
         const menu = {
           items: children.map((child) => ({
@@ -215,6 +215,7 @@ export function getBreadcrumb(path: string, menuList: MenuItems) {
     }
     return result
   }
+
   const breads = flattenMenu(checkRoute)
   return breads.filter((item) => paths.includes(item.key as string))
 }

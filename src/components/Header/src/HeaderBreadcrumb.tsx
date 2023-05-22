@@ -28,7 +28,6 @@ function HeaderBreadcrumb(props: Props) {
   const handleItemRender = (route: any) => {
     const { menu, path, title } = route
     const go = (e: React.MouseEvent) => {
-      console.log(route)
       e?.preventDefault()
       if (menu?.items?.length) {
         if (location.pathname === path) return

@@ -14,11 +14,12 @@ import App from './App'
 
 import { BrowserRouter } from 'react-router-dom'
 
-// test
-// import '@/store/demo/index'
+const boot = async () => {
+  ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  )
+}
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-)
+boot()

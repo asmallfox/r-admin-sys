@@ -8,21 +8,13 @@ export interface TagItem {
   path: string
 }
 
-// interface menuStore {
-//   tagList: TagItem[]
-// }
-
-// const initialState: menuStore = {
-//   tagList: [{ label: '表盘仪', path: '/dashboard/analysis' }]
-// }
-
 export const buildRouteThunk = createAsyncThunk(
   'menu/buildRoute',
   async (_, { dispatch }) => {
     const { data: menuList } = await getMenuListApi()
 
     dispatch(setMenuList(menuList))
-    return 'menu'
+    return menuList
   }
 )
 
@@ -30,7 +22,7 @@ export const menuSlice = createSlice({
   name: 'menu',
   initialState: {
     tagList: [{ label: '表盘仪', path: '/dashboard/analysis' }],
-    menuList: localCache.getItem(cacheEnum.MENU_LIST_KEY) || []
+    menuList: []
   },
   reducers: {
     setTags: (state, action) => {
@@ -48,7 +40,6 @@ export const menuSlice = createSlice({
     },
     setMenuList: (state, { payload }) => {
       state.menuList = payload
-      localCache.setItem(cacheEnum.MENU_LIST_KEY, payload)
     }
   }
 })

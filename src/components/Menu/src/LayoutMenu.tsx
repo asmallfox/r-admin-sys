@@ -60,11 +60,12 @@ export function LayoutMenu(props: { collapsed: boolean }) {
   }
 
   useEffect(() => {
-    const curMenuItem = getRouteMapItem(location.pathname)
+    const curMenuItem = getRouteMapItem(location.pathname, menus)
     if (!curMenuItem?.children?.length) {
       const label = Object.keys(routeParams).length
         ? `${curMenuItem.label}：${routeParams.id}`
         : curMenuItem.label
+      
       dispatch(
         setTags({
           label,

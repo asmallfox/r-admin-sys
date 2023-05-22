@@ -1,8 +1,7 @@
 import type { RouterRaws } from '@/router/routes/types'
 
-import { cloneDeep, filter } from 'lodash'
+import { cloneDeep } from 'lodash'
 import { Navigate } from 'react-router-dom'
-import { lazy, Suspense } from 'react'
 
 import { asyncRoutes } from '@/router/routes'
 
@@ -32,15 +31,6 @@ export function routeFactory(rootRoutes: RouterRaws[]) {
     return result
   }
   return factory(cloneDeep(rootRoutes)) ?? []
-}
-
-export function lazyComponent(path: string, loading = <span>loading...</span>) {
-  const LyComponent = lazy(() => import(`/${path}`))
-  return (
-    <Suspense fallback={loading}>
-      <LyComponent />
-    </Suspense>
-  )
 }
 
 export const dynamicRoutes = (menuList: any[]) => {
@@ -79,7 +69,9 @@ export function filterPermission(routes: RouterRaws[], permission: string) {
   const result = routes.filter((route) => {
     const isPass = checkPermission(route, permission)
     if (isPass && route.children?.length) {
-      route.children = route.children.filter(child => checkPermission(child, permission))
+      route.children = route.children.filter((child) =>
+        checkPermission(child, permission)
+      )
     }
     return isPass
   })

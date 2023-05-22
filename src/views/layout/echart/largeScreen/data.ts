@@ -104,7 +104,7 @@ export const personOption: EChartOption = {
 export const proportionLowVisionOption: EChartOption = {
   color: ['#13e560', '#f7ff26', '#fe9400', '#ff3a3a'],
   title: {
-    text: '各年级占比',
+    text: 'title',
     textStyle: {
       color: '#fff'
     }
@@ -170,7 +170,7 @@ export const proportionLowVisionOption: EChartOption = {
 
 export const dataStatistics: EChartOption = {
   title: {
-    text: '各类学校视力不良率',
+    text: 'title',
     textStyle: {
       color: '#fff'
     }
