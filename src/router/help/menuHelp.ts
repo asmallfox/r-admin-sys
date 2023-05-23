@@ -1,4 +1,4 @@
-import type { RouterRaws } from '../routes/types'
+import type { RouterRaws, MenuItem, IBreadcrumb } from '../types'
 
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -7,27 +7,6 @@ import { cloneDeep, sortBy } from 'lodash'
 import { isString, isNil } from '@/utils/is'
 
 import { asyncRoutes } from '@/router/routes'
-
-export interface MenuItem {
-  key: string
-  title?: string
-  label?: string | JSX.Element
-  path?: string | JSX.Element
-  active_menu?: string
-  icon?: string | JSX.Element
-  redirect?: string
-  children?: MenuItem[]
-}
-
-
-export interface IBreadcrumb {
-  title: React.ReactNode | string
-  key: React.Key
-  path?: string
-  menu?: {
-    items: IBreadcrumb[]
-  }
-}
 
 export type MenuItems = MenuItem[]
 
@@ -120,9 +99,9 @@ export function getRouteMapItem(path: string, menuList: MenuItems): MenuItem {
     }
     return findMenu as MenuItem
   }
-  
+
   const routeItem = getMenuItem(menuList, routePaths)
-  
+
   return {
     ...routeItem,
     path
@@ -177,7 +156,9 @@ export function getBreadcrumb(path: string, menuList: MenuItems) {
     paths.push(curKey)
   }
 
-  const checkRoute = [menuList.find((route) => route?.key === paths[0]) as MenuItem]
+  const checkRoute = [
+    menuList.find((route) => route?.key === paths[0]) as MenuItem
+  ]
 
   const flattenMenu = (menus: MenuItems, result: IBreadcrumbs = []) => {
     for (const item of menus) {

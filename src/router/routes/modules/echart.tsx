@@ -1,4 +1,4 @@
-import type { RouterRaws } from '../types'
+import type { RouterRaws } from '../../types'
 
 import { LineChartOutlined } from '@ant-design/icons'
 import LargeScreen from '@/views/layout/echart/largeScreen/largeScreen'

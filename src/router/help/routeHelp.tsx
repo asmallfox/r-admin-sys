@@ -1,4 +1,4 @@
-import type { RouterRaws } from '@/router/routes/types'
+import type { RouterRaws } from '@/router/types'
 
 import { cloneDeep } from 'lodash'
 import { Navigate } from 'react-router-dom'

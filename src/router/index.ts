@@ -12,14 +12,19 @@ export default function RouterElement() {
   const [routes, setRoutes] = useState(basicRoutes)
 
   const dispatch = useAppDispatch()
-  const menuList = useAppSelector((state) => state.menuReducer.menuList)
+  const { menuList, token } = useAppSelector((state) => {
+    return {
+      menuList: state.menuReducer.menuList,
+      token: state.userReducer.token
+    }
+  })
 
   async function routerGuard() {
     await dispatch(buildRouteThunk())
   }
 
   useEffect(() => {
-    if (menuList.length === 0) {
+    if (token && menuList.length === 0) {
       routerGuard()
     }
     const dyRoutes = dynamicRoutes(menuList)

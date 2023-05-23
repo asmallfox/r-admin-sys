@@ -9,13 +9,43 @@ $prefix-cls: #{$namespace}-layout;
       &::-webkit-scrollbar {
         display: none;
       }
-      // &::-webkit-scrollbar {
-      //   width: 8px;
-      // }
-      // &::-webkit-scrollbar-thumb {
-      //   border-radius: 8px;
-      //   background-color: #c9cacb;
-      // }
     }
   }
+
+  &-content-enter {
+    opacity: 0;
+    margin-left: 30px;
+  }
+  &-content-enter-active {
+    opacity: 1;
+    margin-left: 0;
+    transition: opacity 300ms, margin 300ms;
+  }
+  &-content-exit {
+    opacity: 1;
+    margin-left: 0;
+  }
+  &-content-exit-active {
+    opacity: 0;
+    margin-left: 50px;
+    transition: opacity 300ms, margin 300ms;
+  }
+  // &-content-enter {
+  //   opacity: 0;
+  //   transform: scale(1.1);
+  // }
+  // &-content-enter-active {
+  //   opacity: 1;
+  //   transform: scale(1);
+  //   transition: opacity 300ms, transform 300ms;
+  // }
+  // &-content-exit {
+  //   opacity: 1;
+  //   transform: scale(1);
+  // }
+  // &-content-exit-active {
+  //   opacity: 0;
+  //   transform: scale(0.9);
+  //   transition: opacity 300ms, transform 300ms;
+  // }
 }

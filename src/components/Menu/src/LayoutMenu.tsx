@@ -1,4 +1,4 @@
-import type { MenuItem } from '@/router/routes/types'
+import type { MenuItem } from '@/router/types'
 
 import type { MenuProps } from 'antd'
 import { useState, useEffect } from 'react'

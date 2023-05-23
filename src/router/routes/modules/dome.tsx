@@ -1,4 +1,4 @@
-import type { RouterRaws } from '../types'
+import type { RouterRaws } from '../../types'
 
 import { DeploymentUnitOutlined } from '@ant-design/icons'
 import TodoList from '@/views/layout/demo/todo-list'

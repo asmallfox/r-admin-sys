@@ -1,4 +1,4 @@
-import type { RouterRaws } from '../types'
+import type { RouterRaws } from '../../types'
 
 import { AppstoreOutlined } from '@ant-design/icons'
 import Analysis from '@/views/layout/dashboard/analysis/analysis'

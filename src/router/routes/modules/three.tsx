@@ -1,4 +1,4 @@
-import type { RouterRaws } from '../types'
+import type { RouterRaws } from '../../types'
 
 import { RadarChartOutlined } from '@ant-design/icons'
 import Three from '@/views/layout/three/three'

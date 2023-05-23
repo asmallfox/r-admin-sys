@@ -1,4 +1,4 @@
-import type { RouterRaws } from '../types'
+import type { RouterRaws } from '../../types'
 
 import { QuestionCircleOutlined } from '@ant-design/icons'
 import About from '@/views/layout/about/about'

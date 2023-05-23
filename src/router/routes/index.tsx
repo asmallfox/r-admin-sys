@@ -1,4 +1,4 @@
-import type { RouterRaws } from './types'
+import type { RouterRaws } from '../types'
 
 import { PageEnum } from '@/enums/pageEnum'
 import { NOT_FOUNT_ROUTE } from './basic'
@@ -21,6 +21,7 @@ export const asyncRoutes = [...routeModules]
 
 export const RootRoute: RouterRaws = {
   path: '/',
+  name: 'Root',
   element: <AppLayout />,
   children: [],
   redirect: PageEnum.BASE_HOME
@@ -28,6 +29,7 @@ export const RootRoute: RouterRaws = {
 
 export const LoginRoute: RouterRaws = {
   path: '/login',
+  name: 'Login',
   element: <Login />,
   meta: {
     title: '登录'
@@ -36,6 +38,7 @@ export const LoginRoute: RouterRaws = {
 
 export const LargeScreenRoute: RouterRaws = {
   path: '/large-screen',
+  name: 'LargeScreen',
   element: <LargeScreen />,
   meta: {
     title: 'echart大屏'
@@ -44,6 +47,7 @@ export const LargeScreenRoute: RouterRaws = {
 
 export const AuthRoute: RouterRaws = {
   path: '/auth',
+  name: 'Auth',
   element: <Auth />,
   meta: {
     title: '路由表'

@@ -1,4 +1,4 @@
-import type { RouterRaws } from '../types'
+import type { RouterRaws } from '../../types'
 import { PermissionEnum } from '@/enums/menuEnum'
 
 import { UserOutlined, AuditOutlined } from '@ant-design/icons'
