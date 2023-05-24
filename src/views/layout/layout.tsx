@@ -31,10 +31,10 @@ function AppLayout() {
                 key={location.pathname}
                 timeout={300}
                 unmountOnExit
-                classNames={`${prefixCls}-content`}
+                classNames={`${prefixCls}-content h-full`}
               >
                 {(state) => (
-                  <div className={`${prefixCls}-content`}>{currentOutlet}</div>
+                  <div className={`${prefixCls}-content h-full`}>{currentOutlet}</div>
                 )}
               </CSSTransition>
             </SwitchTransition>

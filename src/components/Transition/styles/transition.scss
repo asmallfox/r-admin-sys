@@ -1,0 +1,22 @@
+$prefix-cls: '#{$namespace}-transition';
+
+.#{$prefix-cls} {
+  &-enter {
+    opacity: 0;
+    margin-left: 30px;
+  }
+  &-enter-active {
+    opacity: 1;
+    margin-left: 0;
+    transition: opacity 300ms, margin 300ms;
+  }
+  &-exit {
+    opacity: 1;
+    margin-left: 0;
+  }
+  &-exit-active {
+    opacity: 0;
+    margin-left: 50px;
+    transition: opacity 300ms, margin 300ms;
+  }
+}

@@ -45,7 +45,7 @@ function About() {
   return (
     <PageContainer header={HeaderElement()}>
       <div className={prefixCls}>
-        <div>{DescribeList(projectInfo, '项目信息')}</div>
+        <div className="mb-3">{DescribeList(projectInfo, '项目信息')}</div>
         <div className="mb-3">{DescribeList(dependencies, '生产环境依赖')}</div>
         <div>{DescribeList(devDependencies, '开发环境依赖')}</div>
       </div>
