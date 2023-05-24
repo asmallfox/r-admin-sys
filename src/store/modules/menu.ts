@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getMenuListApi } from '@/api'
-import localCache from '@/utils/localStore'
-import { cacheEnum } from '@/enums/cacheEnum'
+import { useDispatch } from 'react-redux'
 
 export interface TagItem {
   label: string
@@ -22,7 +21,8 @@ export const menuSlice = createSlice({
   name: 'menu',
   initialState: {
     tagList: [{ label: '表盘仪', path: '/dashboard/analysis' }],
-    menuList: []
+    menuList: [],
+    isDynamicRouter: false
   },
   reducers: {
     setTags: (state, action) => {
@@ -40,10 +40,18 @@ export const menuSlice = createSlice({
     },
     setMenuList: (state, { payload }) => {
       state.menuList = payload
+    },
+    setDynamicRouter: (state, { payload }) => {
+      state.isDynamicRouter = payload
     }
   }
 })
 
-export const { setTags, removeTag, setMenuList } = menuSlice.actions
-
 export default menuSlice.reducer
+
+export const { setTags, removeTag, setMenuList, setDynamicRouter } = menuSlice.actions
+
+export const setupMenuStore = async () => {
+  // const dispatch = useDispatch()
+  // await dispatch(buildRouteThunk())
+}

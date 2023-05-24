@@ -9,7 +9,7 @@ function Login() {
 
   // 清除本地存储 localstorage
   localCache.clear()
-  console.log('login')
+  
   return (
     <div className={prefixCls}>
       <LoginForm />

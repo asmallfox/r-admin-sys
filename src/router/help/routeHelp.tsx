@@ -1,9 +1,12 @@
-import type { RouterRaws } from '@/router/types'
+import type { RouterRaws, MenuItem } from '@/router/types'
 
 import { cloneDeep } from 'lodash'
 import { Navigate } from 'react-router-dom'
 
 import { asyncRoutes } from '@/router/routes'
+
+import { basicRoutes } from '@/router/routes'
+import { PageEnum } from '@/enums/pageEnum'
 
 const modules = import.meta.glob('./modules/**/*.tsx', { eager: true })
 const routeModules: RouterRaws[] = []
@@ -33,8 +36,8 @@ export function routeFactory(rootRoutes: RouterRaws[]) {
   return factory(cloneDeep(rootRoutes)) ?? []
 }
 
-export const dynamicRoutes = (menuList: any[]) => {
-  if (!menuList) return
+export const dynamicRoutes = (menuList: MenuItem[]): RouterRaws[] => {
+  if (!menuList) return []
   const filterRoute = (
     routes: any[],
     configRoutes: any[],
@@ -77,6 +80,21 @@ export function filterPermission(routes: RouterRaws[], permission: string) {
   })
 
   return result
+}
+
+export function addRouter(routes: RouterRaws[]) {
+  if (!routes) return [] as RouterRaws[]
+  const defaultRoutes = cloneDeep(basicRoutes)
+
+  const rootRoute = defaultRoutes.find(route => route.path === PageEnum.BASE_ROOT) as RouterRaws
+
+  if (rootRoute.children?.length) {
+    rootRoute.children.push(...routes)
+  } else {
+    rootRoute.children = routes
+  }
+
+  return routeFactory(defaultRoutes)
 }
 
 export { routeModules }
