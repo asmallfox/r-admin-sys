@@ -10,7 +10,6 @@ import { getMenus, getRouteMapItem, pathSnippets, joinPath } from '@/router/help
 import { useDesign } from '@/hooks/web/useDesign'
 import { setTags } from '@/store/modules/menu'
 import { RootState } from '@/store'
-import './style/index.scss'
 
 type itemType = MenuProps['items']
 
@@ -79,7 +78,7 @@ export function LayoutMenu(props: { collapsed: boolean }) {
       : pathSplits.slice(-1)
     setSelectKey(curSelectKeys)
   }, [props, location])
-
+  
   return (
     <div className={prefixCls}>
       <Menu

@@ -1,29 +1,26 @@
 import type { UserConfigExport, ConfigEnv } from 'vite'
-import react from '@vitejs/plugin-react'
-import { viteMockServe } from 'vite-plugin-mock'
-import WindiCSS from 'vite-plugin-windicss'
-import { loadEnv } from 'vite'
 
 import path from 'path'
+import { loadEnv } from 'vite'
+import { createVitePlugins } from './build/vite/plugin'
+
+import { viteMockServe } from 'vite-plugin-mock'
+import compressPlugin from 'vite-plugin-compression'
 
 export default ({ command, mode }: ConfigEnv): UserConfigExport => {
-
   const root = process.cwd()
   const env = loadEnv(mode, root)
+  const viteEnv = {
+    VITE_USE_MOCK: true
+  }
 
   const { VITE_PORT, VITE_PUBLIC_PATH } = env
-  // const { VITE_PORT, VITE_PROXY, VITE_PUBLIC_PATH } = env
+
+  const isBuild = command === 'build'
+
   return {
     base: VITE_PUBLIC_PATH,
     root,
-    plugins: [
-      react(),
-      WindiCSS(),
-      viteMockServe({
-        mockPath: 'mock',
-        localEnabled: command === 'serve'
-      })
-    ],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src')
@@ -39,17 +36,19 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
       }
     },
     server: {
-      // https: true,
       host: true,
-      port: Number(VITE_PORT),
-      // proxy: {
-      //   '/basic_api': {
-      //     target: 'http://localhost:3000',
-      //     rewrite: (path: string) => {
-      //       return path.replace(/^\/basic-api/, "")
-      //     }
-      //   }
-      // }
+      port: Number(VITE_PORT)
     },
+    plugins: [
+      ...createVitePlugins(viteEnv, isBuild),
+      viteMockServe({
+        mockPath: 'mock',
+        localEnabled: true
+      }),
+      compressPlugin({
+        ext: '.gz',
+        deleteOriginFile: false
+      })
+    ]
   }
 }

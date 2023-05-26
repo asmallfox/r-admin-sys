@@ -50,6 +50,14 @@ export default function FormDialog(props: FormDialogProps) {
     formRef.resetFields()
   }
 
+  function getItemRules(rules: any) {
+    return rules
+      ? {
+          rules
+        }
+      : {}
+  }
+
   useEffect(() => {
     if (open && !isNil(defaultValue)) {
       formRef.setFieldsValue(defaultValue)
@@ -74,8 +82,8 @@ export default function FormDialog(props: FormDialogProps) {
                 component={item.component}
                 key={item.key}
                 tooltip={item.tooltip}
-                rules={rules && rules[item.key]}
                 options={item.options}
+                {...getItemRules(rules && rules[item.key])}
               />
             )
           })}

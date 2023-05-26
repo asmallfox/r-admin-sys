@@ -21,8 +21,21 @@ export default function FormItem(props: FormItemProps) {
     }
   }
 
+  function getItemRules(rules: any) {
+    return rules
+      ? {
+          rules
+        }
+      : {}
+  }
+
   return (
-    <Form.Item label={label} name={name} tooltip={tooltip} rules={rules}>
+    <Form.Item
+      label={label}
+      name={name}
+      tooltip={tooltip}
+      {...getItemRules(rules)}
+    >
       {formElement()}
     </Form.Item>
   )

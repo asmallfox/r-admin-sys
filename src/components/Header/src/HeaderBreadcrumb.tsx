@@ -1,4 +1,4 @@
-import type { IBreadcrumb } from '@/router/help/menuHelp'
+import type { IBreadcrumb } from '@/router/types'
 
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'

@@ -1,5 +1,6 @@
-import pkg from '/package.json'
-import { Descriptions, Card, Divider } from 'antd'
+/* ts- */
+import pkg from '../../../../package.json'
+import { Descriptions, Card } from 'antd'
 
 import { useDesign } from '@/hooks/web/useDesign'
 import { PageContainer, headerKey } from '@/components/PageContainer'

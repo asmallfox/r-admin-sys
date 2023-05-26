@@ -1,3 +1,3 @@
-import LayoutHeader from './src/Header'
+import LayoutHeader from './src/LayoutHeader'
 
 export { LayoutHeader }

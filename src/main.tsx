@@ -19,8 +19,7 @@ import { buildRouteThunk } from '@/store/modules/menu'
 import { store } from './store'
 
 const boot = async () => {
-  const token = localStore.getItem(cacheEnum.TOKEN_KEY)
-  if (token) {
+  if (localStore.getItem(cacheEnum.TOKEN_KEY)) {
     await store.dispatch(buildRouteThunk())
   }
 

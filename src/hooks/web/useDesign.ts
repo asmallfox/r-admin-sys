@@ -5,7 +5,10 @@ export const config = {
 export function useDesign(prefix: string) {
   const prefixCls = `${config.namespace}-${prefix}`
 
+  const prefixEl = (el: string) => `${prefixCls}-${el}`
+
   return {
-    prefixCls
+    prefixCls,
+    prefixEl
   }
 }

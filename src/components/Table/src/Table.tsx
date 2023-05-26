@@ -18,7 +18,7 @@ import '../style/table.scss'
 import TablePagination from './TablePagination'
 
 type TColumnsType<T = any> = ColumnsType<T>
-type Api = string | (<T = any>(rgms?: T) => Promise<T>)
+type Api = string | (<T = any>(rgms?: T) => Promise<T>) | any
 
 interface TableProps {
   data?: Record<string, unknown>[]
@@ -102,8 +102,8 @@ export default function TableContainer(props: TableProps) {
 
   async function addConfirm(vlaues: unknown, resetFields?: Function) {
     try {
-      if (isFunction(config.create?.api)) {
-        await config.create?.api(vlaues)
+      if (isFunction(config?.create?.api)) {
+        await config?.create?.api(vlaues)
         await request()
       }
       setOpenAddModal(false)
@@ -123,12 +123,12 @@ export default function TableContainer(props: TableProps) {
 
   async function updateConfirm(values: object, resetFields?: Function) {
     try {
-      if (isFunction(config.update?.api)) {
+      if (isFunction(config?.update?.api)) {
         const requestParams = {
           ...values,
           id: (updateData as any).id
         }
-        await config.update?.api(requestParams)
+        await config?.update?.api(requestParams)
         await request()
       }
       setOpenUpdateModal(false)
@@ -151,8 +151,8 @@ export default function TableContainer(props: TableProps) {
       const requestParams = {
         id: row.id
       }
-      if (isFunction(config.delete?.api)) {
-        await config.delete?.api(requestParams)
+      if (isFunction(config?.delete?.api)) {
+        await config?.delete?.api(requestParams)
       }
       await request()
       notification.success({
@@ -298,7 +298,7 @@ export default function TableContainer(props: TableProps) {
         pagination={false}
         size="small"
         bordered={true}
-        {...tableAttrs()}
+        // {...tableAttrs()}
       />
       {config?.list.api && (
         <TablePagination

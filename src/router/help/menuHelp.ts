@@ -88,7 +88,7 @@ export function menuConfigMapRoutes(
 }
 
 /* 获取路由信息 */
-export function getRouteMapItem(path: string, menuList: MenuItems): MenuItem {
+export function getRouteMapItem(path: string, menuList?: MenuItems): MenuItem {
   const routePaths = pathSnippets(path)
 
   const getMenuItem = (menus: MenuItems = [], paths: string[]): MenuItem => {

@@ -10,7 +10,7 @@ import { store } from '@/store'
 function App() {
   const locale = zhCN
   dayjs.locale('zh-cn')
-  console.log('App')
+
   return (
     <Provider store={store}>
       <ConfigProvider locale={locale}>
