@@ -56,6 +56,6 @@ export function errorResponse(code: number, message = 'request error') {
 }
 
 // 获取Token
-export function getToken(headers) {
+export function getToken(headers: any) {
   return headers?.authorization
 }

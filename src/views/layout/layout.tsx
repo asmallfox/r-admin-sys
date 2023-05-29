@@ -34,11 +34,9 @@ function AppLayout() {
             >
               {() => (
                 <div className={`${prefixCls}-content h-full`}>
-                  {/* <ScrollBar always>
+                  <ScrollBar always>
                     <>{currentOutlet}</>
-                  </ScrollBar> */}
-                  <>{currentOutlet}</>
-
+                  </ScrollBar>
                 </div>
               )}
             </CSSTransition>

@@ -3,3 +3,4 @@ declare global {
     VITE_USE_MOCK: boolean
   }
 }
+ 

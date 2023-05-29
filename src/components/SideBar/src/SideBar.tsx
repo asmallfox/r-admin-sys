@@ -3,9 +3,12 @@ import { Layout } from 'antd'
 import { useDesign } from '@/hooks/web/useDesign'
 import { LayoutMenu } from '@/components/Menu'
 import { ScrollBar } from '@/components/ScrollBar'
-import './style/index.scss'
 
 import logo from '@/assets/images/react.svg'
+
+// import SimpleBar from 'simplebar-react';
+// import 'simplebar-react/dist/simplebar.min.css';
+
 
 export function SideBar(props: { collapsed: boolean }) {
   const { prefixCls } = useDesign('sideBar')
@@ -24,7 +27,10 @@ export function SideBar(props: { collapsed: boolean }) {
       </div>
 
       <div style={{ height: 'calc(100% - 48px)' }}>
-        <ScrollBar always color="rgba(255, 255, 255, 0.3)">
+        {/* <SimpleBar  style={{ maxHeight: '100%' }}>
+          <LayoutMenu collapsed={collapsed} />
+        </SimpleBar> */}
+        <ScrollBar color="rgba(255, 255, 255, 0.3)">
           <LayoutMenu collapsed={collapsed} />
         </ScrollBar>
       </div>

@@ -1,18 +1,17 @@
-/* ts- */
 import pkg from '../../../../package.json'
 import { Descriptions, Card } from 'antd'
 
 import { useDesign } from '@/hooks/web/useDesign'
 import { PageContainer, headerKey } from '@/components/PageContainer'
 
-import './style/about.scss'
+import './styles/about.scss'
 
 function About() {
   const { prefixCls } = useDesign('about')
-  const { dependencies, devDependencies } = pkg
+  const { dependencies, devDependencies, version } = pkg
 
   const projectInfo = {
-    版本: '1.0.0'
+    版本: version
   }
   const DescribeList = (data: Record<string, string>, title?: string) => {
     const list = []

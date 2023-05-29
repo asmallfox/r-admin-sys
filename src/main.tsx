@@ -1,6 +1,4 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
-import localStore from '@/utils/localStore'
 
 import 'virtual:windi.css'
 // 样式初始化一般放最前面
@@ -14,14 +12,11 @@ import './assets/styles/global.scss'
 import App from './App'
 
 import { BrowserRouter } from 'react-router-dom'
-import { cacheEnum } from './enums/cacheEnum'
-import { buildRouteThunk } from '@/store/modules/menu'
-import { store } from './store'
+import {setupRouter} from '@/router'
 
 const boot = async () => {
-  if (localStore.getItem(cacheEnum.TOKEN_KEY)) {
-    await store.dispatch(buildRouteThunk())
-  }
+  // 初始化路由
+  await setupRouter()
 
   ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <BrowserRouter>

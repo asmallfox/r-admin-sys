@@ -19,23 +19,23 @@ interface LoginParams {
   password: string
 }
 
-export const fetchUserLogin = createAsyncThunk(
+export const loginAction = createAsyncThunk(
   'user/login',
   async (params: LoginParams, { dispatch }) => {
     const res = await loginApi(params)
     const { token } = res.data
     if (token) {
       dispatch(setToken({ token }))
-      await dispatch(fetchLoginAfter())
+      await dispatch(loginAfterAction())
     }
     return '成功'
   }
 )
 
-export const fetchLoginAfter = createAsyncThunk(
+export const loginAfterAction = createAsyncThunk(
   'user/loginAfter',
   async (_, { dispatch }) => {
-    const userInfo = await dispatch(fetchGetUserInfo())
+    const userInfo = await dispatch(getUserInfoAction())
 
     await dispatch(buildRouteThunk())
 
@@ -43,18 +43,10 @@ export const fetchLoginAfter = createAsyncThunk(
   }
 )
 
-export const fetchGetUserInfo = createAsyncThunk(
+export const getUserInfoAction = createAsyncThunk(
   'user/getUserInfo',
-  async (_, { getState, dispatch }) => {
-    if (!(getState() as RootState).userReducer) return null
+  async () => {
     const { data: userInfo } = await userInfoApi()
-    if (userInfo) {
-      dispatch(
-        setUserInfo({
-          userInfo
-        })
-      )
-    }
     return userInfo
   }
 )
@@ -76,6 +68,12 @@ export const userSlice = createSlice({
       state.userInfo = userInfo
       localCache.setItem(cacheEnum.USER_INFO_KEY, userInfo)
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getUserInfoAction.fulfilled, (state, action) => {
+      state.userInfo = action.payload
+      localCache.setItem(cacheEnum.USER_INFO_KEY, state.userInfo)
+    })
   }
 })
 

@@ -7,7 +7,7 @@ import { cacheEnum } from '@/enums/cacheEnum'
 import { PageEnum } from '@/enums/pageEnum'
 
 import { useNavigate } from 'react-router-dom'
-import { fetchUserLogin } from '@/store/modules/user'
+import { loginAction } from '@/store/modules/user'
 import { useAppDispatch } from '@/store'
 import { useMessage } from '@/hooks/web/useMessage'
 import { useState } from 'react'
@@ -17,7 +17,7 @@ export interface FormValues extends LoginParams {
 }
 
 function LoginForm() {
-  const { prefixCls } = useDesign('login-form')
+  const { prefixCls } = useDesign('login-panel-form')
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -43,7 +43,7 @@ function LoginForm() {
     try {
       setLoading(true)
       const { username, password, remember } = formData
-      await dispatch(fetchUserLogin({ username, password }))
+      await dispatch(loginAction({ username, password }))
       navigate(PageEnum.BASE_HOME, { replace: true })
       notification.success({
         message: '登录成功',
@@ -78,7 +78,10 @@ function LoginForm() {
         <Input.Password placeholder="password" prefix={<UnlockOutlined />} />
       </Form.Item>
       <Form.Item name="remember" valuePropName="checked">
-        <Checkbox>记住密码</Checkbox>
+        <div className="flex justify-between">
+          <Checkbox>记住密码</Checkbox>
+          <span>忘记密码？</span>
+        </div>
       </Form.Item>
       <Form.Item>
         <Button

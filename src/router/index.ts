@@ -2,10 +2,13 @@ import { useState } from 'react'
 import { shallowEqual } from 'react-redux'
 import { useLocation, useRoutes } from 'react-router-dom'
 
-import { useAppSelector, useAppDispatch } from '@/hooks/web/useApp'
-import { basicRoutes } from './routes'
+import { useAppSelector } from '@/hooks/web/useApp'
 import { dynamicRoutes, addRouter } from './help/routeHelp'
+import { basicRoutes } from './routes'
 import { PageEnum } from '@/enums/pageEnum'
+import { cacheEnum } from '@/enums/cacheEnum'
+import { store } from '@/store'
+import { buildRouteThunk } from '@/store/modules/menu'
 
 let isDynamicRouter = false
 
@@ -29,4 +32,12 @@ export default function RouterElement() {
   }
 
   return useRoutes(routes)
+}
+
+
+export async function setupRouter() {
+  const token = localStorage.getItem(cacheEnum.TOKEN_KEY)
+  if (token) {
+    await store.dispatch(buildRouteThunk())
+  }
 }

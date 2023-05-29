@@ -5,7 +5,6 @@ import { loadEnv } from 'vite'
 import { createVitePlugins } from './build/vite/plugin'
 
 import { viteMockServe } from 'vite-plugin-mock'
-import compressPlugin from 'vite-plugin-compression'
 
 export default ({ command, mode }: ConfigEnv): UserConfigExport => {
   const root = process.cwd()
@@ -45,10 +44,6 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
         mockPath: 'mock',
         localEnabled: true
       }),
-      compressPlugin({
-        ext: '.gz',
-        deleteOriginFile: false
-      })
     ]
   }
 }

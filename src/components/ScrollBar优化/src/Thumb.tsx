@@ -17,7 +17,7 @@ interface PropsType {
 function Thumb(props: PropsType) {
   const { always = false } = props
 
-  const { prefixCls } = useDesign('scroll-thumb')
+  const { prefixCls } = useDesign('scrollbar-thumb')
   const scrollbar = useContext(ScrollBarContext)
 
   const thumbRef = useRef<HTMLDivElement>(null)
@@ -80,8 +80,8 @@ function Thumb(props: PropsType) {
 
   const mouseMoveHandler = (e: MouseEvent) => {
     const handleOffset = e[bar.client] - (thumbState[bar.offsetDir] ?? 0)
-    if (scrollbar?.wrapElement?.current) {
-      scrollbar.wrapElement.current[bar.scrollDir] = handleOffset / props.ratio
+    if (scrollbar.wrapElement?.current) {
+      scrollbar.wrapElement.current[bar.scrollDir] = handleOffset * props.ratio
     }
   }
 
