@@ -11,14 +11,14 @@ interface Props {
 export default function Transition({ children }: Props) {
   const location = useLocation()
   const { prefixCls } = useDesign('transition')
-
+  console.log('===')
   return (
     <SwitchTransition>
       <CSSTransition
         key={location.pathname}
         timeout={300}
         unmountOnExit
-        classNames={`${prefixCls} h-full`}
+        classNames={`${prefixCls}`}
       >
         {(state) => <>{children}</>}
       </CSSTransition>
