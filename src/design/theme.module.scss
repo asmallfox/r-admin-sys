@@ -1,0 +1,20 @@
+$white: #fff;
+$light-bg-color: #fff;
+
+$dark: #333;
+$dark-bg-color: #23272f;
+
+$theme-bg: #001529;
+
+html {
+  &.dark {
+    color-scheme: dark;
+    color: #fff;
+    background-color: $dark-bg-color;
+  }
+  &.light {
+    color-scheme: light;
+    color: #333;
+    background-color: $light-bg-color;
+  }
+}

@@ -9,19 +9,19 @@ import {
   PoweroffOutlined,
   SyncOutlined
 } from '@ant-design/icons'
-import { useSelector } from 'react-redux'
 
 import { useDesign } from '@/hooks/web/useDesign'
 import localCache from '@/utils/localStore'
 import { PageEnum } from '@/enums/pageEnum'
-import { RootState } from '@/store'
 import { Icon } from '@/components/Icon'
-import { cacheEnum } from '@/enums/cacheEnum'
+import { useAppSelector } from '@/hooks/web/useApp'
+
+import Theme from './components/Theme'
 
 function HeaderMenu() {
   const { prefixCls } = useDesign('header-menu')
   const navigate = useNavigate()
-  const { userInfo } = useSelector((state: RootState) => state.userReducer)
+  const userInfo = useAppSelector((state) => state.userStore.userInfo)
   const [isModalOpen, setModalOpen] = useState(false)
   const [openSetting, setOpenSetting] = useState(false)
 
@@ -65,11 +65,6 @@ function HeaderMenu() {
     pwd: [{ required: true, message: 'Input your password!' }]
   }
 
-  const handleTheme = (isDark: boolean) => {
-    const theme = isDark ? 'dark' : 'light'
-    localCache.setItem(cacheEnum.THEME_KEY, theme)
-  }
-
   return (
     <>
       <Modal
@@ -101,12 +96,8 @@ function HeaderMenu() {
             界面功能
           </Divider>
           <div className="flex justify-between">
-            <span>暗黑模式</span>
-            <Switch
-              checkedChildren="开"
-              unCheckedChildren="关"
-              onChange={handleTheme}
-            />
+            <span>主题模式</span>
+            <Theme />
           </div>
         </div>
       </Drawer>

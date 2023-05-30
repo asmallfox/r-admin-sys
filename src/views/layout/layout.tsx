@@ -15,16 +15,19 @@ function AppLayout() {
   const [collapsed, setCollapsed] = useState(false)
   const location = useLocation()
   const currentOutlet = useOutlet()
-  // const {
-  //   token: { colorBgContainer }
-  // } = theme.useToken()
+  const {
+    token: { colorBgContainer }
+  } = theme.useToken()
 
   return (
     <Layout className={prefixCls}>
       <SideBar collapsed={collapsed} />
-      <Layout className={`${prefixCls}-site`} style={{ background: '#f0f2f5' }}>
+      <Layout className={`${prefixCls}-site`} >
         <LayoutHeader collapsed={collapsed} setCollapsed={setCollapsed} />
-        <Layout.Content className="flex-auto">
+        <Layout.Content
+          className="flex-auto"
+          style={{ background: colorBgContainer }}
+        >
           <SwitchTransition>
             <CSSTransition
               key={location.pathname}

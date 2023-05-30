@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="platform-win">
 
 <head>
   <meta charset="UTF-8" />
@@ -7,16 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>example</title>
   <style>
-    html[class="light"] {
-      color: #333;
-      background-color: #fff;
-    }
-
-    html[class="dark"] {
-      color: #fff;
-      background-color: #333;
-    }
-
     .page-container {
       width: 100%;
       height: 100%;
@@ -100,6 +90,16 @@
 </head>
 
 <body>
+  <script>
+    (function () {
+      let theme = window.localStorage.getItem('APP_MODE_THEME_KEY')
+      if (!theme) {
+        theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      const html = document.querySelector('.platform-win')
+      html.classList.add(theme)
+    })();
+  </script>
   <div id="root">
     <div class="page-container">
       <div class="loading-wrapper">
@@ -116,9 +116,7 @@
     </div>
   </div>
   <script type="module" src="/src/main.tsx"></script>
-  <script>
 
-  </script>
 </body>
 
 </html>

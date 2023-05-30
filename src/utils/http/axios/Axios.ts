@@ -43,7 +43,7 @@ export class VAxios {
     this.axiosInstance.interceptors.request.use((config) => {
       const token = localCache.getItem(cacheEnum.TOKEN_KEY)
       if (token) {
-        config.headers.Authorization = token
+        config.headers.Authorization = JSON.stringify(token)
       }
 
       const requestConfigData = this.handleRequestParams(config.url as string, config.data)

@@ -1,25 +1,34 @@
 import type { MenuItem } from '@/router/types'
-
 import type { MenuProps } from 'antd'
-import { useState, useEffect } from 'react'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { Menu } from 'antd'
 
-import { getMenus, getRouteMapItem, pathSnippets, joinPath } from '@/router/help/menuHelp'
+import { useState, useEffect } from 'react'
+import { Menu } from 'antd'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '@/hooks/web/useApp'
+
+import {
+  getMenus,
+  getRouteMapItem,
+  pathSnippets,
+  joinPath
+} from '@/router/help/menuHelp'
 import { useDesign } from '@/hooks/web/useDesign'
 import { setTags } from '@/store/modules/menu'
-import { RootState } from '@/store'
 
 type itemType = MenuProps['items']
 
 export function LayoutMenu(props: { collapsed: boolean }) {
   const { prefixCls } = useDesign('menu')
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const location = useLocation()
   const routeParams = useParams()
-  const { menuList } = useSelector((state: RootState) => state.menuReducer)
+  const { menuList, darkMode } = useAppSelector((state) => {
+    return {
+      menuList: state.menuStore.menuList,
+      darkMode: state.appStore.darkMode
+    }
+  })
 
   const pathSplits = pathSnippets(location.pathname)
   const [selectKey, setSelectKey] = useState<string[]>([])
@@ -64,7 +73,7 @@ export function LayoutMenu(props: { collapsed: boolean }) {
       const label = Object.keys(routeParams).length
         ? `${curMenuItem.label}：${routeParams.id}`
         : curMenuItem.label
-      
+
       dispatch(
         setTags({
           label,
@@ -78,11 +87,11 @@ export function LayoutMenu(props: { collapsed: boolean }) {
       : pathSplits.slice(-1)
     setSelectKey(curSelectKeys)
   }, [props, location])
-  
+
   return (
     <div className={prefixCls}>
       <Menu
-        theme="dark"
+        theme={darkMode}
         mode="inline"
         inlineIndent={12}
         items={menus as itemType}
@@ -90,6 +99,7 @@ export function LayoutMenu(props: { collapsed: boolean }) {
         openKeys={openKeys}
         onOpenChange={onOpenChange}
         onSelect={onSelect}
+        style={{ height: '100%' }}
       />
     </div>
   )

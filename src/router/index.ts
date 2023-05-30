@@ -17,7 +17,7 @@ export default function RouterElement() {
 
   const [routes, setRoutes] = useState(basicRoutes)
   const menuList = useAppSelector(
-    (state) => state.menuReducer.menuList,
+    (state) => state.menuStore.menuList,
     shallowEqual
   )
 
@@ -33,7 +33,6 @@ export default function RouterElement() {
 
   return useRoutes(routes)
 }
-
 
 export async function setupRouter() {
   const token = localStorage.getItem(cacheEnum.TOKEN_KEY)

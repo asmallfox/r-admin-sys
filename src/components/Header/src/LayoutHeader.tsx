@@ -4,14 +4,14 @@ import { useDesign } from '@/hooks/web/useDesign'
 import HeaderTag from './HeaderTag'
 import HeaderBreadcrumb from './HeaderBreadcrumb'
 import HeaderMenu from './HeaderMenu'
-import './style/index.scss'
+import '../styles/index.scss'
 
 interface Props {
   collapsed: boolean
   setCollapsed: (bool: boolean) => void
 }
 
-export function LayoutHeader(props: Props) {
+export default function LayoutHeader(props: Props) {
   const {
     token: { colorBgContainer }
   } = theme.useToken()
@@ -37,5 +37,3 @@ export function LayoutHeader(props: Props) {
     </Layout.Header>
   )
 }
-
-export default LayoutHeader

@@ -1,13 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
 
-import userReducer from './modules/user'
-import menuReducer from './modules/menu'
+import userStore from './modules/user'
+import menuStore from './modules/menu'
+import appStore from './modules/app'
 
 export const store = configureStore({
   reducer: {
-    userReducer,
-    menuReducer
+    userStore,
+    menuStore,
+    appStore
   }
 })
 

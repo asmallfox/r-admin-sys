@@ -5,18 +5,25 @@ import './styles/login.scss'
 import LoginForm from './loginForm'
 import { Button, Divider } from 'antd'
 import { Icon } from '@/components/Icon'
+import Theme from '@/components/Header/src/components/Theme'
+import { cacheEnum } from '@/enums/cacheEnum'
 
 export default function Login() {
   const { prefixCls } = useDesign('login')
 
   // 清除本地存储 localstorage
-  localCache.clear()
+  localCache.removeItem(cacheEnum.TOKEN_KEY)
+  localCache.removeItem(cacheEnum.USER_INFO_KEY)
+  localCache.removeItem(cacheEnum.MENU_LIST_KEY)
 
   return (
     <div className={prefixCls}>
       <div className={`${prefixCls}-panel`}>
+        <div className={`${prefixCls}_theme`}>
+          <Theme />
+        </div>
         <div style={{ width: '360px' }}>
-          <div className='mb-5 font-bold text-3xl'>
+          <div className="mb-5 font-bold text-3xl">
             <span>登录</span>
           </div>
           <LoginForm />

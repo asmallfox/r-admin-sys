@@ -1,14 +1,13 @@
 import type { IBreadcrumb } from '@/router/types'
 
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Breadcrumb } from 'antd'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 
 import { getBreadcrumb, getMenus } from '@/router/help/menuHelp'
-import { RootState } from '@/store'
 import { useDesign } from '@/hooks/web/useDesign'
+import { useAppSelector } from '@/hooks/web/useApp'
 
 interface Props {
   collapsed: boolean
@@ -21,7 +20,7 @@ function HeaderBreadcrumb(props: Props) {
   const { prefixCls } = useDesign('header-bread')
   const location = useLocation()
   const navigate = useNavigate()
-  const { menuList } = useSelector((state: RootState) => state.menuReducer)
+  const menuList = useAppSelector((state) => state.menuStore.menuList)
 
   const [breadcrumbItems, setBreadcrumbItems] = useState<IBreadcrumb[]>([])
 

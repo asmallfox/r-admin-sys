@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" class="platform-win">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html.dark {
+      color-scheme: dark;
+      color: #fff;
+      background-color: #23272f;
+      transition: color 300ms, background-color 300ms linear;
+    }
+
+    html.light {
+      color-scheme: light;
+      color: #333;
+      background-color: #fff;
+      transition: color 300ms, background-color 300ms linear;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <button class="btn1">暗黑</button>
+    <button class="btn2">浅色</button>
+    <div>文字</div>
+  </div>
+  <script>
+    const html = document.querySelector('.platform-win')
+    const btn1 = document.querySelector('.btn1')
+    const btn2 = document.querySelector('.btn2')
+
+
+    const theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+    html.classList.add(theme)
+
+    btn1.addEventListener('click', () => {
+      if (html) {
+        html.classList.add('dark')
+        html.classList.remove('light')
+      }
+    })
+    btn2.addEventListener('click', () => {
+      if (html) {
+        html.classList.add('light')
+        html.classList.remove('dark')
+      }
+    })
+  </script>
+</body>
+
+</html>

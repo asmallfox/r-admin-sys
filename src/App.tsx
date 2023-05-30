@@ -7,7 +7,7 @@ import { AuthRouter } from '@/components/AuthRouter'
 import RouterElement from '@/router'
 import { store } from '@/store'
 
-function App() {
+export default function App() {
   const locale = zhCN
   dayjs.locale('zh-cn')
 
@@ -21,5 +21,3 @@ function App() {
     </Provider>
   )
 }
-
-export default App

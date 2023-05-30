@@ -1,0 +1,18 @@
+@use '../assets/fonts/fonts.css';
+
+@use './var';
+@use './theme.module.scss';
+
+$namespace: 'lege';
+
+html,
+body {
+  // 禁止文字选中
+  // user-select: none;
+  width: 100vw;
+  height: 100vh;
+}
+img {
+  // 禁止拖动图片
+  -webkit-user-drag: none;
+}

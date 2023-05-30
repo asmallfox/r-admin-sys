@@ -1,8 +1,8 @@
 import type { MockMethod } from 'vite-plugin-mock'
 import { errorResult, RequestParams, successResult, getToken } from '../_util'
-import adminMenu from './data/adminMenu.json'
-import testMenu from './data/testMenu.json'
-import { adminList } from './data/userData'
+import adminMenu from '../data/adminMenu.json'
+import testMenu from '../data/testMenu.json'
+import { adminList } from '../data/userData'
 import { PermissionEnum } from '../../src/enums/menuEnum'
 
 export default [
@@ -21,7 +21,7 @@ export default [
         if (findUser) {
           let menu: Record<string, unknown>[] = []
           console.log(findUser.permissions)
-          switch(findUser.permissions) {
+          switch (findUser.permissions) {
             case PermissionEnum.ADMIN:
               menu = adminMenu
               break

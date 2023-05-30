@@ -1,6 +1,6 @@
 import { MockMethod } from 'vite-plugin-mock'
 import _ from 'lodash'
-import { adminList, ordinaryUsers } from './data/userData'
+import { adminList, ordinaryUsers } from '../data/userData'
 import { successResult, errorResult, RequestParams, getToken } from '../_util'
 
 export default [

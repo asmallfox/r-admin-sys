@@ -1,11 +1,25 @@
 @use '../fonts/fonts.css';
 
+html,
 body {
   // 禁止文字选中
   // user-select: none;
   width: 100vw;
+  height: 100vh;
 }
 img {
   // 禁止拖动图片
   -webkit-user-drag: none;
+}
+
+html.dark {
+  color-scheme: dark;
+  color: #fff;
+  background-color: #333;
+}
+
+html.light {
+  color-scheme: light;
+  color: #333;
+  background-color: #fff;
 }

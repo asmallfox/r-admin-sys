@@ -1,18 +1,26 @@
-import { isNil } from './is'
+import { isNil, isString } from './is'
 
-export const  toStringify = (value: unknown): string => JSON.stringify(value)
+export const toStringify = (value: unknown): string => {
+  return isString(value) ? value : JSON.stringify(value)
+}
 export const toParse = (str: string) => {
   try {
-    return JSON.parse(str)
+    const value = JSON.parse(str)
+    return value
   } catch (error) {
-    return null
+    if (isNil(str)) {
+      console.error(error)
+      return null
+    } else {
+      return str
+    }
   }
 }
 
 class LocalCache {
   setItem(key: string, value: unknown) {
     if (isNil(value)) {
-      throw(new Error('Invalid value of setItem'))
+      throw new Error('Invalid value of setItem')
     }
     window.localStorage.setItem(key, toStringify(value))
   }

@@ -13,7 +13,7 @@ $prefix-cls: '#{$namespace}-sideBar';
       vertical-align: middle;
     }
     span {
-      color: #fff;
+      // color: #fff;
       margin-left: 10px;
       font-size: 16px;
       font-weight: 700;
@@ -24,7 +24,3 @@ $prefix-cls: '#{$namespace}-sideBar';
     }
   }
 }
-
-// .simplebar-scrollbar::before {
-//   background-color: red;
-// }

@@ -1,4 +1,4 @@
-import { PermissionEnum } from '../../../src/enums/menuEnum'
+import { PermissionEnum } from '../../src/enums/menuEnum'
 const userType = [1, 2, 3, 4]
 
 export const adminList = [

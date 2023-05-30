@@ -1,23 +1,21 @@
-import type { RootState } from '@/store'
 import type { TagItem } from '@/store/modules/menu'
 
 import { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Tag } from 'antd'
 
 import { useDesign } from '@/hooks/web/useDesign'
 import { PageEnum } from '@/enums/pageEnum'
 import { removeTag } from '@/store/modules/menu'
+import { useAppSelector, useAppDispatch } from '@/hooks/web/useApp'
 
 function HeaderTag() {
   const { prefixCls } = useDesign('header-tag')
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { pathname } = useLocation()
-  const menuSelectList = useSelector(
-    (state: RootState) => state.menuReducer.tagList
-  )
+  const menuSelectList = useAppSelector((state) => state.menuStore.tagList)
+
   const [tagList, setTagList] = useState(menuSelectList)
 
   const getClass = (othClass?: string) =>
