@@ -33,7 +33,7 @@ function About() {
 
   const HeaderElement = () => {
     return (
-      <div className="bg-white py-4 px-6" key={headerKey}>
+      <div className="py-4 px-6" key={headerKey}>
         <h2 className="text-xl font-600 leading-5 mb-1 mt-2">关于</h2>
         <span style={{ lineHeight: '32px', height: '32px' }}>
           Management System 是一个基于React 18、Vite、 Ant Design 、TypeScript

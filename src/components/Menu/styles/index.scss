@@ -3,3 +3,44 @@ $prefix-cls: #{$namespace}-menu;
 .#{$prefix-cls} {
   height: 100%;
 }
+
+html.dark {
+  .ant-menu {
+    &-dark {
+      background: $sider-dark-bg-color !important;
+      .ant-menu-sub {
+        background: $menu--dark-bg-color-item !important;
+      }
+    }
+    // &-light {
+    //   color: rgba(255, 255, 255, 0.65);
+    //   background: $sider-light-bg-color;
+    //   .ant-menu {
+    //     &-sub {
+    //       background: #000c17 !important;
+    //     }
+
+    //     .ant-menu-item {
+    //       &-selected {
+    //         color: $white;
+    //         background: #1668dc;
+    //       }
+    //       &-active:not(.ant-menu-item-selected) {
+    //         color: #fff !important;
+    //         background: rgba(255, 255, 255, 0.12) !important;
+    //       }
+    //       &-content {
+    //         transition: color 0.3s;
+    //       }
+    //     }
+    //   }
+    //   .ant-menu-submenu-selected > .ant-menu-submenu-title {
+    //     color: #fff !important;
+    //   }
+    //   .ant-menu-submenu-active:not(.ant-menu-submenu-open) {
+    //     color: #fff !important;
+    //     background: rgba(255, 255, 255, 0.12) !important;
+    //   }
+    // }
+  }
+}

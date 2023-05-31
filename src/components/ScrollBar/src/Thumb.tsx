@@ -14,7 +14,7 @@ interface PropsType {
   scrollEvent?: (e: Event) => void
 }
 
-function Thumb(props: PropsType) {
+export default function Thumb(props: PropsType) {
   const { always = false } = props
 
   const { prefixCls } = useDesign('scroll-thumb')
@@ -62,7 +62,7 @@ function Thumb(props: PropsType) {
   const mouseDownHandler = (e: React.MouseEvent) => {
     setCurrentDown(true)
 
-    window.getSelection()?.removeAllRanges()
+    document.onselectstart = () => false
     initListener(e)
 
     thumbState[bar.offsetDir] =
@@ -89,6 +89,7 @@ function Thumb(props: PropsType) {
     setCurrentDown(false)
     thumbState[bar.offsetDir] = 0
     document.removeEventListener('mousemove', mouseMoveHandler)
+    document.onselectstart = null
   }
 
   useEffect(() => {
@@ -138,4 +139,3 @@ function Thumb(props: PropsType) {
   )
 }
 
-export default Thumb

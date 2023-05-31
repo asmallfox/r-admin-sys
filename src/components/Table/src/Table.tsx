@@ -1,7 +1,7 @@
 import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
 
 import { useEffect, useState, useId, useRef, useMemo } from 'react'
-import { Table, Button, Tooltip, Divider, Pagination } from 'antd'
+import { Table, Button, Tooltip, Divider, Pagination, theme } from 'antd'
 import { DeleteOutlined, FormOutlined } from '@ant-design/icons'
 import { cloneDeep } from 'lodash'
 import axios from 'axios'
@@ -14,7 +14,7 @@ import TableHeader from './TableHeader'
 import { FormDialog } from '@/components/FormDialog'
 import { PopconfirmButton } from '@/components/PopconfirmButton'
 import { useDesign } from '@/hooks/web/useDesign'
-import '../style/table.scss'
+import '../styles/table.scss'
 import TablePagination from './TablePagination'
 
 type TColumnsType<T = any> = ColumnsType<T>
@@ -225,7 +225,7 @@ export default function TableContainer(props: TableProps) {
     } = {
       scroll: {
         x: 'max-content',
-        // y: getTableBodyHeight()
+        y: getTableBodyHeight()
       }
     }
 
@@ -251,6 +251,8 @@ export default function TableContainer(props: TableProps) {
     return `calc(100vh - ${height}px - 1rem)`
   }
 
+  const {token} = theme.useToken()
+
   useEffect(() => {
     initOperate()
     setDataSource(data)
@@ -258,8 +260,8 @@ export default function TableContainer(props: TableProps) {
 
   return (
     <div
-      className={`${prefixCls} h-full bg-white p-2 flex flex-col overflow-hidden`}
-      style={{ borderRadius: '6px' }}
+      className={`${prefixCls} h-full p-2 flex flex-col overflow-hidden`}
+      style={{ borderRadius: '6px', background: token.colorBgContainer }}
     >
       {config?.create && (
         <FormDialog
@@ -298,7 +300,7 @@ export default function TableContainer(props: TableProps) {
         pagination={false}
         size="small"
         bordered={true}
-        // {...tableAttrs()}
+        {...tableAttrs()}
       />
       {config?.list.api && (
         <TablePagination

@@ -37,40 +37,48 @@ $tag-color-active: '#0960db';
     height: 32px;
     white-space: nowrap;
     border-bottom: 1px solid #d9d9d9;
+    .ant-tag {
+      background: transparent;
+    }
     &-wrapper {
       height: 30px;
       padding-top: 2px;
-      border-top: 1px solid #e5e7eb;
-      border-bottom: 1px solid #e5e7eb;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
     }
+
     &-item {
       height: 100%;
       font-size: 12px;
-      background-color: #fff;
       display: flex;
       align-items: center;
+      cursor: pointer;
+
       &__action {
         color: #fff;
-        background-color: #{$tag-color-active};
+        background-color: #{$tag-color-active}!important;
         border-color: #{$tag-color-active};
         box-sizing: border-box;
-      }
-      &:hover {
-        cursor: pointer;
+        .ant-tag-close-icon {
+          color: inherit;
+          opacity: 1!important;
+          &:hover {
+            color: inherit;
+          }
+        }
       }
       &:hover:not(&__action) {
-        transition: 1s;
+        transition: 0.3s;
         color: #{$tag-color-active};
         .ant-tag-close-icon {
-          color: #{$tag-color-active};
+          opacity: 1;
         }
       }
 
       .ant-tag-close-icon {
-        color: #fff;
         width: 12px;
+        opacity: 0;
         &:hover {
-          color: inherit;
           font-size: 12px;
         }
       }

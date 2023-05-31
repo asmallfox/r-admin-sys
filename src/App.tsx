@@ -1,23 +1,27 @@
-import { Provider } from 'react-redux'
 import { ConfigProvider } from 'antd'
 import dayjs from 'dayjs'
 import zhCN from 'antd/locale/zh_CN'
 
 import { AuthRouter } from '@/components/AuthRouter'
 import RouterElement from '@/router'
-import { store } from '@/store'
+import { useTheme } from '@/hooks/web/useTheme'
 
 export default function App() {
   const locale = zhCN
   dayjs.locale('zh-cn')
 
+  const { themeAlgorithm } = useTheme()
+
   return (
-    <Provider store={store}>
-      <ConfigProvider locale={locale}>
-        <AuthRouter>
-          <RouterElement />
-        </AuthRouter>
-      </ConfigProvider>
-    </Provider>
+    <ConfigProvider
+      locale={locale}
+      theme={{
+        algorithm: themeAlgorithm
+      }}
+    >
+      <AuthRouter>
+        <RouterElement />
+      </AuthRouter>
+    </ConfigProvider>
   )
 }

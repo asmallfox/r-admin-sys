@@ -1,10 +1,7 @@
 import { Layout, theme } from 'antd'
 
 import { useDesign } from '@/hooks/web/useDesign'
-import HeaderTag from './HeaderTag'
-import HeaderBreadcrumb from './HeaderBreadcrumb'
-import HeaderMenu from './HeaderMenu'
-import '../styles/index.scss'
+import { HeaderTag, HeaderBreadcrumb, HeaderMenu } from '@/components/Header'
 
 interface Props {
   collapsed: boolean
@@ -24,14 +21,16 @@ export default function LayoutHeader(props: Props) {
       className={prefixCls}
       style={{ padding: 0, background: colorBgContainer }}
     >
-      <div
-        className="flex justify-between items-center flex-nowrap"
-        style={{ height: '42px' }}
-      >
-        <HeaderBreadcrumb collapsed={collapsed} setCollapsed={setCollapsed} />
-        <HeaderMenu />
+      <div>
+        <div
+          className="flex justify-between items-center flex-nowrap"
+          style={{ height: '42px' }}
+        >
+          <HeaderBreadcrumb collapsed={collapsed} setCollapsed={setCollapsed} />
+          <HeaderMenu />
+        </div>
+        <HeaderTag />
       </div>
-      <HeaderTag />
     </Layout.Header>
   )
 }

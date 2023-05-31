@@ -1,8 +1,8 @@
 import type { MenuItem } from '@/router/types'
 import type { MenuProps } from 'antd'
 
-import { useState, useEffect } from 'react'
 import { Menu } from 'antd'
+import { useState, useEffect } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@/hooks/web/useApp'
 
@@ -17,7 +17,7 @@ import { setTags } from '@/store/modules/menu'
 
 type itemType = MenuProps['items']
 
-export function LayoutMenu(props: { collapsed: boolean }) {
+export default function MenuLayout(props: { collapsed: boolean }) {
   const { prefixCls } = useDesign('menu')
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -103,5 +103,3 @@ export function LayoutMenu(props: { collapsed: boolean }) {
     </div>
   )
 }
-
-export default LayoutMenu

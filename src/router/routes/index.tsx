@@ -3,7 +3,7 @@ import type { RouterRaws } from '../types'
 import { PageEnum } from '@/enums/pageEnum'
 import { NOT_FOUNT_ROUTE } from './basic'
 
-import AppLayout from '@/views/layout/layout'
+import AppLayout from '@/layouts/index'
 import Auth from '@/views/auth/auth'
 import Login from '@/views/login/login'
 import LargeScreen from '@/views/layout/echart/largeScreen/largeScreen'

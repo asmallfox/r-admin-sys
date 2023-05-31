@@ -1,31 +1,29 @@
-import { Layout, theme } from 'antd'
+import { Layout } from 'antd'
 
 import { useDesign } from '@/hooks/web/useDesign'
 import { LayoutMenu } from '@/components/Menu'
 import { ScrollBar } from '@/components/ScrollBar'
+
 import logo from '@/assets/images/react.svg'
 
-import { useAppSelector } from '@/hooks/web/useApp'
+interface Props {
+  collapsed: boolean
+}
 
-// import SimpleBar from 'simplebar-react';
-// import 'simplebar-react/dist/simplebar.min.css';
+const SIDER_WIDTH = 210
+const COLLAPSED_WIDTH = 40
 
-export function SideBar(props: { collapsed: boolean }) {
-  const { prefixCls } = useDesign('sideBar')
+export default function SiderLayout(props: Props) {
   const { collapsed } = props
-
-  const themeMode = useAppSelector((state) => state.appStore.darkMode)
-
-  const data = theme.useToken()
-  console.log(data, themeMode)
+  const { prefixCls } = useDesign('sider')
 
   return (
     <Layout.Sider
+      theme="dark"
       className={prefixCls}
       collapsed={collapsed}
-      width={210}
-      collapsedWidth={40}
-      theme={themeMode}
+      width={SIDER_WIDTH}
+      collapsedWidth={COLLAPSED_WIDTH}
     >
       <div className={`${prefixCls}-logo`}>
         <img src={logo} />
@@ -33,9 +31,6 @@ export function SideBar(props: { collapsed: boolean }) {
       </div>
 
       <div style={{ height: 'calc(100% - 48px)' }}>
-        {/* <SimpleBar  style={{ maxHeight: '100%' }}>
-          <LayoutMenu collapsed={collapsed} />
-        </SimpleBar> */}
         <ScrollBar color="rgba(255, 255, 255, 0.3)">
           <LayoutMenu collapsed={collapsed} />
         </ScrollBar>
@@ -43,5 +38,3 @@ export function SideBar(props: { collapsed: boolean }) {
     </Layout.Sider>
   )
 }
-
-export default SideBar

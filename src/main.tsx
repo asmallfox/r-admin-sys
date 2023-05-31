@@ -13,7 +13,9 @@ import 'reset-css'
 import App from './App'
 
 import { BrowserRouter } from 'react-router-dom'
-import {setupRouter} from '@/router'
+import { Provider } from 'react-redux'
+import { setupRouter } from '@/router'
+import { store } from '@/store'
 
 const boot = async () => {
   // 初始化路由
@@ -21,7 +23,9 @@ const boot = async () => {
 
   ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <BrowserRouter>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </BrowserRouter>
   )
 }
