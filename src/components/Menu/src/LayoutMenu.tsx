@@ -23,9 +23,10 @@ export function LayoutMenu(props: { collapsed: boolean }) {
   const dispatch = useAppDispatch()
   const location = useLocation()
   const routeParams = useParams()
-  const { menuList } = useAppSelector((state) => {
+  const { menuList, menuMode } = useAppSelector((state) => {
     return {
-      menuList: state.menuStore.menuList
+      menuList: state.menuStore.menuList,
+      menuMode: state.appStore.projectConfig.menu.mode
     }
   })
 
@@ -91,7 +92,7 @@ export function LayoutMenu(props: { collapsed: boolean }) {
     <div className={prefixCls}>
       <Menu
         theme="dark"
-        mode="inline"
+        mode={menuMode}
         inlineIndent={12}
         items={menus as itemType}
         selectedKeys={selectKey}

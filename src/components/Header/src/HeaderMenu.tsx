@@ -17,11 +17,19 @@ import { Icon } from '@/components/Icon'
 import { useAppSelector } from '@/hooks/web/useApp'
 
 import Theme from './components/Theme'
+import { setProjectConfig } from '@/store/modules/app'
+import { useAppDispatch } from '@/store'
 
 function HeaderMenu() {
   const { prefixCls } = useDesign('header-menu')
   const navigate = useNavigate()
-  const userInfo = useAppSelector((state) => state.userStore.userInfo)
+  const dispatch = useAppDispatch()
+  const { userInfo, menuType } = useAppSelector((state) => {
+    return {
+      userInfo: state.userStore.userInfo,
+      menuType: state.appStore.projectConfig.menuType
+    }
+  })
   const [isModalOpen, setModalOpen] = useState(false)
   const [openSetting, setOpenSetting] = useState(false)
 
@@ -65,6 +73,24 @@ function HeaderMenu() {
     pwd: [{ required: true, message: 'Input your password!' }]
   }
 
+  const menuTypes = [
+    {
+      title: '垂直',
+      mode: 'inline',
+      type: 'sidebar'
+    },
+    {
+      title: '水平',
+      mode: 'horizontal',
+      type: 'sidebar-top'
+    },
+    {
+      title: '顶部log',
+      mode: 'inline',
+      type: 'sidebar-mix'
+    }
+  ]
+
   return (
     <>
       <Modal
@@ -91,6 +117,7 @@ function HeaderMenu() {
         onClose={() => setOpenSetting(false)}
         open={openSetting}
       >
+        {/* 主题 */}
         <div>
           <Divider style={{ fontSize: '14px', color: '#888' }}>
             界面功能
@@ -98,6 +125,26 @@ function HeaderMenu() {
           <div className="flex justify-between">
             <span>主题模式</span>
             <Theme />
+          </div>
+        </div>
+        {/* 导航模式 */}
+        <div>
+          <Divider style={{ fontSize: '14px', color: '#888' }}>
+            导航栏布局
+          </Divider>
+
+          <div className="flex justify-around items-center">
+            {menuTypes.map((nav) => {
+              return (
+                <div
+                  key={nav.type}
+                  className={`menu-layout-${nav.type} ${
+                    menuType === nav.type ? 'menu-layout-sidebar_active' : ''
+                  }`}
+                  onClick={() => dispatch(setProjectConfig({ menuType: nav.type }))}
+                />
+              )
+            })}
           </div>
         </div>
       </Drawer>

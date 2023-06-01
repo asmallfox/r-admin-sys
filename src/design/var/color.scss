@@ -1,4 +1,8 @@
-$border-light-color: #fff;
-// $border-light-color: #e5e7eb;
+:root {
+  --border-dark-color: #303030;
+  --border-light-color: #d9d9d9;
+}
 
-// $border-dark-color: #141414;
+$border-color: var(--border-light-color);
+
+$border-light-color: #fff;

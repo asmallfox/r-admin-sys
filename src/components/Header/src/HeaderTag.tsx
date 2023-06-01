@@ -10,7 +10,7 @@ import { removeTag } from '@/store/modules/menu'
 import { useAppSelector, useAppDispatch } from '@/hooks/web/useApp'
 
 function HeaderTag() {
-  const { prefixCls } = useDesign('header-tag')
+  const { prefixCls } = useDesign('tags')
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { pathname } = useLocation()
