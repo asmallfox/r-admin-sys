@@ -2,9 +2,13 @@ import { Layout, theme } from 'antd'
 
 import { useDesign } from '@/hooks/web/useDesign'
 import { HeaderTag, HeaderBreadcrumb, HeaderMenu } from '@/components/Header'
-import LayoutMenu from '@/layouts/menu/menu'
+import LayoutMenu from '@/layouts/menu'
 import { useAppSelector } from '@/hooks/web/useApp'
 import { MenuTypeEnum } from '@/enums/menuEnum'
+
+import { AppLogo } from '@/components/AppLogo'
+
+import './styles/index.scss'
 
 interface Props {
   collapsed: boolean
@@ -19,17 +23,28 @@ export default function LayoutHeader(props: Props) {
 
   const { prefixCls } = useDesign('header')
 
-  const menuType = useAppSelector(
-    (state) => state.appStore.projectConfig.menu.menuType
-  )
+  const { menuType, darkMode } = useAppSelector((state) => {
+    return {
+      menuType: state.appStore.projectConfig.menuType,
+      darkMode: state.appStore.darkMode
+    }
+  })
 
   return (
     <Layout.Header
       className={prefixCls}
       style={{ padding: 0, background: colorBgContainer }}
     >
-      {menuType === MenuTypeEnum.SIDEBAR_TOP && <LayoutMenu />}
-      <div>
+      {menuType === MenuTypeEnum.SIDEBAR_TOP ||
+      menuType === MenuTypeEnum.SIDEBAR_MIX ? (
+        <div className={`${prefixCls}-siderbar-top`}>
+          <AppLogo />
+          {menuType === MenuTypeEnum.SIDEBAR_TOP && (
+            <LayoutMenu theme={darkMode} />
+          )}
+          <HeaderMenu className="ml-auto" />
+        </div>
+      ) : (
         <div
           className="flex justify-between items-center flex-nowrap"
           style={{ height: '42px' }}
@@ -37,8 +52,9 @@ export default function LayoutHeader(props: Props) {
           <HeaderBreadcrumb collapsed={collapsed} setCollapsed={setCollapsed} />
           <HeaderMenu />
         </div>
-        <HeaderTag />
-      </div>
+      )}
+
+      <HeaderTag />
     </Layout.Header>
   )
 }

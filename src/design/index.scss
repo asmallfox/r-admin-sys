@@ -7,6 +7,14 @@ html,
 body {
   width: 100vw;
   height: 100vh;
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    &-thumb {
+      background-color: #686868;
+      border-radius: 6px;
+    }
+  }
 }
 img {
   // 禁止拖动图片

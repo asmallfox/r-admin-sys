@@ -1,20 +1,22 @@
 import type { DarkMock } from '@/setting/designSetting'
+import type { ProjectDefault } from '@/setting/projectDefault'
 
 import { createSlice } from '@reduxjs/toolkit'
 
 import { darkMode } from '@/setting/designSetting'
 import { projectDefault } from '@/setting/projectDefault'
+import localStore from '@/utils/localStore'
 
 interface appState {
   darkMode: DarkMock
-  projectConfig: object
+  projectConfig: ProjectDefault
 }
 
 export const appSlice = createSlice({
   name: 'app',
   initialState: {
     darkMode: darkMode,
-    projectConfig: projectDefault
+    projectConfig: localStore.getItem('projectDefault') || projectDefault
   } as appState,
   reducers: {
     setDarkMode: (state, action) => {
@@ -25,6 +27,7 @@ export const appSlice = createSlice({
         ...projectDefault,
         ...action.payload
       }
+      localStore.setItem('projectDefault', state.projectConfig)
     }
   }
 })

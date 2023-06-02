@@ -1,0 +1,48 @@
+$prefix-cls: '#{$namespace}-menu';
+
+.#{$prefix-cls} {
+  .ant-menu-horizontal {
+    .ant-menu-overflow-item,
+    .ant-menu-item {
+      display: flex;
+      align-items: center;
+    }
+
+    $item-bg-selected: rgba(255, 255, 255, 0.1) !important;
+
+    &.ant-menu-dark {
+      background-color: $dark-bg-color;
+      .ant-menu-item,
+      .ant-menu-submenu-title {
+        color: $white;
+      }
+    }
+
+    .ant-menu-submenu {
+      &-active,
+      &-selected {
+        background-color: $item-bg-selected;
+      }
+    }
+
+    .ant-menu-item-selected {
+      background-color: $item-bg-selected;
+    }
+  }
+}
+
+html.dark {
+  .ant-menu-dark {
+    background-color: $sider-dark-bg-color;
+    .ant-menu-sub {
+      background: $menu--dark-bg-color-item !important;
+    }
+  }
+  .ant-menu-dark.ant-menu-submenu-popup {
+    background: transparent !important;
+  }
+  .ant-menu-dark.ant-menu-submenu > .ant-menu {
+    // background-color: $sider-dark-bg-color;
+    background-color: $dark-bg-color;
+  }
+}

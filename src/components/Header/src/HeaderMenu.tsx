@@ -1,4 +1,4 @@
-import { Divider, MenuProps, Switch } from 'antd'
+import { Divider, MenuProps } from 'antd'
 
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -20,7 +20,11 @@ import Theme from './components/Theme'
 import { setProjectConfig } from '@/store/modules/app'
 import { useAppDispatch } from '@/store'
 
-function HeaderMenu() {
+interface Props {
+  className?: string
+}
+
+function HeaderMenu({ className = '' }: Props) {
   const { prefixCls } = useDesign('header-menu')
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -141,14 +145,21 @@ function HeaderMenu() {
                   className={`menu-layout-${nav.type} ${
                     menuType === nav.type ? 'menu-layout-sidebar_active' : ''
                   }`}
-                  onClick={() => dispatch(setProjectConfig({ menuType: nav.type }))}
+                  onClick={() =>
+                    dispatch(
+                      setProjectConfig({
+                        menuType: nav.type,
+                        menu: { mode: nav.mode }
+                      })
+                    )
+                  }
                 />
               )
             })}
           </div>
         </div>
       </Drawer>
-      <div className={`${prefixCls} mr-2 flex items-center`}>
+      <div className={`${prefixCls} ${className} mr-2 flex items-center`}>
         <Dropdown menu={{ items: menuItems }} className="mr-3">
           <Space>
             <UserOutlined style={{ fontSize: '18px' }} />

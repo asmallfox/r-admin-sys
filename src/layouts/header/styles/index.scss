@@ -1,0 +1,24 @@
+$prefix-cls: '#{$namespace}-header';
+$prefix-siderbar-top-cls: '#{$namespace}-header-siderbar-top';
+$prefix-app-logo-cls: '#{$namespace}-app-logo';
+
+.#{$prefix-siderbar-top-cls} {
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+
+  .ant-menu {
+    height: 48px;
+  }
+
+  .ant-menu-horizontal {
+    border-bottom: none;
+  }
+
+  .#{$prefix-app-logo-cls} {
+    span {
+      color: $text-color;
+    }
+  }
+}

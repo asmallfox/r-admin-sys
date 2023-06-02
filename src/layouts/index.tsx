@@ -18,18 +18,18 @@ export default function AppLayout() {
   const [collapsed, setCollapsed] = useState(false)
   const currentOutlet = useOutlet()
 
-  const menuType = useAppSelector(state => state.appStore.projectConfig.menuType)
+  const menuType = useAppSelector(
+    (state) => state.appStore.projectConfig.menuType
+  )
 
   return (
     <Layout className={prefixCls}>
-      {
-        (
-          menuType === MenuTypeEnum.SIDEBAR ||
-          menuType === MenuTypeEnum.SIDEBAR_MIX
-        ) &&  <SiderLayout collapsed={collapsed}  />
-      }
-      
-      <Layout>
+      {/* {(menuType === MenuTypeEnum.SIDEBAR ||
+        menuType === MenuTypeEnum.SIDEBAR_MIX) && (
+        <SiderLayout collapsed={collapsed} />
+      )} */}
+
+      {/* <Layout>
         <LayoutHeader collapsed={collapsed} setCollapsed={setCollapsed} />
         <Layout.Content className="flex-auto">
           <Transition>
@@ -38,7 +38,52 @@ export default function AppLayout() {
             </ScrollBar>
           </Transition>
         </Layout.Content>
-      </Layout>
+      </Layout> */}
+      {/* 默认 侧边导航 */}
+      {menuType === MenuTypeEnum.SIDEBAR && (
+        <>
+          <SiderLayout collapsed={collapsed} />
+          <Layout>
+            <LayoutHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+            <Layout.Content className="flex-auto">
+              <Transition>
+                <ScrollBar always>
+                  <>{currentOutlet}</>
+                </ScrollBar>
+              </Transition>
+            </Layout.Content>
+          </Layout>
+        </>
+      )}
+      {/* 顶部导航 */}
+      {menuType === MenuTypeEnum.SIDEBAR_TOP && (
+        <Layout>
+          <LayoutHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+          <Layout.Content className="flex-auto">
+            <Transition>
+              <ScrollBar always>
+                <>{currentOutlet}</>
+              </ScrollBar>
+            </Transition>
+          </Layout.Content>
+        </Layout>
+      )}
+      {/* 侧边导航，顶部header */}
+      {menuType === MenuTypeEnum.SIDEBAR_MIX && (
+        <>
+          <LayoutHeader collapsed={collapsed} setCollapsed={setCollapsed} />
+          <Layout>
+            <SiderLayout collapsed={collapsed} />
+            <Layout.Content className="flex-auto">
+              <Transition>
+                <ScrollBar always>
+                  <>{currentOutlet}</>
+                </ScrollBar>
+              </Transition>
+            </Layout.Content>
+          </Layout>
+        </>
+      )}
     </Layout>
   )
 }
