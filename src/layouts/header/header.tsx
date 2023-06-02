@@ -30,30 +30,24 @@ export default function LayoutHeader(props: Props) {
     }
   })
 
+  const isSidebar = menuType === MenuTypeEnum.SIDEBAR
+  const isSidebarTop = menuType === MenuTypeEnum.SIDEBAR_TOP
+  const isSidebarMix = menuType === MenuTypeEnum.SIDEBAR_MIX
+
   return (
     <Layout.Header
       className={prefixCls}
       style={{ padding: 0, background: colorBgContainer }}
     >
-      {menuType === MenuTypeEnum.SIDEBAR_TOP ||
-      menuType === MenuTypeEnum.SIDEBAR_MIX ? (
-        <div className={`${prefixCls}-siderbar-top`}>
-          <AppLogo />
-          {menuType === MenuTypeEnum.SIDEBAR_TOP && (
-            <LayoutMenu theme={darkMode} />
-          )}
-          <HeaderMenu className="ml-auto" />
-        </div>
-      ) : (
-        <div
-          className="flex justify-between items-center flex-nowrap"
-          style={{ height: '42px' }}
-        >
+      <div className={`${prefixCls}-wrapper flex items-center`}>
+        {!isSidebar && <AppLogo />}
+        {(isSidebar || isSidebarMix) && (
           <HeaderBreadcrumb collapsed={collapsed} setCollapsed={setCollapsed} />
-          <HeaderMenu />
-        </div>
-      )}
+        )}
 
+        {isSidebarTop && <LayoutMenu theme={darkMode} />}
+        <HeaderMenu className="ml-auto" />
+      </div>
       <HeaderTag />
     </Layout.Header>
   )

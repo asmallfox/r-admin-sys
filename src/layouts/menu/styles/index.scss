@@ -2,6 +2,7 @@ $prefix-cls: '#{$namespace}-menu';
 
 .#{$prefix-cls} {
   .ant-menu-horizontal {
+    border-bottom: none;
     .ant-menu-overflow-item,
     .ant-menu-item {
       display: flex;

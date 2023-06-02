@@ -1,7 +1,12 @@
 import logoIcon from '@/assets/images/react.svg'
 import { useDesign } from '@/hooks/web/useDesign'
 
-export default function AppLogo({ collapsed }: { collapsed: boolean }) {
+interface Props {
+  collapsed?: boolean
+}
+
+export default function AppLogo(props: Props) {
+  const { collapsed = false } = props
   const { prefixCls } = useDesign('app-logo')
 
   return (
