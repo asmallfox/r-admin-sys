@@ -6,7 +6,7 @@ import { useAppSelector } from '@/hooks/web/useApp'
 import { dynamicRoutes, addRouter } from './help/routeHelp'
 import { basicRoutes } from './routes'
 import { PageEnum } from '@/enums/pageEnum'
-import { cacheEnum } from '@/enums/cacheEnum'
+import { CacheEnum } from '@/enums/cacheEnum'
 import { store } from '@/store'
 import { buildRouteThunk } from '@/store/modules/menu'
 
@@ -35,7 +35,7 @@ export default function RouterElement() {
 }
 
 export async function setupRouter() {
-  const token = localStorage.getItem(cacheEnum.TOKEN_KEY)
+  const token = localStorage.getItem(CacheEnum.TOKEN_KEY)
   if (token) {
     await store.dispatch(buildRouteThunk())
   }

@@ -5,16 +5,15 @@ import './styles/login.scss'
 import LoginForm from './loginForm'
 import { Button, Divider } from 'antd'
 import { Icon } from '@/components/Icon'
-import Theme from '@/components/Header/src/components/Theme'
-import { cacheEnum } from '@/enums/cacheEnum'
+import Theme from '@/components/Setting/src/Theme'
+import { CacheEnum } from '@/enums/cacheEnum'
 
 export default function Login() {
   const { prefixCls } = useDesign('login')
 
   // 清除本地存储 localstorage
-  localCache.removeItem(cacheEnum.TOKEN_KEY)
-  localCache.removeItem(cacheEnum.USER_INFO_KEY)
-  localCache.removeItem(cacheEnum.MENU_LIST_KEY)
+  localCache.removeItem(CacheEnum.TOKEN_KEY)
+  localCache.removeItem(CacheEnum.USER_INFO_KEY)
 
   return (
     <div className={prefixCls}>

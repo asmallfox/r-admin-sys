@@ -3,7 +3,7 @@ import { Button, Checkbox, Form, Input } from 'antd'
 import { UserOutlined, UnlockOutlined } from '@ant-design/icons'
 import { useDesign } from '@/hooks/web/useDesign'
 import localCache from '@/utils/localStore'
-import { cacheEnum } from '@/enums/cacheEnum'
+import { CacheEnum } from '@/enums/cacheEnum'
 import { PageEnum } from '@/enums/pageEnum'
 
 import { useNavigate } from 'react-router-dom'
@@ -28,7 +28,7 @@ function LoginForm() {
     username: [{ required: true, message: 'Input your username!' }],
     password: [{ required: true, message: 'Input your password!' }]
   }
-  const localUserInfo = localCache.getItem(cacheEnum.ACCOUNT_INFO_KEY)
+  const localUserInfo = localCache.getItem(CacheEnum.ACCOUNT_INFO_KEY)
   const initUserInfo = {
     ...localUserInfo,
     remember: true
@@ -50,7 +50,7 @@ function LoginForm() {
         description: `欢迎回来 ${formData.username}`
       })
       if (remember) {
-        localCache.setItem(cacheEnum.ACCOUNT_INFO_KEY, {
+        localCache.setItem(CacheEnum.ACCOUNT_INFO_KEY, {
           username,
           password
         })

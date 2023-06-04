@@ -1,0 +1,56 @@
+$prefix-cls: #{$namespace}-tabs;
+
+$tag-color-active: #0960db;
+
+.#{$prefix-cls} {
+  height: 32px;
+  white-space: nowrap;
+  border-bottom: 1px solid $border-color;
+
+  .ant-tag {
+    background: transparent;
+  }
+  &-wrapper {
+    height: 30px;
+    padding-top: 2px;
+    border-top: 1px solid $border-color;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  &-item {
+    height: 100%;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    &__action {
+      color: #fff;
+      background-color: #{$tag-color-active} !important;
+      border-color: #{$tag-color-active};
+      box-sizing: border-box;
+      .ant-tag-close-icon {
+        color: inherit;
+        opacity: 1 !important;
+        &:hover {
+          color: inherit;
+        }
+      }
+    }
+    &:hover:not(&__action) {
+      transition: 0.3s;
+      color: #{$tag-color-active};
+      .ant-tag-close-icon {
+        opacity: 1;
+      }
+    }
+
+    .ant-tag-close-icon {
+      width: 12px;
+      opacity: 0;
+      &:hover {
+        font-size: 12px;
+      }
+    }
+  }
+}

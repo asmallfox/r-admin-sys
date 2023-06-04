@@ -3,7 +3,7 @@ import { throttle } from 'lodash'
 import { useAppDispatch, useAppSelector } from '@/hooks/web/useApp'
 import { useDesign } from '@/hooks/web/useDesign'
 import { setDarkMode } from '@/store/modules/app'
-import { cacheEnum } from '@/enums/cacheEnum'
+import { CacheEnum } from '@/enums/cacheEnum'
 import localStore from '@/utils/localStore'
 import { Icon } from '@/components/Icon'
 
@@ -26,7 +26,7 @@ export default function Theme({ className }: Props) {
       htmlDom.classList.remove(!isDarkMode() ? 'light' : 'dark')
       htmlDom.classList.add(theme)
       dispatch(setDarkMode(theme))
-      localStore.setItem(cacheEnum.APP_MODE_THEME_KEY, theme)
+      localStore.setItem(CacheEnum.APP_MODE_THEME_KEY, theme)
     }
   }, 300)
 

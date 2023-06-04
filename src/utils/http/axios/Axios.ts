@@ -5,7 +5,7 @@ import type {
 } from 'axios'
 import axios from 'axios'
 import { RequestOptions } from 'https'
-import { cacheEnum } from '@/enums/cacheEnum'
+import { CacheEnum } from '@/enums/cacheEnum'
 import localCache from '@/utils/localStore'
 import _ from 'lodash'
 
@@ -41,7 +41,7 @@ export class VAxios {
   setupInterceptors() {
     // 添加请求拦截器
     this.axiosInstance.interceptors.request.use((config) => {
-      const token = localCache.getItem(cacheEnum.TOKEN_KEY)
+      const token = localCache.getItem(CacheEnum.TOKEN_KEY)
       if (token) {
         config.headers.Authorization = JSON.stringify(token)
       }

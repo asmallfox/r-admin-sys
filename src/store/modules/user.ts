@@ -1,9 +1,7 @@
-import type { RootState } from '@/store'
-
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import localCache from '@/utils/localStore'
 
-import { cacheEnum } from '@/enums/cacheEnum'
+import { CacheEnum } from '@/enums/cacheEnum'
 
 import { loginApi, userInfoApi } from '@/api'
 
@@ -54,25 +52,25 @@ export const getUserInfoAction = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    token: localCache.getItem(cacheEnum.TOKEN_KEY),
-    userInfo: localCache.getItem(cacheEnum.USER_INFO_KEY)
+    token: localCache.getItem(CacheEnum.TOKEN_KEY),
+    userInfo: localCache.getItem(CacheEnum.USER_INFO_KEY)
   },
   reducers: {
     setToken(state, action) {
       const { token } = action.payload
       state.token = token
-      localCache.setItem(cacheEnum.TOKEN_KEY, token)
+      localCache.setItem(CacheEnum.TOKEN_KEY, token)
     },
     setUserInfo(state, action) {
       const { userInfo } = action.payload
       state.userInfo = userInfo
-      localCache.setItem(cacheEnum.USER_INFO_KEY, userInfo)
+      localCache.setItem(CacheEnum.USER_INFO_KEY, userInfo)
     }
   },
   extraReducers: (builder) => {
     builder.addCase(getUserInfoAction.fulfilled, (state, action) => {
       state.userInfo = action.payload
-      localCache.setItem(cacheEnum.USER_INFO_KEY, state.userInfo)
+      localCache.setItem(CacheEnum.USER_INFO_KEY, state.userInfo)
     })
   }
 })

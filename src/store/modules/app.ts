@@ -6,6 +6,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { darkMode } from '@/setting/designSetting'
 import { projectDefault } from '@/setting/projectDefault'
 import localStore from '@/utils/localStore'
+import { CacheEnum } from '@/enums/cacheEnum'
 
 interface appState {
   darkMode: DarkMock
@@ -16,7 +17,8 @@ export const appSlice = createSlice({
   name: 'app',
   initialState: {
     darkMode: darkMode,
-    projectConfig: localStore.getItem('projectDefault') || projectDefault
+    projectConfig:
+      localStore.getItem(CacheEnum.APP_PROJECT_SETTING_KEY) || projectDefault
   } as appState,
   reducers: {
     setDarkMode: (state, action) => {
@@ -27,7 +29,7 @@ export const appSlice = createSlice({
         ...projectDefault,
         ...action.payload
       }
-      localStore.setItem('projectDefault', state.projectConfig)
+      localStore.setItem(CacheEnum.APP_PROJECT_SETTING_KEY, state.projectConfig)
     }
   }
 })

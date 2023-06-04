@@ -1,8 +1,6 @@
-import { Divider, MenuProps } from 'antd'
-
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Modal, Form, Input, Dropdown, Space, Drawer } from 'antd'
+import { Modal, Form, Input, Dropdown, Space } from 'antd'
 import {
   UserOutlined,
   LockOutlined,
@@ -13,29 +11,19 @@ import {
 import { useDesign } from '@/hooks/web/useDesign'
 import localCache from '@/utils/localStore'
 import { PageEnum } from '@/enums/pageEnum'
-import { Icon } from '@/components/Icon'
 import { useAppSelector } from '@/hooks/web/useApp'
 
-import Theme from './components/Theme'
-import { setProjectConfig } from '@/store/modules/app'
-import { useAppDispatch } from '@/store'
+import Setting from '@/components/Setting/src/Setting'
 
 interface Props {
   className?: string
 }
 
-function HeaderMenu({ className = '' }: Props) {
+export default function HeaderMenu({ className = '' }: Props) {
   const { prefixCls } = useDesign('header-menu')
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const { userInfo, menuType } = useAppSelector((state) => {
-    return {
-      userInfo: state.userStore.userInfo,
-      menuType: state.appStore.projectConfig.menuType
-    }
-  })
+  const userInfo = useAppSelector((state) => state.userStore.userInfo)
   const [isModalOpen, setModalOpen] = useState(false)
-  const [openSetting, setOpenSetting] = useState(false)
 
   const logout = () => {
     Modal.confirm({
@@ -77,24 +65,6 @@ function HeaderMenu({ className = '' }: Props) {
     pwd: [{ required: true, message: 'Input your password!' }]
   }
 
-  const menuTypes = [
-    {
-      title: '垂直',
-      mode: 'inline',
-      type: 'sidebar'
-    },
-    {
-      title: '水平',
-      mode: 'horizontal',
-      type: 'sidebar-top'
-    },
-    {
-      title: '顶部log',
-      mode: 'inline',
-      type: 'sidebar-mix'
-    }
-  ]
-
   return (
     <>
       <Modal
@@ -115,50 +85,7 @@ function HeaderMenu({ className = '' }: Props) {
           </Form.Item>
         </Form>
       </Modal>
-      <Drawer
-        title="设置"
-        placement="right"
-        onClose={() => setOpenSetting(false)}
-        open={openSetting}
-      >
-        {/* 主题 */}
-        <div>
-          <Divider style={{ fontSize: '14px', color: '#888' }}>
-            界面功能
-          </Divider>
-          <div className="flex justify-between">
-            <span>主题模式</span>
-            <Theme />
-          </div>
-        </div>
-        {/* 导航模式 */}
-        <div>
-          <Divider style={{ fontSize: '14px', color: '#888' }}>
-            导航栏布局
-          </Divider>
 
-          <div className="flex justify-around items-center">
-            {menuTypes.map((nav) => {
-              return (
-                <div
-                  key={nav.type}
-                  className={`menu-layout-${nav.type} ${
-                    menuType === nav.type ? 'menu-layout-sidebar_active' : ''
-                  }`}
-                  onClick={() =>
-                    dispatch(
-                      setProjectConfig({
-                        menuType: nav.type,
-                        menu: { mode: nav.mode }
-                      })
-                    )
-                  }
-                />
-              )
-            })}
-          </div>
-        </div>
-      </Drawer>
       <div className={`${prefixCls} ${className} mr-2 flex items-center`}>
         <Dropdown menu={{ items: menuItems }} className="mr-3">
           <Space>
@@ -168,14 +95,8 @@ function HeaderMenu({ className = '' }: Props) {
             </span>
           </Space>
         </Dropdown>
-        <Icon
-          type="icon-shezhi"
-          style={{ fontSize: '20px' }}
-          onClick={() => setOpenSetting(true)}
-        />
+        <Setting />
       </div>
     </>
   )
 }
-
-export default HeaderMenu

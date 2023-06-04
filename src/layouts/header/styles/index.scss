@@ -2,6 +2,7 @@ $prefix-cls: '#{$namespace}-header';
 $prefix-app-logo-cls: '#{$namespace}-app-logo';
 
 .#{$prefix-cls} {
+  height: auto;
   &-wrapper {
     height: 48px;
     .ant-menu {

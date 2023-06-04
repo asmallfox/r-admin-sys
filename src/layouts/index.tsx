@@ -8,6 +8,7 @@ import { MenuTypeEnum } from '@/enums/menuEnum'
 import LayoutHeader from './header/header'
 import SiderLayout from './sider/sider'
 import LayoutContent from './content/content'
+import { Tabs } from '@/components/Tabs'
 
 import './styles/index.scss'
 
@@ -34,6 +35,7 @@ export default function AppLayout() {
           {isSidebar && (
             <LayoutHeader collapsed={collapsed} setCollapsed={setCollapsed} />
           )}
+          {isSidebarMix && <Tabs />}
           <LayoutContent />
         </Layout>
       </Layout>

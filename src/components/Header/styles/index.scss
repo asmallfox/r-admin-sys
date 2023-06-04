@@ -1,72 +1,5 @@
-$prefix-cls: '#{$namespace}-header';
-$prefix-theme-cls: '#{$namespace}-theme';
-$prefix-tags-cls: '#{$namespace}-tags';
-
-$tag-color-active: '#0960db';
-
-.#{$prefix-cls} {
-  height: auto;
-  padding-bottom: 1px;
-  &-bread {
-    height: 48px;
-    & .trigger {
-      cursor: pointer;
-      font-size: 18px;
-      transition: color 0.3s;
-      &:hover {
-        color: #1890ff;
-      }
-    }
-
-    &-menu {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      padding: 0 10px;
-      cursor: pointer;
-      &:hover {
-        background-color: #e5e5e5;
-      }
-    }
-  }
-
-  &-menu {
-    cursor: pointer;
-  }
-}
-
-.#{$prefix-theme-cls} {
-  width: 50px;
-  height: 26px;
-  border-radius: 15px;
-  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
-  background-color: #333;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  position: relative;
-
-  cursor: pointer;
-
-  &_control {
-    height: 18px;
-    width: 18px;
-    border-radius: 50%;
-    transition: all 300ms;
-    background-color: #fff;
-    position: absolute;
-    left: 0;
-    transform: translateX(4px);
-  }
-  &__dark {
-    box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.65);
-
-    .#{$prefix-theme-cls}_control {
-      transform: translateX(28px);
-    }
-  }
-}
+$prefix-bread-cls: '#{$namespace}-header-bread';
+$prefix-menu-cls: '#{$namespace}-header-menu';
 
 html {
   &.dark {
@@ -80,146 +13,25 @@ html {
   }
 }
 
-.#{$prefix-tags-cls} {
-  height: 32px;
-  white-space: nowrap;
-  border-bottom: 1px solid $border-color;
-  .ant-tag {
-    background: transparent;
-  }
-  &-wrapper {
-    height: 30px;
-    padding-top: 2px;
-    border-top: 1px solid $border-color;
-    border-bottom: 1px solid $border-color;
-  }
-
-  &-item {
-    height: 100%;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
+.#{$prefix-bread-cls} {
+  height: 48px;
+  & .trigger {
     cursor: pointer;
-
-    &__action {
-      color: #fff;
-      background-color: #{$tag-color-active} !important;
-      border-color: #{$tag-color-active};
-      box-sizing: border-box;
-      .ant-tag-close-icon {
-        color: inherit;
-        opacity: 1 !important;
-        &:hover {
-          color: inherit;
-        }
-      }
-    }
-    &:hover:not(&__action) {
-      transition: 0.3s;
-      color: #{$tag-color-active};
-      .ant-tag-close-icon {
-        opacity: 1;
-      }
-    }
-
-    .ant-tag-close-icon {
-      width: 12px;
-      opacity: 0;
-      &:hover {
-        font-size: 12px;
-      }
+    font-size: 18px;
+    transition: color 0.3s;
+    &:hover {
+      color: $primary-color;
     }
   }
 }
 
-.menu-layout-sidebar {
-  width: 84px;
-  height: 70px;
-  background-color: #eee;
-  position: relative;
-  box-shadow: 0 0 1px 1.25px rgba(0, 0, 0, 0.18);
-  border-radius: 6px;
-  overflow: hidden;
-
+.#{$prefix-menu-cls} {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  cursor: pointer;
   &:hover {
-    box-shadow: 0 0 2px 1px #1890ff;
+    background-color: #e5e5e5;
   }
-
-  &::before {
-    content: '';
-    width: 20px;
-    background-color: #001529;
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-
-    z-index: 10;
-  }
-  &::after {
-    content: '';
-    height: 16px;
-    background-color: #fff;
-    position: absolute;
-    left: 0;
-    right: 0;
-  }
-}
-.menu-layout-sidebar-top {
-  width: 84px;
-  height: 70px;
-  background-color: #eee;
-  position: relative;
-  box-shadow: 0 0 1px 1.25px rgba(0, 0, 0, 0.18);
-  border-radius: 6px;
-  overflow: hidden;
-
-  &:hover {
-    box-shadow: 0 0 2px 1px #1890ff;
-  }
-
-  &::after {
-    content: '';
-    height: 16px;
-    background-color: #001529;
-    position: absolute;
-    left: 0;
-    right: 0;
-  }
-}
-.menu-layout-sidebar-mix {
-  width: 84px;
-  height: 70px;
-  background-color: #eee;
-  position: relative;
-  box-shadow: 0 0 1px 1.25px rgba(0, 0, 0, 0.18);
-  border-radius: 6px;
-  overflow: hidden;
-
-  &:hover {
-    box-shadow: 0 0 2px 1px #1890ff;
-  }
-
-  &::before {
-    content: '';
-    width: 16px;
-    background-color: $white;
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-  }
-
-  &::after {
-    content: '';
-    height: 16px;
-    background-color: #001529;
-    position: absolute;
-    left: 0;
-    right: 0;
-  }
-}
-
-.menu-layout-sidebar_active {
-  box-shadow: 0 0 2px 1px #1890ff;
 }

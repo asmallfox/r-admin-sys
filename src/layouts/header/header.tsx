@@ -1,12 +1,14 @@
 import { Layout, theme } from 'antd'
 
 import { useDesign } from '@/hooks/web/useDesign'
-import { HeaderTag, HeaderBreadcrumb, HeaderMenu } from '@/components/Header'
+import { HeaderBreadcrumb, HeaderMenu } from '@/components/Header'
 import LayoutMenu from '@/layouts/menu'
 import { useAppSelector } from '@/hooks/web/useApp'
 import { MenuTypeEnum } from '@/enums/menuEnum'
 
 import { AppLogo } from '@/components/AppLogo'
+
+import { Tabs } from '@/components/Tabs'
 
 import './styles/index.scss'
 
@@ -23,10 +25,9 @@ export default function LayoutHeader(props: Props) {
 
   const { prefixCls } = useDesign('header')
 
-  const { menuType, darkMode } = useAppSelector((state) => {
+  const { menuType } = useAppSelector((state) => {
     return {
-      menuType: state.appStore.projectConfig.menuType,
-      darkMode: state.appStore.darkMode
+      menuType: state.appStore.projectConfig.menuType
     }
   })
 
@@ -45,10 +46,10 @@ export default function LayoutHeader(props: Props) {
           <HeaderBreadcrumb collapsed={collapsed} setCollapsed={setCollapsed} />
         )}
 
-        {isSidebarTop && <LayoutMenu theme={darkMode} />}
+        {isSidebarTop && <LayoutMenu />}
         <HeaderMenu className="ml-auto" />
       </div>
-      <HeaderTag />
+      {!isSidebarMix && <Tabs />}
     </Layout.Header>
   )
 }
