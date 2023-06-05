@@ -1,12 +1,9 @@
+import type { MenuProps } from 'antd'
+
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Modal, Form, Input, Dropdown, Space, Avatar } from 'antd'
-import {
-  UserOutlined,
-  LockOutlined,
-  PoweroffOutlined,
-  SyncOutlined
-} from '@ant-design/icons'
+import { LockOutlined, PoweroffOutlined, SyncOutlined } from '@ant-design/icons'
 
 import { useDesign } from '@/hooks/web/useDesign'
 import localCache from '@/utils/localStore'

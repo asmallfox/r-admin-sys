@@ -6,78 +6,115 @@ import { useDesign } from '@/hooks/web/useDesign'
 
 import './index.scss'
 
-const ScrollBar = forwardRef<any, ScrollbarProps>(({ children }, ref) => {
-  const { prefixCls, prefixBase } = useDesign('scrollbar')
+const ScrollBar = forwardRef<any, ScrollbarProps>(
+  ({ children, style }, ref) => {
+    const { prefixCls, prefixBase } = useDesign('scrollbar')
 
-  const wrapRef = useRef<HTMLDivElement>(null)
-  const thumbRef = useRef<HTMLDivElement>(null)
+    const wrapRef = useRef<HTMLDivElement>(null)
+    const thumbRef = useRef<HTMLDivElement>(null)
 
-  const [thumbSize, setThumbSize] = useState(20)
-  const [moveY, setMoveY] = useState(0)
+    const [thumbSize, setThumbSize] = useState(20)
+    const [moveY, setMoveY] = useState(0)
+    const [rationY, setRationY] = useState(1)
 
-  const thumbStyle = () => {
-    return {
-      height: thumbSize + 'px',
-      transform: `translateY(${moveY}px)`
+    const thumbStyle = () => {
+      return {
+        height: thumbSize + 'px',
+        transform: `translateY(${moveY}px)`
+      }
     }
-  }
-  console.log('scrollbar')
-  const update = () => {
-    if (wrapRef.current) {
-      const trackSize = wrapRef.current?.offsetHeight
-      const scrollHeight = wrapRef.current?.scrollHeight
-      const ration = scrollHeight / trackSize
-      const height = (trackSize / (scrollHeight + trackSize)) * trackSize
-      setTimeout(() => {
-        console.log('滑块高度：', height, '滚动高度：',  wrapRef.current?.scrollHeight)
-      }, 2000)
-      setThumbSize(height)
+    const update = () => {
+      console.log('=== update ===')
+      if (wrapRef.current) {
+        const trackSize = wrapRef.current?.offsetHeight
+        const scrollHeight = wrapRef.current?.scrollHeight
+        const height = trackSize ** 2 / scrollHeight
+        const rationY = (trackSize - height) / scrollHeight
+        console.log(
+          '滑块高度：',
+          height,
+          '容器高度：',
+          trackSize,
+          '滚动高度：',
+          wrapRef.current?.scrollHeight,
+          '比例：',
+          rationY,
+          trackSize - height
+        )
+        setTimeout(() => {
+          console.log(
+            '滑块高度：',
+            height,
+            '容器高度：',
+            trackSize,
+            '滚动高度：',
+            wrapRef.current?.scrollHeight,
+            '比例：',
+            rationY,
+            trackSize - height
+          )
+        }, 2000)
+        setRationY(rationY)
+        setThumbSize(height)
+      }
     }
-  }
 
-  const initListener = () => {
-    const observe = new MutationObserver(() => {
-      window.requestAnimationFrame(update)
-    })
-    if (wrapRef.current) {
-      observe.observe(wrapRef.current, {
-        subtree: true,
-        childList: true,
-        characterData: true
+    const handleScroll = () => {
+      if (wrapRef?.current) {
+        setMoveY(wrapRef.current.scrollTop * rationY)
+      }
+    }
+
+    const handleResize = () => {
+      window.requestAnimationFrame(() => {
+        update()
+        handleScroll()
       })
     }
 
-    return observe
-  }
+    const initObserver = () => {
+      const observe = new MutationObserver(handleResize)
 
-  const handleScroll = (e: any) => {
-    const scrollTop = e.target.scrollTop
-    setMoveY(scrollTop)
-  }
+      if (wrapRef.current) {
+        console.log('o')
+        observe.observe(wrapRef.current, {
+          subtree: true,
+          childList: true,
+          characterData: true
+        })
+      }
 
-  useEffect(() => {
-    const observe = initListener()
-
-    return () => {
-      observe && observe.disconnect()
+      return observe
     }
-  }, [])
 
-  return (
-    <div ref={ref} className={prefixCls}>
-      <div className={prefixBase('wrap')} ref={wrapRef} onScroll={handleScroll}>
-        <div className={prefixBase('content')}>{children}</div>
-      </div>
-      <div className={prefixBase('track')}>
+    useEffect(() => {
+      console.log('==')
+      const observe = initObserver()
+      return () => {
+        observe && observe.disconnect()
+      }
+    }, [])
+
+    return (
+      <div ref={ref} className={prefixCls} style={style}>
         <div
-          className={prefixBase('track_thumb')}
-          ref={thumbRef}
-          style={thumbStyle()}
-        ></div>
+          className={prefixBase('wrapper')}
+          ref={wrapRef}
+          onScroll={handleScroll}
+        >
+          <div className={prefixBase('content')}>{children}</div>
+        </div>
+        <div className={prefixBase('track')}>
+          <div
+            className={prefixBase('track_thumb')}
+            ref={thumbRef}
+            style={thumbStyle()}
+          ></div>
+        </div>
       </div>
-    </div>
-  )
-})
+    )
+  }
+)
 
 ScrollBar.displayName = 'ScrollBar'
 

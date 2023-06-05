@@ -53,7 +53,7 @@ export default [
     url: '/basic-api/todo-list',
     method: 'put',
     response: (requestConfig: AxiosRequestConfig) => {
-      const { body, headers } = requestConfig
+      const { body, headers } = requestConfig as any
       if (!checkAuthorization(headers?.authorization)) {
         return errorResponse(codeEnum.INVALID_TOKEN)
       }

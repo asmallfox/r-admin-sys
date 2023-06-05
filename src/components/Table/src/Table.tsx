@@ -235,7 +235,7 @@ export default function TableContainer(props: TableProps) {
       )
     }
 
-    return result
+    return result as any
   }
 
   function handleOpenUpdate(row: any) {

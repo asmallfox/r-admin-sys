@@ -8,7 +8,8 @@ export default [
   {
     url: '/basic-api/login',
     method: 'post',
-    response: ({ body }) => {
+    response: ({ body }: any) => {
+      console.log('===')
       const { username, password } = body
       const findUser = adminList.find((item) => item.username === username)
       if (findUser && findUser.password === password) {
@@ -47,7 +48,7 @@ export default [
   {
     url: '/basic-api/user-list',
     method: 'get',
-    response: ({ query }) => {
+    response: ({ query }: any) => {
       const {
         page = 1,
         pageSize = 10,
@@ -98,13 +99,13 @@ export default [
   {
     url: '/basic-api/delete-user-by-id',
     method: 'delete',
-    response: ({ body }) => {
+    response: ({ body }: any) => {
       try {
         const index = adminList.findIndex((item) => item.id === Number(body.id))
         if (index === -1) throw new Error('Invalid id')
         adminList.splice(index, 1)
         return successResult(null, 'Delete by id successfully')
-      } catch (error) {
+      } catch (error: any) {
         return errorResult(error.message)
       }
     }
@@ -113,7 +114,7 @@ export default [
   {
     url: '/basic-api/add-user',
     method: 'post',
-    response: ({ body }) => {
+    response: ({ body }: any) => {
       const { username, nickname, role, description } = body
       const existUser = adminList.some((item) => item.username === username)
       if (!username || !nickname || !role) {
@@ -153,7 +154,7 @@ export default [
   {
     url: '/basic-api/update-user-by-id/:id',
     method: 'put',
-    response: ({ body, query }) => {
+    response: ({ body, query }: any) => {
       const { id } = query
       const index = adminList.findIndex((item) => item.id === Number(id))
       if (index !== -1) {
@@ -182,9 +183,7 @@ export default [
   {
     url: '/basic-api/ordinary-user-list',
     method: 'get',
-    response: (params) => {
-      console.log(params)
-
+    response: (params: any) => {
       return {
         code: 200,
         data: {

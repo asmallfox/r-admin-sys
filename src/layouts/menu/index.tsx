@@ -1,5 +1,3 @@
-import type { CSSProperties } from 'react'
-
 import SimpleMenu from './components/SimpleMenu'
 import BasicMenu from './components/BasicMenu'
 import { ScrollBar } from '@/components/ScrollBar'

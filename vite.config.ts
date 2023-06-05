@@ -4,8 +4,6 @@ import path from 'path'
 import { loadEnv } from 'vite'
 import { createVitePlugins } from './build/vite/plugin'
 
-import { viteMockServe } from 'vite-plugin-mock'
-
 export default ({ command, mode }: ConfigEnv): UserConfigExport => {
   const root = process.cwd()
   const env = loadEnv(mode, root)
@@ -38,12 +36,6 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
       host: true,
       port: Number(VITE_PORT)
     },
-    plugins: [
-      ...createVitePlugins(viteEnv, isBuild),
-      viteMockServe({
-        mockPath: 'mock',
-        localEnabled: true
-      }),
-    ]
+    plugins: createVitePlugins(viteEnv, isBuild)
   }
 }

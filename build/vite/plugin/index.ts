@@ -11,9 +11,9 @@ export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
 
   const vitePlugins: PluginOption | PluginOption[] = [react(), windiCSS()]
 
-  VITE_USE_MOCK && configMockPlugin(isBuild)
+  VITE_USE_MOCK && vitePlugins.push(configMockPlugin(isBuild))
 
-  configCompressPlugin()
+  vitePlugins.push(configCompressPlugin())
 
   return vitePlugins
 }
