@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Modal, Form, Input, Dropdown, Space } from 'antd'
+import { Modal, Form, Input, Dropdown, Space, Avatar } from 'antd'
 import {
   UserOutlined,
   LockOutlined,
@@ -87,9 +87,9 @@ export default function HeaderMenu({ className = '' }: Props) {
       </Modal>
 
       <div className={`${prefixCls} ${className} mr-2 flex items-center`}>
-        <Dropdown menu={{ items: menuItems }} className="mr-3">
+        <Dropdown menu={{ items: menuItems }} className="mr-3 cursor-pointer">
           <Space>
-            <UserOutlined style={{ fontSize: '18px' }} />
+            <Avatar src={userInfo.avatar} alt="avatar" size={28} />
             <span style={{ marginLeft: '5px', fontSize: '14px' }}>
               {userInfo?.nickname}
             </span>

@@ -11,6 +11,8 @@ export const adminList = [
     description: 'Tom',
     permissions: PermissionEnum.ADMIN,
     password: '123456',
+    avatar:
+      'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg'
   },
   {
     id: 2,
@@ -19,6 +21,8 @@ export const adminList = [
     role: userType[1],
     createTime: 1682643537823,
     description: '开发人员',
+    avatar:
+      'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg'
   },
   {
     id: 3,
@@ -29,6 +33,8 @@ export const adminList = [
     description: '测试',
     permissions: PermissionEnum.TEST,
     password: '123456',
+    avatar:
+      'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg'
   },
   {
     id: 4,

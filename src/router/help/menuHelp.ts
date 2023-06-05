@@ -8,6 +8,8 @@ import { isString, isNil } from '@/utils/is'
 
 import { asyncRoutes } from '@/router/routes'
 
+import { Icon } from '@/components/Icon'
+
 export type MenuItems = MenuItem[]
 
 export type IBreadcrumbs = IBreadcrumb[]
@@ -46,6 +48,15 @@ export function transformRouteToMenu(routes: RouterRaws[]) {
         active_menu: activeMenu,
         key: pathSnippets(path as string)[0]
       }
+
+      if (icon) {
+        menuItem.icon = isString(icon)
+          ? React.createElement(Icon, {
+              type: icon
+            })
+          : icon
+      }
+
       if (route.children?.length) {
         menuItem.children = getFormatMenu(route.children)
       }

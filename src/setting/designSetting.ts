@@ -2,7 +2,7 @@ import { ThemeEnum } from '@/enums/themeEnum'
 import { CacheEnum } from '@/enums/cacheEnum'
 import localStore from '@/utils/localStore'
 
-export type DarkMock = ThemeEnum.Dark | ThemeEnum.Light
+export type ThemeMock = ThemeEnum.Dark | ThemeEnum.Light
 
 console.log(localStore.getItem(CacheEnum.APP_MODE_THEME_KEY))
 

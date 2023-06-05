@@ -15,7 +15,7 @@ $prefix-theme-cls: #{$namespace}-theme;
       overflow: hidden;
 
       &:hover {
-        box-shadow: 0 0 2px 1px #1890ff;
+        box-shadow: 0 0 2px 1px $primary-color;
       }
 
       &::before {
@@ -48,7 +48,7 @@ $prefix-theme-cls: #{$namespace}-theme;
       overflow: hidden;
 
       &:hover {
-        box-shadow: 0 0 2px 1px #1890ff;
+        box-shadow: 0 0 2px 1px $primary-color;
       }
 
       &::after {
@@ -70,7 +70,7 @@ $prefix-theme-cls: #{$namespace}-theme;
       overflow: hidden;
 
       &:hover {
-        box-shadow: 0 0 2px 1px #1890ff;
+        box-shadow: 0 0 2px 1px $primary-color;
       }
 
       &::before {

@@ -10,7 +10,7 @@ export default function LayoutContent() {
   return (
     <Layout.Content className="flex-auto">
       <Transition>
-        <ScrollBar always>
+        <ScrollBar always style={{ height: '100%' }}>
           <>{currentOutlet}</>
         </ScrollBar>
       </Transition>

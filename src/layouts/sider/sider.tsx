@@ -2,7 +2,6 @@ import { Layout } from 'antd'
 
 import { useDesign } from '@/hooks/web/useDesign'
 import LayoutMenu from '@/layouts/menu'
-import { ScrollBar } from '@/components/ScrollBar'
 
 import { AppLogo } from '@/components/AppLogo'
 import { useAppSelector } from '@/hooks/web/useApp'
@@ -23,6 +22,12 @@ export default function SiderLayout(props: Props) {
     (state) => state.appStore.projectConfig.menuType
   )
 
+  const showAppLogo = menuType === MenuTypeEnum.SIDEBAR
+
+  const layoutMenuStyle = {
+    height: `${showAppLogo ? 'calc(100% - 48px)' : '100%'}`
+  }
+
   return (
     <Layout.Sider
       theme="dark"
@@ -31,13 +36,9 @@ export default function SiderLayout(props: Props) {
       width={SIDEBAR_WIDTH}
       collapsedWidth={COLLAPSED_WIDTH}
     >
-      {menuType === MenuTypeEnum.SIDEBAR && <AppLogo collapsed={collapsed} />}
+      {showAppLogo && <AppLogo collapsed={collapsed} />}
 
-      <div className="flex-1">
-        <ScrollBar color="rgba(255, 255, 255, 0.3)">
-          <LayoutMenu collapsed={collapsed} />
-        </ScrollBar>
-      </div>
+      <LayoutMenu style={layoutMenuStyle} />
     </Layout.Sider>
   )
 }

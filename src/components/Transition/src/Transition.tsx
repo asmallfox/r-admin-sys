@@ -11,7 +11,7 @@ interface Props {
 export default function Transition({ children }: Props) {
   const location = useLocation()
   const { prefixCls } = useDesign('transition')
-  console.log('===')
+
   return (
     <SwitchTransition>
       <CSSTransition

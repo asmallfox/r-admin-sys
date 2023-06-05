@@ -1,4 +1,4 @@
-import type { DarkMock } from '@/setting/designSetting'
+import type { ThemeMock } from '@/setting/designSetting'
 import type { ProjectDefault } from '@/setting/projectDefault'
 
 import { createSlice } from '@reduxjs/toolkit'
@@ -9,7 +9,7 @@ import localStore from '@/utils/localStore'
 import { CacheEnum } from '@/enums/cacheEnum'
 
 interface appState {
-  darkMode: DarkMock
+  darkMode: ThemeMock
   projectConfig: ProjectDefault
 }
 

@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { getMenuListApi } from '@/api'
-import { useDispatch } from 'react-redux'
 
 export interface TagItem {
   label: string

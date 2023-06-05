@@ -1,7 +1,7 @@
 import type { RouterRaws } from '../../types'
 import { PermissionEnum } from '@/enums/menuEnum'
 
-import { UserOutlined, AuditOutlined } from '@ant-design/icons'
+import { UserOutlined } from '@ant-design/icons'
 import User from '@/views/layout/user/user'
 import SysAdmin from '@/views/layout/user/sysAdmin/sysAdmin'
 import Ordinary from '@/views/layout/user/ordinary/ordinary'
@@ -12,7 +12,7 @@ export const UserLayout: RouterRaws = {
   redirect: '/user/admin',
   meta: {
     title: '用户管理',
-    icon: <AuditOutlined />,
+    icon: 'icon-user',
     sortIndex: 1
   },
   children: [

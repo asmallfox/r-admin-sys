@@ -24,7 +24,7 @@ export default function Setting() {
   )
 
   return (
-    <div className={prefixCls}>
+    <div className={`${prefixCls} flex items-center`}>
       <Drawer
         title="设置"
         placement="right"
@@ -70,7 +70,7 @@ export default function Setting() {
         </div>
       </Drawer>
       <Icon
-        type="icon-shezhi"
+        type="icon-setting"
         style={{ fontSize: '20px' }}
         onClick={() => setOpenSetting(true)}
       />

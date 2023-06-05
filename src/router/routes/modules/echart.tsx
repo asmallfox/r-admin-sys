@@ -1,6 +1,5 @@
 import type { RouterRaws } from '../../types'
 
-import { LineChartOutlined } from '@ant-design/icons'
 import LargeScreen from '@/views/layout/echart/largeScreen/largeScreen'
 import LayoutEcharts from '@/views/layout/echart/layoutEcharts'
 
@@ -9,7 +8,7 @@ export const LargeScreenLayout: RouterRaws = {
   element: <LayoutEcharts />,
   meta: {
     title: 'echart',
-    icon: <LineChartOutlined />,
+    icon: 'icon-line-chart',
     sortIndex: 3
   },
   children: [

@@ -52,7 +52,7 @@ export default function Theme({ className }: Props) {
     >
       <div className={`${prefixCls}_control`}></div>
       <Icon type="icon-sun" />
-      <Icon type="icon-moon_" />
+      <Icon type="icon-moon" />
     </div>
   )
 }

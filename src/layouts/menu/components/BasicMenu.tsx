@@ -1,5 +1,6 @@
-import type { MenuItem } from '@/router/types'
 import type { MenuProps } from 'antd'
+import type { MenuItem } from '@/router/types'
+import type { ThemeMock } from '@/setting/designSetting'
 
 import { Menu } from 'antd'
 import { useState, useEffect } from 'react'
@@ -16,16 +17,14 @@ import { useDesign } from '@/hooks/web/useDesign'
 import { setTags } from '@/store/modules/menu'
 import { ThemeEnum } from '@/enums/themeEnum'
 
-
 type itemType = MenuProps['items']
 
 interface Props {
   collapsed?: boolean
-  theme?: 'light' | 'dark'
+  theme?: ThemeMock
 }
 
 export default function BasicMenu(props: Props) {
-
   const { theme = ThemeEnum.Dark } = props
 
   const { prefixCls } = useDesign('menu')
@@ -45,6 +44,7 @@ export default function BasicMenu(props: Props) {
   const [openKeys, setOpenKeys] = useState<string[]>([])
 
   const menus = getMenus(menuList)
+
   const getOpenKeys = (
     menus: MenuItem[],
     key: string,
@@ -97,7 +97,7 @@ export default function BasicMenu(props: Props) {
       : pathSplits.slice(-1)
     setSelectKey(curSelectKeys)
   }, [props, location])
-  console.log(theme)
+
   return (
     <div className={prefixCls}>
       <Menu

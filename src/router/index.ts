@@ -8,7 +8,7 @@ import { basicRoutes } from './routes'
 import { PageEnum } from '@/enums/pageEnum'
 import { CacheEnum } from '@/enums/cacheEnum'
 import { store } from '@/store'
-import { buildRouteThunk } from '@/store/modules/menu'
+import { loginAfterAction } from '@/store/modules/user'
 
 let isDynamicRouter = false
 
@@ -37,6 +37,6 @@ export default function RouterElement() {
 export async function setupRouter() {
   const token = localStorage.getItem(CacheEnum.TOKEN_KEY)
   if (token) {
-    await store.dispatch(buildRouteThunk())
+    await store.dispatch(loginAfterAction())
   }
 }

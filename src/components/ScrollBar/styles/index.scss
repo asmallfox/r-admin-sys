@@ -10,7 +10,7 @@ $prefix-cls: #{$namespace}-scroll;
   height: 100%;
   overflow: hidden;
   position: relative;
-  &-wrap {
+  &-wrapper {
     height: 100%;
     overflow: auto;
     &::-webkit-scrollbar {

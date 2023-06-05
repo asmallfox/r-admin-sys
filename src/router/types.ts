@@ -13,7 +13,7 @@ export interface MenuItem {
 
 export interface Meta {
   title?: string
-  icon?: JSX.Element
+  icon?: JSX.Element | string
   sortIndex?: number
   menuHidden?: boolean
   activeMenu?: string

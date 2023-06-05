@@ -1,6 +1,5 @@
 import type { RouterRaws } from '../../types'
 
-import { RadarChartOutlined } from '@ant-design/icons'
 import Three from '@/views/layout/three/three'
 
 export const Dashboard: RouterRaws = {
@@ -9,7 +8,7 @@ export const Dashboard: RouterRaws = {
   element: <Three />,
   meta: {
     title: 'Three',
-    icon: <RadarChartOutlined />,
+    icon: 'icon-three',
     sortIndex: 4,
     permission: ['TEST']
   }
