@@ -4,16 +4,16 @@ import react from '@vitejs/plugin-react'
 import windiCSS from 'vite-plugin-windicss'
 
 import { configMockPlugin } from './mock'
-import { configCompressPlugin } from './compress'
+// import { configCompressPlugin } from './compress'
 
 export function createVitePlugins(viteEnv: ViteEnv, isBuild: boolean) {
   const { VITE_USE_MOCK } = viteEnv
 
   const vitePlugins: PluginOption | PluginOption[] = [react(), windiCSS()]
 
-  VITE_USE_MOCK && vitePlugins.push(configMockPlugin(isBuild))
+  // VITE_USE_MOCK && vitePlugins.push(configMockPlugin(true))
 
-  vitePlugins.push(configCompressPlugin())
+  // vitePlugins.push(configCompressPlugin())
 
   return vitePlugins
 }

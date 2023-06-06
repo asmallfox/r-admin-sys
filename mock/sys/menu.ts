@@ -2,7 +2,7 @@ import type { MockMethod } from 'vite-plugin-mock'
 import { errorResult, RequestParams, successResult, getToken } from '../_util'
 import adminMenu from '../data/adminMenu.json'
 import testMenu from '../data/testMenu.json'
-import { adminList } from '../data/userData'
+import { adminList } from '../data/_userData'
 import { PermissionEnum } from '../../src/enums/menuEnum'
 
 export default [

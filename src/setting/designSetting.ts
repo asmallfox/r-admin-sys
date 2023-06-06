@@ -4,8 +4,6 @@ import localStore from '@/utils/localStore'
 
 export type ThemeMock = ThemeEnum.Dark | ThemeEnum.Light
 
-console.log(localStore.getItem(CacheEnum.APP_MODE_THEME_KEY))
-
 export const darkMode =
   localStore.getItem(CacheEnum.APP_MODE_THEME_KEY) ||
   (window.matchMedia(`(prefers-color-scheme: ${ThemeEnum.Light})`).matches

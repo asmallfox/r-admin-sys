@@ -1,13 +1,14 @@
+import type { RequestOptions } from 'https'
 import type {
   AxiosInstance,
   CreateAxiosDefaults,
   AxiosRequestConfig
 } from 'axios'
+
 import axios from 'axios'
-import { RequestOptions } from 'https'
+import {cloneDeep} from 'lodash'
 import { CacheEnum } from '@/enums/cacheEnum'
 import localCache from '@/utils/localStore'
-import _ from 'lodash'
 
 export class VAxios {
   private axiosInstance: AxiosInstance
@@ -22,7 +23,7 @@ export class VAxios {
   handleRequestParams(url: string, params: Record<string, any>) {
     // 参数转换
     const path = url?.split('?') as string[]
-    const data = _.cloneDeep(params)
+    const data = cloneDeep(params)
     const reg = /(?:\{)[a-zA-Z-9]+(?:\})/g
     const bodyParams = path[0].match(reg)
     if (bodyParams?.length) {

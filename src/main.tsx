@@ -17,7 +17,13 @@ import { Provider } from 'react-redux'
 import { setupRouter } from '@/router'
 import { store } from '@/store'
 
+// import { setupProdMockServer } from '../mock/_mockProdServer'
+
 const boot = async () => {
+  // 初始化Mock
+  if (import.meta.env.REACT_APP_ENV === 'production') {
+    // setupProdMockServer()
+  }
   // 初始化路由
   await setupRouter()
 

@@ -26,7 +26,7 @@ export const loginAction = createAsyncThunk(
       dispatch(setToken({ token }))
       await dispatch(loginAfterAction())
     }
-    return '成功'
+    return res
   }
 )
 

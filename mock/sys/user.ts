@@ -1,6 +1,6 @@
 import { MockMethod } from 'vite-plugin-mock'
-import _ from 'lodash'
-import { adminList, ordinaryUsers } from '../data/userData'
+import { cloneDeep } from 'lodash'
+import { adminList, ordinaryUsers } from '../data/_userData'
 import { successResult, errorResult, RequestParams, getToken } from '../_util'
 
 export default [
@@ -9,7 +9,6 @@ export default [
     url: '/basic-api/login',
     method: 'post',
     response: ({ body }: any) => {
-      console.log('===')
       const { username, password } = body
       const findUser = adminList.find((item) => item.username === username)
       if (findUser && findUser.password === password) {
@@ -31,6 +30,7 @@ export default [
     url: '/basic-api/userinfo',
     method: 'get',
     response: (request: RequestParams) => {
+      console.log(request, '==')
       const token = getToken(request.headers)
       if (token) {
         const { id, username } = JSON.parse(token)
@@ -58,7 +58,7 @@ export default [
       } = query
 
       // desc 降序、asc 升序
-      let result = _.cloneDeep(adminList).sort((i1, i2) => {
+      let result = cloneDeep(adminList).sort((i1, i2) => {
         if (order === 'asc') {
           return i1.createTime - i2.createTime
         } else if (order === 'desc') {
