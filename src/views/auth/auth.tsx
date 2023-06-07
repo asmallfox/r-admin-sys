@@ -1,7 +1,7 @@
 import type { RouterRaws } from '@/router/types'
 import { useSearchParams } from 'react-router-dom'
 import { asyncRoutes } from '@/router/routes'
-import { cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash-es'
 
 import { filterPermission } from '@/router/help/routeHelp'
 

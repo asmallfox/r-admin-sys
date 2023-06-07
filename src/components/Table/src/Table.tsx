@@ -3,7 +3,7 @@ import type { ColumnsType, TablePaginationConfig } from 'antd/es/table'
 import { useEffect, useState, useId, useRef, useMemo } from 'react'
 import { Table, Button, Tooltip, Divider, Pagination, theme } from 'antd'
 import { DeleteOutlined, FormOutlined } from '@ant-design/icons'
-import { cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import axios from 'axios'
 
 import { useMessage } from '@/hooks/web/useMessage'

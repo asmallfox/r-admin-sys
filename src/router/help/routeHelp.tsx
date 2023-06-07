@@ -1,6 +1,6 @@
 import type { RouterRaws, MenuItem } from '@/router/types'
 
-import { cloneDeep } from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import { Navigate } from 'react-router-dom'
 
 import { asyncRoutes } from '@/router/routes'

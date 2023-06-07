@@ -1,7 +1,7 @@
 import { Form, Input, Button } from 'antd'
 
 import { isNil } from '@/utils/is'
-import { isFunction } from 'lodash'
+import { isFunction } from 'lodash-es'
 
 interface SearchProps {
   onSearch: (rgms?: any) => void

@@ -88,7 +88,6 @@ const ScrollBar = forwardRef<any, ScrollbarProps>(
     }
 
     useEffect(() => {
-      console.log('==')
       const observe = initObserver()
       return () => {
         observe && observe.disconnect()

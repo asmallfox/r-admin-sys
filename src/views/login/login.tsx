@@ -7,6 +7,7 @@ import { Button, Divider } from 'antd'
 import { Icon } from '@/components/Icon'
 import Theme from '@/components/Setting/src/Theme'
 import { CacheEnum } from '@/enums/cacheEnum'
+// import axios from 'axios'
 
 export default function Login() {
   const { prefixCls } = useDesign('login')
@@ -15,8 +16,15 @@ export default function Login() {
   localCache.removeItem(CacheEnum.TOKEN_KEY)
   localCache.removeItem(CacheEnum.USER_INFO_KEY)
 
+  // const test = () => {
+  //   axios.get('/api/getRoleById', { params: { id: 2 } }).then(({ data }) => {
+  //     console.log(data)
+  //   })
+  // }
+
   return (
     <div className={prefixCls}>
+      {/* <Button onClick={test}>test</Button> */}
       <div className={`${prefixCls}-panel`}>
         <div className={`${prefixCls}_theme`}>
           <Theme />

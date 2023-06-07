@@ -1,22 +1,23 @@
 import type { LoginParams } from '@/api/modules/sys/user'
+
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Button, Checkbox, Form, Input } from 'antd'
 import { UserOutlined, UnlockOutlined } from '@ant-design/icons'
 import { useDesign } from '@/hooks/web/useDesign'
-import localCache from '@/utils/localStore'
 import { CacheEnum } from '@/enums/cacheEnum'
 import { PageEnum } from '@/enums/pageEnum'
 
-import { useNavigate } from 'react-router-dom'
-import { loginAction } from '@/store/modules/user'
 import { useAppDispatch } from '@/store'
+import { loginAction } from '@/store/modules/user'
 import { useMessage } from '@/hooks/web/useMessage'
-import { useState } from 'react'
+import localCache from '@/utils/localStore'
 
 export interface FormValues extends LoginParams {
   remember?: boolean
 }
 
-function LoginForm() {
+const LoginForm: React.FC = () => {
   const { prefixCls } = useDesign('login-panel-form')
 
   const navigate = useNavigate()
@@ -33,8 +34,8 @@ function LoginForm() {
     ...localUserInfo,
     remember: true
   }
-
-  if (import.meta.env.MODE === 'development') {
+  
+  if (import.meta.env.VITE_APP_ENV === 'development') {
     initUserInfo['username'] = initUserInfo['username'] ?? 'admin'
     initUserInfo['password'] = initUserInfo['password'] ?? '123456'
   }

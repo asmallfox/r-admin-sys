@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>example</title>
   <style>
@@ -90,16 +90,6 @@
 </head>
 
 <body>
-  <script>
-    (function () {
-      let theme = window.localStorage.getItem('APP_MODE_THEME_KEY')
-      if (!theme) {
-        theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-      }
-      const html = document.querySelector('.platform-win')
-      html.classList.add(theme)
-    })();
-  </script>
   <div id="root">
     <div class="page-container">
       <div class="loading-wrapper">
@@ -115,8 +105,17 @@
       </div>
     </div>
   </div>
+  <script>
+    (function () {
+      let theme = window.localStorage.getItem('APP_MODE_THEME_KEY')
+      if (!theme) {
+        theme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      const html = document.querySelector('.platform-win')
+      html.classList.add(theme)
+    })();
+  </script>
   <script type="module" src="/src/main.tsx"></script>
-
 </body>
 
 </html>

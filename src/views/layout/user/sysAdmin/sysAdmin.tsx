@@ -49,9 +49,7 @@ function SysAdmin() {
       dataIndex: 'id',
       align: 'center',
       width: '60px',
-      render: (value, row, index: number) => {
-        return `${index + 1}`
-      }
+      render: (value, row, index: number) => `${index + 1}`
     },
     {
       title: '用户名',

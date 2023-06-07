@@ -1,4 +1,4 @@
-import { throttle } from 'lodash'
+import { throttle } from 'lodash-es'
 
 import { useAppDispatch, useAppSelector } from '@/hooks/web/useApp'
 import { useDesign } from '@/hooks/web/useDesign'
@@ -46,13 +46,16 @@ export default function Theme({ className }: Props) {
   }
 
   return (
-    <div
-      className={getClass()}
-      onClick={(evt) => switchChange(evt as unknown as Event)}
-    >
-      <div className={`${prefixCls}_control`}></div>
-      <Icon type="icon-sun" />
-      <Icon type="icon-moon" />
-    </div>
+    <>
+      <div
+        className={getClass()}
+        onClick={(evt) => switchChange(evt as unknown as Event)}
+      >
+        <div className={`${prefixCls}_control`}></div>
+        <Icon type="icon-sun" />
+        <Icon type="icon-moon" />
+      </div>
+      <div>123</div>
+    </>
   )
 }

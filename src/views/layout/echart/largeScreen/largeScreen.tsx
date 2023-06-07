@@ -6,7 +6,7 @@ import ProportionCard from './components/ProportionCard'
 import DataStatistics from './components/DataStatistics'
 import PersonFinished from './components/PersonFinished'
 import RegionStatistic from './components/RegionStatistic'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 
 import { rankingOption, dataStatistics } from './data'
 
@@ -15,7 +15,7 @@ import './style/index.scss'
 const LargeScreen = () => {
   const { prefixCls } = useDesign('large-screen')
 
-  const dataStatisticsDeep = _.cloneDeep(dataStatistics) as any
+  const dataStatisticsDeep = cloneDeep(dataStatistics) as any
   if (dataStatisticsDeep?.title) {
     dataStatisticsDeep.title.text = '统计'
     delete dataStatisticsDeep.grid

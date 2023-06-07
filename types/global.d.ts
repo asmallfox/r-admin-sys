@@ -5,8 +5,7 @@ declare global {
     className?: string
     style?: CSSProperties
   }
-
-  declare interface ViteEnv {
-    VITE_USE_MOCK: boolean
-  }
+}
+declare interface ViteEnv {
+  VITE_USE_MOCK: boolean
 }

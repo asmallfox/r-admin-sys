@@ -30,24 +30,18 @@ export const loginAction = createAsyncThunk(
   }
 )
 
-export const loginAfterAction = createAsyncThunk(
-  'user/loginAfter',
-  async (_, { dispatch }) => {
-    const userInfo = await dispatch(getUserInfoAction())
+export const loginAfterAction = createAsyncThunk('user/loginAfter', async (_, { dispatch }) => {
+  const userInfo = await dispatch(getUserInfoAction())
 
-    await dispatch(buildRouteThunk())
+  await dispatch(buildRouteThunk())
 
-    return userInfo
-  }
-)
+  return userInfo
+})
 
-export const getUserInfoAction = createAsyncThunk(
-  'user/getUserInfo',
-  async () => {
-    const { data: userInfo } = await userInfoApi()
-    return userInfo
-  }
-)
+export const getUserInfoAction = createAsyncThunk('user/getUserInfo', async () => {
+  const { data: userInfo } = await userInfoApi()
+  return userInfo
+})
 
 export const userSlice = createSlice({
   name: 'user',
@@ -67,7 +61,7 @@ export const userSlice = createSlice({
       localCache.setItem(CacheEnum.USER_INFO_KEY, userInfo)
     }
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder.addCase(getUserInfoAction.fulfilled, (state, action) => {
       state.userInfo = action.payload
       localCache.setItem(CacheEnum.USER_INFO_KEY, state.userInfo)

@@ -2,22 +2,29 @@ import type { UserConfigExport, ConfigEnv } from 'vite'
 
 import path from 'path'
 import { loadEnv } from 'vite'
+/* @ts-ignore */
 import { createVitePlugins } from './build/vite/plugin'
 
+// https://vitejs.dev/config/
 export default ({ command, mode }: ConfigEnv): UserConfigExport => {
   const root = process.cwd()
-  const env = loadEnv(mode, root)
-  const viteEnv = {
-    VITE_USE_MOCK: true
-  }
-
-  const { VITE_PORT, VITE_PUBLIC_PATH } = env
-
   const isBuild = command === 'build'
 
+  const env = loadEnv(mode, root)
+
+  const { VITE_PORT, VITE_PUBLIC_PATH, VITE_USE_MOCK } = env
+
+  const viteEnv = {
+    VITE_PORT,
+    VITE_PUBLIC_PATH,
+    VITE_USE_MOCK
+  }
+
+  console.log()
+
   return {
-    base: VITE_PUBLIC_PATH,
     root,
+    base: VITE_PUBLIC_PATH,
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src')

@@ -6,12 +6,11 @@ import { AuthRouter } from '@/components/AuthRouter'
 import RouterElement from '@/router'
 import { useTheme } from '@/hooks/web/useTheme'
 
-export default function App() {
+const App: React.FC = () => {
   const locale = zhCN
   dayjs.locale('zh-cn')
 
   const { themeAlgorithm } = useTheme()
-
   return (
     <ConfigProvider
       locale={locale}
@@ -25,3 +24,5 @@ export default function App() {
     </ConfigProvider>
   )
 }
+
+export default App

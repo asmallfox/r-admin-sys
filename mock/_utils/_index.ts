@@ -1,4 +1,4 @@
-import { codeEnum } from './_enum'
+import { CodeEnum } from './_enum'
 
 export function checkAuthorization(authorization: string) {
   if (authorization) {
@@ -38,16 +38,16 @@ export function errorResponse(code: number, message = 'request error') {
     type: 'error'
   }
   switch (code) {
-    case codeEnum.BAD_REQUEST:
+    case CodeEnum.BAD_REQUEST:
       errorRes.message = 'Params error!'
       break
-    case codeEnum.INVALID_TOKEN:
+    case CodeEnum.INVALID_TOKEN:
       errorRes.message = 'Invalid Token!'
       break
-    case codeEnum.NOT_FOUND:
+    case CodeEnum.NOT_FOUND:
       errorRes.message = 'Not Found!'
       break
-    case codeEnum.SERVER_ERROR:
+    case CodeEnum.SERVER_ERROR:
       errorRes.message = 'server Error!'
       break
   }

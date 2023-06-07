@@ -6,7 +6,7 @@ import type {
 } from 'axios'
 
 import axios from 'axios'
-import {cloneDeep} from 'lodash'
+import {cloneDeep} from 'lodash-es'
 import { CacheEnum } from '@/enums/cacheEnum'
 import localCache from '@/utils/localStore'
 

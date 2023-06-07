@@ -2,7 +2,7 @@ import type { RouterRaws, MenuItem, IBreadcrumb } from '../types'
 
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { cloneDeep, sortBy } from 'lodash'
+import { cloneDeep, sortBy } from 'lodash-es'
 
 import { isString, isNil } from '@/utils/is'
 
